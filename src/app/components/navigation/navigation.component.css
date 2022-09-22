@@ -1,0 +1,285 @@
+.navbar {
+  height: 10vh;
+}
+
+.nav-header,
+.navbar-content {
+  border-bottom: 1px solid var(--accent);
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  background: var(--dark);
+  z-index: 9;
+}
+
+.nav-list a {
+  position: relative;
+  display: block;
+  padding: 0.625rem;
+  overflow: hidden;
+  color: var(--white);
+  text-decoration: none;
+}
+
+
+.nav-list a svg {
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+}
+
+.nav-list a:hover svg {
+  display: block;
+}
+
+
+@media (min-width: 768px) {
+  .nav-list a svg {
+    height: 10px;
+  }
+
+}
+
+
+
+.nav-header {}
+
+.menu-open-btn {
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.nav-small {
+  width: 100%;
+  height: 100vh;
+  background-color: blue;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  text-align: center;
+  background-color: var(--dark);
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M54.627 0l.83.828-1.415 1.415L51.8 0h2.827zM5.373 0l-.83.828L5.96 2.243 8.2 0H5.374zM48.97 0l3.657 3.657-1.414 1.414L46.143 0h2.828zM11.03 0L7.372 3.657 8.787 5.07 13.857 0H11.03zm32.284 0L49.8 6.485 48.384 7.9l-7.9-7.9h2.83zM16.686 0L10.2 6.485 11.616 7.9l7.9-7.9h-2.83zm20.97 0l9.315 9.314-1.414 1.414L34.828 0h2.83zM22.344 0L13.03 9.314l1.414 1.414L25.172 0h-2.83zM32 0l12.142 12.142-1.414 1.414L30 .828 17.272 13.556l-1.414-1.414L28 0h4zM.284 0l28 28-1.414 1.414L0 2.544V0h.284zM0 5.373l25.456 25.455-1.414 1.415L0 8.2V5.374zm0 5.656l22.627 22.627-1.414 1.414L0 13.86v-2.83zm0 5.656l19.8 19.8-1.415 1.413L0 19.514v-2.83zm0 5.657l16.97 16.97-1.414 1.415L0 25.172v-2.83zM0 28l14.142 14.142-1.414 1.414L0 30.828V28zm0 5.657L11.314 44.97 9.9 46.386l-9.9-9.9v-2.828zm0 5.657L8.485 47.8 7.07 49.212 0 42.143v-2.83zm0 5.657l5.657 5.657-1.414 1.415L0 47.8v-2.83zm0 5.657l2.828 2.83-1.414 1.413L0 53.456v-2.83zM54.627 60L30 35.373 5.373 60H8.2L30 38.2 51.8 60h2.827zm-5.656 0L30 41.03 11.03 60h2.828L30 43.858 46.142 60h2.83zm-5.656 0L30 46.686 16.686 60h2.83L30 49.515 40.485 60h2.83zm-5.657 0L30 52.343 22.343 60h2.83L30 55.172 34.828 60h2.83zM32 60l-2-2-2 2h4zM59.716 0l-28 28 1.414 1.414L60 2.544V0h-.284zM60 5.373L34.544 30.828l1.414 1.415L60 8.2V5.374zm0 5.656L37.373 33.656l1.414 1.414L60 13.86v-2.83zm0 5.656l-19.8 19.8 1.415 1.413L60 19.514v-2.83zm0 5.657l-16.97 16.97 1.414 1.415L60 25.172v-2.83zM60 28L45.858 42.142l1.414 1.414L60 30.828V28zm0 5.657L48.686 44.97l1.415 1.415 9.9-9.9v-2.828zm0 5.657L51.515 47.8l1.414 1.413 7.07-7.07v-2.83zm0 5.657l-5.657 5.657 1.414 1.415L60 47.8v-2.83zm0 5.657l-2.828 2.83 1.414 1.413L60 53.456v-2.83zM39.9 16.385l1.414-1.414L30 3.658 18.686 14.97l1.415 1.415 9.9-9.9 9.9 9.9zm-2.83 2.828l1.415-1.414L30 9.313 21.515 17.8l1.414 1.413 7.07-7.07 7.07 7.07zm-2.827 2.83l1.414-1.416L30 14.97l-5.657 5.657 1.414 1.415L30 17.8l4.243 4.242zm-2.83 2.827l1.415-1.414L30 20.626l-2.828 2.83 1.414 1.414L30 23.456l1.414 1.414zM56.87 59.414L58.284 58 30 29.716 1.716 58l1.414 1.414L30 32.544l26.87 26.87z' fill='%233d3d66' fill-opacity='0.4' fill-rule='evenodd'/%3E%3C/svg%3E");
+  background-position: center;
+  background-repeat: repeat;
+  background-size: 6%;
+  z-index: 9;
+  /* opacity: 0.3; */
+  /* top: -100%; */
+
+}
+
+.exit-nav-btn {
+  cursor: pointer;
+  position: absolute;
+  /* right: 50px;
+  top: 50px; */
+  right: 3%;
+  top: 3%;
+}
+
+.menu-cont {
+  z-index: 3;
+
+
+}
+
+.nav-small ul .navLinks {
+  position: relative;
+}
+
+.nav-small ul .navLinks:before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  content: "";
+  transform: scaleX(0);
+  transform-origin: left center;
+  background-color: white;
+  z-index: 10;
+}
+
+.nav-small ul .navLinks:hover:before {
+  animation: transformScaling 0.4s linear 0s forwards;
+}
+
+.nav-small ul .navLinks:after {
+  position: absolute;
+  transition-property: all;
+  transition-duration: 0.2s;
+  transition-timing-function: linear;
+  transition-delay: 0s;
+  display: block;
+  font-size: 5rem;
+  font-weight: 700;
+  /*   content: attr(data-add-text); */
+  opacity: 0;
+  visibility: hidden;
+  z-index: -1;
+  top: -50%;
+  left: -15%;
+
+}
+
+.nav-small ul .navLinks:hover:after {
+  content: url("data:image/svg+xml, %3Csvg width='10' height='10' viewBox='0 0 6 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect y='2.82843' width='4' height='4' transform='rotate(-45 0 2.82843)' fill='white' /%3E%3C/svg%3E");
+  transition-property: all;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-out;
+  transition-delay: 0.45s;
+  opacity: 1;
+  visibility: visible;
+}
+
+
+.nav-small ul li a {
+  font-size: 2rem;
+  /* opacity: 0;
+    margin-bottom: -20px; */
+
+}
+
+.nav-link-title {
+  font-size: 3.4rem;
+  letter-spacing: 2px;
+}
+
+@keyframes transformScaling {
+  0% {
+    transform: scaleX(0);
+    transform-origin: left center;
+  }
+
+  50% {
+    transform: scaleX(1);
+    transform-origin: left center;
+  }
+
+  50.5% {
+    transform: scaleX(1);
+    transform-origin: right center;
+  }
+
+  100% {
+    transform: scaleX(0);
+    transform-origin: right center;
+  }
+}
+
+.nav-link {
+  color: #fff;
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+}
+
+.nav-link:hover {
+  color: var(--light);
+  transition: all 0.2s ease-in-out;
+}
+
+.menu-close-btn {
+  position: absolute;
+  top: 3%;
+  right: 4%;
+  cursor: pointer;
+}
+
+.social {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 2rem;
+}
+
+.social a {
+  display: block;
+  position: relative;
+  margin: 0 20px;
+  width: 45px;
+  height: 45px;
+  font-size: 0 !important;
+  line-height: 0 !important;
+  text-align: center;
+  text-decoration: none;
+  transition: all 400ms ease;
+}
+
+.social a:before {
+  content: "";
+  position: absolute;
+  display: inline-block;
+  top: 50% !important;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  margin-top: -50%;
+  margin-left: -50%;
+  background-color: #9595ba;
+  transition: all 400ms ease;
+  transform: rotate(45deg);
+}
+
+.social a:after {
+  position: relative;
+  display: block;
+  font-family: "icomoon";
+  text-transform: none;
+  color: #2e2e4c;
+  font-size: 22px;
+  line-height: 40px;
+  top: 0 !important;
+  left: 2% !important;
+}
+
+.social a:hover,
+.social a:focus {
+  text-decoration: none;
+}
+
+.social a:hover:before {
+  transition: all 400ms;
+  border: 1px solid #9595ba;
+  background-color: transparent;
+  color: #9595ba;
+  content: "" !important;
+}
+
+.social a.icon-linkedin:hover:after {
+  content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' version='1.1' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:svgjs='http://svgjs.com/svgjs' width='25' height='25' x='0' y='0' viewBox='0 0 512 512' style='enable-background:new 0 0 512 512' xml:space='preserve' class=''%3E%3Cg%3E%3Cpath xmlns='http://www.w3.org/2000/svg' d='m256 0c-141.363281 0-256 114.636719-256 256s114.636719 256 256 256 256-114.636719 256-256-114.636719-256-256-256zm-74.390625 387h-62.347656v-187.574219h62.347656zm-31.171875-213.1875h-.40625c-20.921875 0-34.453125-14.402344-34.453125-32.402344 0-18.40625 13.945313-32.410156 35.273437-32.410156 21.328126 0 34.453126 14.003906 34.859376 32.410156 0 18-13.53125 32.402344-35.273438 32.402344zm255.984375 213.1875h-62.339844v-100.347656c0-25.21875-9.027343-42.417969-31.585937-42.417969-17.222656 0-27.480469 11.601563-31.988282 22.800781-1.648437 4.007813-2.050781 9.609375-2.050781 15.214844v104.75h-62.34375s.816407-169.976562 0-187.574219h62.34375v26.558594c8.285157-12.78125 23.109375-30.960937 56.1875-30.960937 41.019531 0 71.777344 26.808593 71.777344 84.421874zm0 0' fill='%239595ba' data-original='%23000000' class=''%3E%3C/path%3E%3C/g%3E%3C/svg%3E") !important;
+  top: 5px !important;
+  left: 2px !important;
+}
+
+.social a.icon-github:hover:after {
+  content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' version='1.1' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:svgjs='http://svgjs.com/svgjs' width='25' height='25' x='0' y='0' viewBox='0 0 512 512' style='enable-background:new 0 0 512 512' xml:space='preserve' class=''%3E%3Cg%3E%3Cpath xmlns='http://www.w3.org/2000/svg' d='m256 0c-140.609375 0-256 115.390625-256 256 0 119.988281 84.195312 228.984375 196 256v-84.695312c-11.078125 2.425781-21.273438 2.496093-32.550781-.828126-15.128907-4.464843-27.421875-14.542968-36.546875-29.910156-5.816406-9.8125-16.125-20.453125-26.878906-19.671875l-2.636719-29.882812c23.253906-1.992188 43.371093 14.167969 55.3125 34.230469 5.304687 8.921874 11.410156 14.152343 19.246093 16.464843 7.574219 2.230469 15.707032 1.160157 25.183594-2.1875 2.378906-18.972656 11.070313-26.074219 17.636719-36.074219v-.015624c-66.679687-9.945313-93.253906-45.320313-103.800781-73.242188-13.976563-37.074219-6.476563-83.390625 18.238281-112.660156.480469-.570313 1.347656-2.0625 1.011719-3.105469-11.332032-34.230469 2.476562-62.546875 2.984375-65.550781 13.078125 3.867187 15.203125-3.890625 56.808593 21.386718l7.191407 4.320313c3.007812 1.792969 2.0625.769531 5.070312.542969 17.371094-4.71875 35.683594-7.324219 53.726563-7.558594 18.179687.234375 36.375 2.839844 54.464844 7.75l2.328124.234375c-.203124-.03125.632813-.148437 2.035157-.984375 51.972656-31.480469 50.105469-21.191406 64.042969-25.722656.503906 3.007812 14.128906 31.785156 2.917968 65.582031-1.511718 4.65625 45.058594 47.300781 19.246094 115.753906-10.546875 27.933594-37.117188 63.308594-103.796875 73.253907v.015624c8.546875 13.027344 18.816406 19.957032 18.761719 46.832032v105.722656c111.808594-27.015625 196-136.011719 196-256 .003906-140.609375-115.386719-256-255.996094-256zm0 0' fill='%239595ba' data-original='%23000000' class=''%3E%3C/path%3E%3C/g%3E%3C/svg%3E") !important;
+  top: 5px !important;
+  left: 2px !important;
+}
+
+.social.round a:before {
+  border-radius: 50%;
+}
+
+.social.to-diamond a:hover:before,
+.social-networks.to-diamond a:focus:before {
+  border-radius: 0;
+  transform: rotate(-45deg);
+}
+
+
+.social .icon-linkedin:after {
+  content: "";
+}
+
+.social .icon-github:after {
+  content: "";
+}
+
+.nav-small ul li {}

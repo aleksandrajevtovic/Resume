@@ -1,0 +1,117 @@
+
+
+/* .hero {
+  height: 80vh;
+} */
+
+/* .h-70vh {
+  height: 70vh;
+} */
+.h-90vh {
+  height: 90vh;
+}
+.hero h1 {
+  font-size: clamp(7rem, 10vw, 15rem);
+  line-height: 1;
+}
+.hero p {
+  font-family: 'Oswald', sans-serif;
+}
+.hero h1 span {
+  float: left;
+  clear: left;
+}
+@media (min-width: 640px) {
+  .hero h1 span {
+    float: none;
+    clear: none;
+  }
+}
+/* @media (min-width: 768px) {
+  .hero h1 {
+    font-size: 10rem;
+    line-height: 1;
+  }
+} */
+
+@media (min-width: 575px) {
+
+  /* .hero p {
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+    margin-bottom: 4rem;
+  } */
+  /* .hero h1 {
+    font-size: 13rem;
+  } */
+}
+
+.cta-btn {
+  position: relative;
+  /* display: block; */
+  padding: 0.625rem;
+  overflow: hidden;
+  background: linear-gradient(
+    to right,
+    var(--white),
+    var(--white) 50%,
+    var(--light) 50%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 200% 100%;
+  background-position: 100%;
+  transition: background-position 1s ease;
+  text-decoration: none;
+}
+.cta-btn:hover {
+  background-position: 0 100%;
+}
+
+
+
+.intro-scroll {
+  display: block;
+  position: absolute;
+  /* bottom: 0; */
+  bottom:0;
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
+  width: 24px;
+  height: 70px;
+  overflow: hidden;
+   opacity: 1;
+  transition: all 0.3s 0.6s ease-in-out;
+}
+.intro-scroll::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 12px;
+  width: 1px;
+  height: 100%;
+  background-color: var(--white);
+  animation: scrollBtn 1s ease-in-out 0s infinite;
+}
+
+@keyframes scrollBtn {
+  0% {
+    opacity: 1;
+    transform: translateY(-100%);
+  }
+  68% {
+    opacity: 1;
+    transform: translateY(100%);
+  }
+  69% {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+}

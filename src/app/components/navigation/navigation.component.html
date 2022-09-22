@@ -1,0 +1,250 @@
+<div class="navbar" id="navbarJS">
+  <div
+    class="navbar-content hidden sm:flex flex justify-between items-center p-6"
+  >
+    <div class="logo z-10">
+      <a class="flex logo" href="/">
+        <span class="sm:hidden text-base md:text-2xl"> Aleksandra J. </span
+        ><span class="w-auto hidden sm:block text-lg md:text-2xl"
+          >Aleksandra Jevtovic</span
+        >
+      </a>
+    </div>
+    <ul
+      class="nav-list flex justify-around gap-3 md:gap-6 md:text-2xl text-lg pl-0 list-none"
+    >
+      <li class="nav-item">
+        <a class="nav-link" href="#about"
+          >About<svg
+            width="7"
+            height="7"
+            viewBox="0 0 6 6"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect
+              y="2.82843"
+              width="4"
+              height="4"
+              transform="rotate(-45 0 2.82843)"
+              fill="white"
+            /></svg
+        ></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#projects"
+          >Work<svg
+            width="7"
+            height="7"
+            viewBox="0 0 6 6"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect
+              y="2.82843"
+              width="4"
+              height="4"
+              transform="rotate(-45 0 2.82843)"
+              fill="white"
+            /></svg
+        ></a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" href="#contact"
+          >Contact<svg
+            width="7"
+            height="7"
+            viewBox="0 0 6 6"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect
+              y="2.82843"
+              width="4"
+              height="4"
+              transform="rotate(-45 0 2.82843)"
+              fill="white"
+            /></svg
+        ></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#"
+          >Resume<svg
+            width="7"
+            height="7"
+            viewBox="0 0 6 6"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect
+              y="2.82843"
+              width="4"
+              height="4"
+              transform="rotate(-45 0 2.82843)"
+              fill="white"
+            /></svg
+        ></a>
+      </li>
+    </ul>
+  </div>
+
+  <!-- mobile navigation -->
+
+  <div class="nav-header sm:hidden flex justify-between p-6">
+    <div class="logo z-10">
+      <a class="flex logo" href="/">
+        <span class="w-auto text-lg md:text-2xl">Aleksandra Jevtovic</span>
+      </a>
+    </div>
+    <div class="menu-open-btn" (click)="openMenu()">
+      <svg
+        class="open-icon"
+        data-hover="IT WORKS"
+        width="26"
+        height="26"
+        viewBox="0 0 26 26"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <rect
+          width="7.13934"
+          height="7.13934"
+          transform="matrix(0.706758 -0.707455 0.708552 0.705658 8.14453 5.05078)"
+          fill="white"
+        />
+        <rect
+          width="7.13934"
+          height="7.13934"
+          transform="matrix(0.706758 -0.707455 0.708552 0.705658 8.14453 20.9619)"
+          fill="white"
+        />
+        <rect
+          width="7.13934"
+          height="7.13934"
+          transform="matrix(0.706758 -0.707455 0.708552 0.705658 15.8955 13.0063)"
+          fill="white"
+        />
+        <rect
+          width="7.13934"
+          height="7.13934"
+          transform="matrix(0.706758 -0.707455 0.708552 0.705658 0 13.0063)"
+          fill="white"
+        />
+      </svg>
+    </div>
+  </div>
+  <div class="nav-small">
+    <!-- <div class="exit-nav-btn" (click)="closeMenu()">
+      <svg
+        width="37"
+        height="37"
+        viewBox="0 0 37 37"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <g id="menu-icon-close">
+          <rect
+            id="Rectangle 16"
+            width="7.13934"
+            height="7.13934"
+            transform="matrix(-0.000493118 -1 0.999998 -0.00204661 9.33057 16.1973)"
+            fill="white"
+          />
+          <rect
+            id="Rectangle 19"
+            width="7.13934"
+            height="7.13934"
+            transform="matrix(-0.000493118 -1 0.999998 -0.00204661 20.5813 27.4482)"
+            fill="white"
+          />
+          <rect
+            id="Rectangle 17"
+            width="7.13934"
+            height="7.13934"
+            transform="matrix(-0.000493118 -1 0.999998 -0.00204661 20.4368 16.3418)"
+            fill="white"
+          />
+          <rect
+            id="Rectangle 18"
+            width="7.13934"
+            height="7.13934"
+            transform="matrix(-0.000493118 -1 0.999998 -0.00204661 9.19702 27.5815)"
+            fill="white"
+          />
+        </g>
+      </svg>
+    </div> -->
+    <div class="menu-cont">
+      <div class="menu-close-btn" (click)="openMenu()">
+        <svg
+          width="36"
+          height="36"
+          viewBox="0 0 37 37"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <g id="menu-icon-close">
+            <rect
+              id="Rectangle 16"
+              width="7.13934"
+              height="7.13934"
+              transform="matrix(-0.000493118 -1 0.999998 -0.00204661 9.33057 16.1973)"
+              fill="white"
+            />
+            <rect
+              id="Rectangle 19"
+              width="7.13934"
+              height="7.13934"
+              transform="matrix(-0.000493118 -1 0.999998 -0.00204661 20.5813 27.4482)"
+              fill="white"
+            />
+            <rect
+              id="Rectangle 17"
+              width="7.13934"
+              height="7.13934"
+              transform="matrix(-0.000493118 -1 0.999998 -0.00204661 20.4368 16.3418)"
+              fill="white"
+            />
+            <rect
+              id="Rectangle 18"
+              width="7.13934"
+              height="7.13934"
+              transform="matrix(-0.000493118 -1 0.999998 -0.00204661 9.19702 27.5815)"
+              fill="white"
+            />
+          </g>
+        </svg>
+      </div>
+      <ul class="menu-mobile-list">
+        <li class="navLinks">
+          <a href="#about" class="nav-link" title="About"
+            ><span class="nav-link-title">About</span></a
+          >
+        </li>
+        <li class="navLinks">
+          <a href="#projects" class="nav-link" title="Work"
+            ><span class="nav-link-title">Work</span></a
+          >
+        </li>
+        <li class="navLinks">
+          <a href="#contact" class="nav-link" title="Contact"
+            ><span class="nav-link-title">Contact</span></a
+          >
+        </li>
+        <li class="navLinks">
+          <a href="" class="nav-link" title="Resume"
+            ><span class="nav-link-title">Resume</span></a
+          >
+        </li>
+        <li class="social to-diamond">
+          <a href="https://www.linkedin.com/" class="icon-linkedin">LinkedIn</a>
+          <a href="https://github.com/sanja048" target="_blank" rel="noopener" class="icon-github">GitHub</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- <div class="togglee" (click)="menu()">Menu</div>
+<div class="closemenubtn" (click)="close()">Menu</div> -->
+</div>

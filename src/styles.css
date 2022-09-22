@@ -1,1 +1,78 @@
 /* You can add global styles to this file, and also import other style files */
+/* @import 'tailwind' */
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+@font-face {
+  font-family: "Saint Monica";
+  src: local("Saint Monica"), url(./assets/fonts/SaintMonica/SaintMonica.ttf) format("truetype");
+
+}
+
+/* @font-face {
+  font-family: 'Oswald', sans-serif;
+  src: local("Oswald"), url(./assets/fonts/Oswald/Oswald-Regular.ttf) format("opentype");
+
+} */
+/* @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500&display=swap'); */
+@font-face {
+  font-family: "icomoon";
+  src: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/93/icomoon.eot?3qkin2");
+  src: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/93/icomoon.eot?#iefix3qkin2") format("embedded-opentype"),
+    url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/93/icomoon.woff?3qkin2") format("woff"),
+    url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/93/icomoon.ttf?3qkin2") format("truetype"),
+    url("fhttps://s3-us-west-2.amazonaws.com/s.cdpn.io/93/icomoon.svg?3qkin2#icomoon") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Saint Monica", sans-serif;
+  box-sizing: border-box;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--accent);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar {
+  background: var(--light);
+  width: 10px;
+
+  /* display: none; */
+}
+
+::selection {
+  color: var(--white);
+  background: var(--accent);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media screen and (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+:root {
+  --dark: #2e2e4c;
+  --white: #ffffff;
+  --accent: #6667ab;
+  --pale: #f2f2ff;
+  --light: #cfcfe5;
+  --tint: #9595ba;
+  --shade: #3d3d66;
+}
+
+body {
+  background: var(--dark);
+  color: var(--pale);
+  overflow-x: hidden;
+}

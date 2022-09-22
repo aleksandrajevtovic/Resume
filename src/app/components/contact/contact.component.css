@@ -1,0 +1,23 @@
+.contact {
+  height: 35vh;
+}
+.contact p {
+  font-family: "Oswald", sans-serif;
+  color: var(--light);
+  padding: 1rem 2rem;
+}
+
+@media (min-width: 768px) {
+  .contact {
+    height: 45vh;
+  }
+}
+@media (min-width: 992px) {
+  .contact {
+    height: 65vh;
+  }
+  .contact .heading {
+    font-size: 13rem;
+    line-height: 14rem;
+  }
+}
