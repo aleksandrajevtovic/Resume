@@ -7,12 +7,15 @@
 /* .h-70vh {
   height: 70vh;
 } */
-.h-90vh {
-  height: 90vh;
+.h-80vh {
+  height: 80vh;
 }
+
 .hero h1 {
-  font-size: clamp(7rem, 10vw, 15rem);
+  font-size: clamp(5rem, 10vw, 15rem);
   line-height: 1;
+  place-content: baseline;
+  margin: 2rem 0 0 1rem;
 }
 .hero p {
   font-family: 'Oswald', sans-serif;
@@ -25,6 +28,9 @@
   .hero h1 span {
     float: none;
     clear: none;
+  }
+  .h-90vh {
+    height: 90vh;
   }
 }
 /* @media (min-width: 768px) {

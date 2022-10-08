@@ -1,4 +1,4 @@
-<section id="projects" class="lg:mt-20">
+<section id="projects" class="pt-20">
   <h1 class="mb-28 md:mb-40 flex justify-center align-center text-center">
     Selected projects
   </h1>
@@ -6,8 +6,8 @@
     class="mt-12 md:mt-20 lg:mb-40 md:mb-20 flex-section text-image px-4"
     *ngFor="let project of projectList"
   >
-    <div class="column-left">
-      <img src="{{ project.imgUrl }}" alt="" />
+    <div class="column-left cursor-img">
+      <img src="{{ project.imgUrl }}" alt="{{ project.name }}" />
     </div>
     <div class="column-right">
       <div class="project-content">
@@ -29,13 +29,18 @@
       <div class="project-links">
         <ul>
           <li>
-            <a href=""
-              ><svg
+            <a
+              href="{{ project.link }}"
+              target="_blank"
+              data-tooltip="Github"
+              data-tooltip-location="bottom"
+            >
+              <svg
                 width="25"
                 height="25"
                 viewBox="0 0 31 31"
                 fill="#9595BA"
-                                xmlns="http://www.w3.org/2000/svg"
+                xmlns="http://www.w3.org/2000/svg"
               >
                 <g id="github" clip-path="url(#clip0_301_19)">
                   <g id="Group">
@@ -60,7 +65,11 @@
             </a>
           </li>
           <li>
-            <a href=""
+            <a
+              href="{{ project.git }}"
+              target="_blank"
+              data-tooltip="Link"
+              data-tooltip-location="bottom"
               ><svg
                 width="25"
                 height="25"

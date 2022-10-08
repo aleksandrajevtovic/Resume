@@ -32,6 +32,10 @@ export class NavigationComponent implements OnInit {
     this.tl.reversed() ? this.tl.play() : this.tl.reverse();
     return console.log('clicked');
   }
+  closeMenu() {
+    this.tl.reversed() ? this.tl.play() : this.tl.reverse();
+    return console.log('closed');
+  }
   // closeMenu() {
   //   this.tl.timeScale(2.5);
   // this.tl.reverse();

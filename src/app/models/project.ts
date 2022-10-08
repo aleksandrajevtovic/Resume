@@ -9,8 +9,10 @@ export class Project {
   tech4: string;
   tech5: string;
   tech6: string;
+  link: string;
+  git:string;
 
-  constructor(id = 0, name = '', description = '', imgUrl = '', tech1 = '', tech2 = '', tech3 = '', tech4 = '', tech5 = '', tech6 = '') {
+  constructor(id = 0, name = '', description = '', imgUrl = '', tech1 = '', tech2 = '', tech3 = '', tech4 = '', tech5 = '', tech6 = '', link='', git='') {
     this.id = id;
     this.name = name;
     this.description = description;
@@ -21,5 +23,7 @@ export class Project {
     this.tech4 = tech4;
     this.tech5 = tech5;
     this.tech6 = tech6;
+    this.link=link;
+    this.git=git;
   }
 }
