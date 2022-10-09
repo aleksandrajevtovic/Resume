@@ -16,7 +16,7 @@ export class AboutComponent implements OnInit {
   tlH = gsap.timeline({
     scrollTrigger: {
       trigger: '.about-page',
-      markers: { startColor: 'yellow', endColor: 'yellow' },
+      // markers: { startColor: 'yellow', endColor: 'yellow' },
       scrub: true,
       start: '3%',
       end: '15%',
@@ -39,7 +39,7 @@ export class AboutComponent implements OnInit {
   tlHRemove = gsap.timeline({
     scrollTrigger: {
       trigger: '.about-page',
-      markers: { startColor: 'pink', endColor: 'pink' },
+      // markers: { startColor: 'pink', endColor: 'pink' },
       scrub: true,
       start: '7%',
       end: '20%',
