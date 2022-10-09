@@ -21,3 +21,19 @@
     line-height: 14rem;
   }
 }
+
+
+/* 
+.second-page {
+  min-height: 125vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  justify-content: center;
+}
+.second-text {
+  padding: 5% 10%;
+  position: relative;
+  z-index: 2;
+  font-size: 3.5rem;
+} */
