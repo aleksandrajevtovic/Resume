@@ -16,12 +16,12 @@ export class HomeComponent implements OnInit {
 
   preloaderAnim(): void {
     this.tlLoad.to('.wave-animation', {
-      delay: 3,
+      delay: 2.5,
       duration: 0.5,
       opacity: 0,
     });
     this.tlLoad.to('.preloader', {
-      delay: 1,
+      delay: 0.7,
       duration: 1,
       y: '100%',
       ease: 'power4.out',

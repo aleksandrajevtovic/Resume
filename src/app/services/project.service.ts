@@ -67,7 +67,7 @@ export class ProjectService {
       './assets/images/jablan.png',
       'Spring Boot',
       'SCSS',
-      '',
+      'GSAP',
       '',
       '',
       '',
