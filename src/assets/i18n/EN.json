@@ -1,0 +1,22 @@
+{
+  "NAVIGATION": {
+    "ABOUT": "About",
+    "WORK": "Work",
+    "CONTACT": "Contact",
+    "RESUME": "Resume"
+  },
+  "ABOUT": {
+    "SPAN1": "Hey I am Aleksandra, a creative web developer from Serbia.",
+    "SPAN2": " I work as a freelancer with agencies, start-ups and individuals,",
+    "SPAN3": " helping them to develop their website and achieve their goals.",
+    "SPAN4": " I have a fondness for clean designs, subtle interactions and interactive development."
+  },
+  "PROJECTS": {
+    "HEADLINE": "Selected projects"
+    },
+  "CONTACT": {
+    "P1": "If you have any questions or want to work with me,",
+    "P2": "please drop me an email:",
+    "BTN": "Contact me"
+  }
+}

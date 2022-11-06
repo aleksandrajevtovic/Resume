@@ -1,8 +1,10 @@
 <!-- <p>hero works!</p> -->
 <section class="hero">
-  <div class="container mx-auto grid sm:place-content-center sm:text-center text-left h-90vh h-80vh  sm:pl-0">
+  <div
+    class="container mx-auto grid sm:place-content-center sm:text-center text-left h-90vh h-80vh sm:pl-0"
+  >
     <!-- <p class="uppercase font-extralight text-xl mb-14">Aleksandra Jevtović</p> -->
-    <h1 class="grid place-content-center uppercase  ">
+    <h1 class="grid place-content-center uppercase">
       <span class="hidden sm:block"> Frontend </span>
       <span class="sm:hidden mobile"> Front </span>
       <span class="sm:hidden mobile"> End </span>
@@ -11,9 +13,38 @@
       <span class="sm:hidden mobile">Devel</span>
       <span class="sm:hidden mobile">Oper</span>
     </h1>
-
   </div>
-  <div class="scroll-indicator   relative">
+  <div class="scroll-indicator relative">
     <a href="#about" class="intro-scroll"></a>
+  </div>
+
+  <!-- language btn -->
+  <div class="my_switcher d-lg-block">
+    <!-- <ul> -->
+    <!-- <li title="English language">
+        <a href="/" class="">
+          EN
+        </a>
+      </li> -->
+    <!-- <li title="German language">
+        <a href="/" class="">
+          DE
+        </a>
+      </li> -->
+    <!-- </ul> -->
+
+    <select
+      class="form-control"
+      #selectedLang
+      (change)="switchLang(selectedLang.value)"
+    >
+      <option
+        *ngFor="let language of translate.getLangs()"
+        [value]="language"
+        [selected]="language === translate.currentLang"
+      >
+        {{ language }}
+      </option>
+    </select>
   </div>
 </section>

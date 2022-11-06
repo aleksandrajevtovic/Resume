@@ -3,9 +3,10 @@ body {
 }
 
 #projects h1 {
-  font-size: clamp(5rem, 10vw, 12rem);
+  font-size: clamp(3.5rem, 10vw, 12rem);
   line-height: 1;
 }
+
 
 .flex-section {
   display: flex;

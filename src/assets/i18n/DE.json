@@ -1,0 +1,23 @@
+{
+  "NAVIGATION": {
+    "ABOUT": "Über mich",
+    "WORK": "Projekte",
+    "CONTACT": "Kontakt",
+    "RESUME":"Lebenslauf"
+  },
+  "ABOUT": {
+    "SPAN1":"Hey, ich bin Aleksandra, eine kreative Webentwicklerin aus Serbien.",
+    "SPAN2":" Ich arbeite als Freelancer mit Agenturen, Start-ups und Privatpersonen,",
+    "SPAN3":" ihnen dabei zu helfen, ihre Website zu entwickeln und ihre Ziele zu erreichen.",
+    "SPAN4":" Ich habe eine Vorliebe für klare Designs, subtile Interaktionen und interaktive Entwicklung."
+  },
+   "PROJECTS": {
+    "HEADLINE":"Ausgewählte Projekte"
+    },
+  "CONTACT": {
+    "P1":"Wenn Sie Fragen haben oder mit mir arbeiten möchten,",
+    "P2":"schreiben Sie mir bitte eine E-Mail:",
+    "BTN":"Kontaktiere mich"
+  }
+}
+

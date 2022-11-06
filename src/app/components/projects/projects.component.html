@@ -1,5 +1,8 @@
 <section id="projects" class="pt-20">
-  <h1 class="mb-28 md:mb-40 flex justify-center align-center text-center">
+  <h1
+    class="mb-28 md:mb-40 flex justify-center align-center text-center sm:px-12"
+    [translate]="'PROJECTS.HEADLINE'"
+  >
     Selected projects
   </h1>
   <div
@@ -14,9 +17,9 @@
       <div class="project-content">
         <!-- <h1>E-Mobilnost</h1> -->
         <div class="project-name ps-rel">
-        <h2>{{ project.name }}</h2>
-        <a class="project-link" href="{{ project.git }}" target="_blank"></a>
-      </div>
+          <h2>{{ project.name }}</h2>
+          <a class="project-link" href="{{ project.git }}" target="_blank"></a>
+        </div>
         <p>{{ project.description }}</p>
       </div>
       <!--     <a href="#"><button class="cta-btn">Learn More</button></a> -->

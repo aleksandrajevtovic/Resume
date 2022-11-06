@@ -1,5 +1,3 @@
-
-
 /* .hero {
   height: 80vh;
 } */
@@ -17,25 +15,31 @@
   place-content: baseline;
   margin: 2rem 0 0 1rem;
 }
+
 .hero p {
   font-family: 'Oswald', sans-serif;
 }
+
 .hero h1 span {
   float: left;
   clear: left;
 }
+
 @media (min-width: 640px) {
   .hero h1 {
     margin: 0;
   }
+
   .hero h1 span {
     float: none;
     clear: none;
   }
+
   .h-90vh {
     height: 90vh;
   }
 }
+
 /* @media (min-width: 768px) {
   .hero h1 {
     font-size: 10rem;
@@ -60,12 +64,10 @@
   /* display: block; */
   padding: 0.625rem;
   overflow: hidden;
-  background: linear-gradient(
-    to right,
-    var(--white),
-    var(--white) 50%,
-    var(--light) 50%
-  );
+  background: linear-gradient(to right,
+      var(--white),
+      var(--white) 50%,
+      var(--light) 50%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -74,6 +76,7 @@
   transition: background-position 1s ease;
   text-decoration: none;
 }
+
 .cta-btn:hover {
   background-position: 0 100%;
 }
@@ -84,16 +87,17 @@
   display: block;
   position: absolute;
   /* bottom: 0; */
-  bottom:0;
+  bottom: 0;
   left: 50%;
   right: auto;
   transform: translateX(-50%);
   width: 24px;
   height: 70px;
   overflow: hidden;
-   opacity: 1;
+  opacity: 1;
   transition: all 0.3s 0.6s ease-in-out;
 }
+
 .intro-scroll::after {
   content: "";
   display: block;
@@ -111,16 +115,69 @@
     opacity: 1;
     transform: translateY(-100%);
   }
+
   68% {
     opacity: 1;
     transform: translateY(100%);
   }
+
   69% {
     opacity: 0;
     transform: translateY(100%);
   }
+
   100% {
     opacity: 0;
     transform: translateY(-100%);
   }
+}
+
+
+/* language btn */
+.my_switcher {
+  position: fixed;
+  top: 200px;
+  right: 0;
+  background-color: var(--shade);
+  border-radius: 30px 0 0 30px;
+  padding: 10px 15px;
+  z-index: 5;
+
+}
+
+@media(max-width:640px) {
+  .my_switcher {
+    top: 130px;
+  }
+}
+
+.my_switcher select {
+  background: transparent;
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+.my_switcher select option {
+  background-color: red;
+}
+
+.my_switcher ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+.my_switcher ul li a {
+  text-align: center;
+  color: var(--white);
+  font-size: 18px;
+  height: 40px;
+  width: 40px;
+  line-height: 40px;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  text-transform: uppercase;
 }

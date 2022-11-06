@@ -42,8 +42,6 @@
 ::-webkit-scrollbar {
   background: var(--light);
   width: 10px;
-
-  /* display: none; */
 }
 
 ::selection {

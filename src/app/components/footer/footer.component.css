@@ -1,20 +1,22 @@
 .footer {
   height: 28vh;
-/*   background:var(--shade); */
+  /*   background:var(--shade); */
 }
+
 @media (min-width: 768px) {
   .footer {
     height: 20vh;
   }
- }
+}
 
 
 .copyright p {
   font-family: "Oswald", sans-serif;
   color: var(--tint);
 }
+
 .footer .border-top {
-  border-top:1px solid var(--accent);
+  border-top: 1px solid var(--accent);
 }
 
 .social a {
@@ -30,6 +32,7 @@
   text-decoration: none;
   transition: all 400ms ease;
 }
+
 /* .social a:first-child {
   margin-right: 0;
 } */
@@ -43,40 +46,48 @@
   height: 100%;
   margin-top: -50%;
   margin-left: -50%;
-  background-color: var(--tint);
+  background-color: var(--dark);
+  border: 1px solid var(--tint);
   transition: all 400ms ease;
 }
+
 .social a:after {
   position: relative;
   display: block;
   font-family: "icomoon";
   text-transform: none;
-  color: var(--dark);
-font-size: 22px;
-    line-height: 45px;
+  color: var(--tint);
+  font-size: 22px;
+  line-height: 43px;
 }
+
 .social a:hover,
 .social a:focus {
   text-decoration: none;
 }
+
 .social a:hover:before {
   transition: all 400ms;
-   border:1px solid var(--tint);
-  background-color: var(--dark);
-  color: var(--tint);
+  border: 1px solid var(--dark);
+  background-color: var(--tint);
+  color: var(--dark);
 }
+
 .social a:hover:after {
-  color: var(--tint);
+  color: var(--dark);
 }
+
 .social.round a:before {
   /* border-radius: 50%; */
   transform: rotate(45deg);
 }
+
 .social.to-diamond a:hover:before,
 .social-networks.to-diamond a:focus:before {
   border-radius: 0;
   transform: rotate(-45deg);
 }
+
 .social .icon-linkedin:after {
   content: "";
 }

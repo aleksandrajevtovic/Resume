@@ -3,9 +3,8 @@
     class="navbar-content hidden sm:flex flex justify-between items-center p-6"
   >
     <div class="logo z-10">
-      <a class="flex logo" href="/">
-        <span class="sm:hidden text-base md:text-2xl"> Aleksandra J. </span
-        ><span class="w-auto hidden sm:block text-lg md:text-2xl"
+      <a class="flex logo" href="#">
+        <span class="w-auto hidden sm:block text-lg md:text-2xl"
           >Aleksandra Jevtovic</span
         >
       </a>
@@ -13,8 +12,9 @@
     <ul
       class="nav-list flex justify-around gap-3 md:gap-6 md:text-2xl text-lg pl-0 list-none"
     >
+      <!-- <label>{{'title' | translate}}</label> -->
       <li class="nav-item">
-        <a class="nav-link" href="#about"
+        <a class="nav-link" href="#about" [translate]="'NAVIGATION.ABOUT'"
           >About<svg
             width="7"
             height="7"
@@ -32,7 +32,7 @@
         ></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#projects"
+        <a class="nav-link" href="#projects" [translate]="'NAVIGATION.WORK'"
           >Work<svg
             width="7"
             height="7"
@@ -51,7 +51,7 @@
       </li>
 
       <li class="nav-item">
-        <a class="nav-link" href="#contact"
+        <a class="nav-link" href="#contact" [translate]="'NAVIGATION.CONTACT'"
           >Contact<svg
             width="7"
             height="7"
@@ -69,7 +69,7 @@
         ></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#"
+        <a class="nav-link" href="#" [translate]="'NAVIGATION.RESUME'"
           >Resume<svg
             width="7"
             height="7"
@@ -97,6 +97,7 @@
         <span class="w-auto text-lg md:text-2xl">Aleksandra Jevtovic</span>
       </a>
     </div>
+
     <div class="menu-open-btn" (click)="openMenu()">
       <svg
         class="open-icon"
@@ -133,118 +134,98 @@
         />
       </svg>
     </div>
-  </div>
-  <div class="nav-small">
-    <!-- <div class="exit-nav-btn" (click)="closeMenu()">
-      <svg
-        width="37"
-        height="37"
-        viewBox="0 0 37 37"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <g id="menu-icon-close">
-          <rect
-            id="Rectangle 16"
-            width="7.13934"
-            height="7.13934"
-            transform="matrix(-0.000493118 -1 0.999998 -0.00204661 9.33057 16.1973)"
-            fill="white"
-          />
-          <rect
-            id="Rectangle 19"
-            width="7.13934"
-            height="7.13934"
-            transform="matrix(-0.000493118 -1 0.999998 -0.00204661 20.5813 27.4482)"
-            fill="white"
-          />
-          <rect
-            id="Rectangle 17"
-            width="7.13934"
-            height="7.13934"
-            transform="matrix(-0.000493118 -1 0.999998 -0.00204661 20.4368 16.3418)"
-            fill="white"
-          />
-          <rect
-            id="Rectangle 18"
-            width="7.13934"
-            height="7.13934"
-            transform="matrix(-0.000493118 -1 0.999998 -0.00204661 9.19702 27.5815)"
-            fill="white"
-          />
-        </g>
-      </svg>
-    </div> -->
-    <div class="menu-cont">
-      <div class="menu-close-btn" (click)="openMenu()">
-        <svg
-          width="36"
-          height="36"
-          viewBox="0 0 37 37"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <g id="menu-icon-close">
-            <rect
-              id="Rectangle 16"
-              width="7.13934"
-              height="7.13934"
-              transform="matrix(-0.000493118 -1 0.999998 -0.00204661 9.33057 16.1973)"
-              fill="white"
-            />
-            <rect
-              id="Rectangle 19"
-              width="7.13934"
-              height="7.13934"
-              transform="matrix(-0.000493118 -1 0.999998 -0.00204661 20.5813 27.4482)"
-              fill="white"
-            />
-            <rect
-              id="Rectangle 17"
-              width="7.13934"
-              height="7.13934"
-              transform="matrix(-0.000493118 -1 0.999998 -0.00204661 20.4368 16.3418)"
-              fill="white"
-            />
-            <rect
-              id="Rectangle 18"
-              width="7.13934"
-              height="7.13934"
-              transform="matrix(-0.000493118 -1 0.999998 -0.00204661 9.19702 27.5815)"
-              fill="white"
-            />
-          </g>
-        </svg>
+    <div class="nav-small">
+      <div class="menu-cont">
+        <div class="menu-close-btn" (click)="openMenu()">
+          <svg
+            width="36"
+            height="36"
+            viewBox="0 0 37 37"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g id="menu-icon-close">
+              <rect
+                id="Rectangle 16"
+                width="7.13934"
+                height="7.13934"
+                transform="matrix(-0.000493118 -1 0.999998 -0.00204661 9.33057 16.1973)"
+                fill="white"
+              />
+              <rect
+                id="Rectangle 19"
+                width="7.13934"
+                height="7.13934"
+                transform="matrix(-0.000493118 -1 0.999998 -0.00204661 20.5813 27.4482)"
+                fill="white"
+              />
+              <rect
+                id="Rectangle 17"
+                width="7.13934"
+                height="7.13934"
+                transform="matrix(-0.000493118 -1 0.999998 -0.00204661 20.4368 16.3418)"
+                fill="white"
+              />
+              <rect
+                id="Rectangle 18"
+                width="7.13934"
+                height="7.13934"
+                transform="matrix(-0.000493118 -1 0.999998 -0.00204661 9.19702 27.5815)"
+                fill="white"
+              />
+            </g>
+          </svg>
+        </div>
+        <ul class="menu-mobile-list">
+          <li class="navLinks" (click)="closeMenu()">
+            <a href="#about" class="nav-link" title="About"
+              ><span class="nav-link-title" [translate]="'NAVIGATION.ABOUT'"
+                >About</span
+              ></a
+            >
+          </li>
+          <li class="navLinks" (click)="closeMenu()">
+            <a href="#projects" class="nav-link" title="Work"
+              ><span class="nav-link-title" [translate]="'NAVIGATION.WORK'"
+                >Work</span
+              ></a
+            >
+          </li>
+          <li class="navLinks" (click)="closeMenu()">
+            <a href="#contact" class="nav-link" title="Contact"
+              ><span class="nav-link-title" [translate]="'NAVIGATION.CONTACT'"
+                >Contact</span
+              ></a
+            >
+          </li>
+          <li class="navLinks" (click)="closeMenu()">
+            <a href="" class="nav-link" title="Resume"
+              ><span class="nav-link-title" [translate]="'NAVIGATION.RESUME'"
+                >Resume</span
+              ></a
+            >
+          </li>
+          <li class="social to-diamond">
+            <a
+              href="https://www.linkedin.com/"
+              target="_blank"
+              rel="noopener"
+              class="icon-linkedin"
+              >LinkedIn</a
+            >
+            <a
+              href="https://github.com/sanja048"
+              target="_blank"
+              rel="noopener"
+              class="icon-github"
+              >GitHub</a
+            >
+          </li>
+        </ul>
       </div>
-      <ul class="menu-mobile-list">
-        <li class="navLinks" (click)="closeMenu()">
-          <a href="#about" class="nav-link" title="About"
-            ><span class="nav-link-title">About</span></a
-          >
-        </li>
-        <li class="navLinks" (click)="closeMenu()">
-          <a href="#projects" class="nav-link" title="Work"
-            ><span class="nav-link-title">Work</span></a
-          >
-        </li>
-        <li class="navLinks" (click)="closeMenu()">
-          <a href="#contact" class="nav-link" title="Contact"
-            ><span class="nav-link-title">Contact</span></a
-          >
-        </li>
-        <li class="navLinks" (click)="closeMenu()">
-          <a href="" class="nav-link" title="Resume"
-            ><span class="nav-link-title">Resume</span></a
-          >
-        </li>
-        <li class="social to-diamond">
-          <a href="https://www.linkedin.com/" class="icon-linkedin">LinkedIn</a>
-          <a href="https://github.com/sanja048" target="_blank" rel="noopener" class="icon-github">GitHub</a>
-        </li>
-      </ul>
     </div>
-  </div>
 
-  <!-- <div class="togglee" (click)="menu()">Menu</div>
+    <!-- <div class="togglee" (click)="menu()">Menu</div>
 <div class="closemenubtn" (click)="close()">Menu</div> -->
+  </div>
 </div>
