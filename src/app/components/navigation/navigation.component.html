@@ -3,7 +3,7 @@
     class="navbar-content hidden sm:flex flex justify-between items-center p-6"
   >
     <div class="logo z-10">
-      <a class="flex logo" href="#">
+      <a class="flex logo" href="#" cursor-size="1.5rem">
         <span class="w-auto hidden sm:block text-lg md:text-2xl"
           >Aleksandra Jevtovic</span
         >
@@ -14,7 +14,11 @@
     >
       <!-- <label>{{'title' | translate}}</label> -->
       <li class="nav-item">
-        <a class="nav-link" href="#about" [translate]="'NAVIGATION.ABOUT'"
+        <a
+          class="nav-link"
+          href="#about"
+          [translate]="'NAVIGATION.ABOUT'"
+          cursor-size="1.5rem"
           >About<svg
             width="7"
             height="7"
@@ -32,7 +36,11 @@
         ></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#projects" [translate]="'NAVIGATION.WORK'"
+        <a
+          class="nav-link"
+          href="#projects"
+          [translate]="'NAVIGATION.WORK'"
+          cursor-size="1.5rem"
           >Work<svg
             width="7"
             height="7"
@@ -51,7 +59,11 @@
       </li>
 
       <li class="nav-item">
-        <a class="nav-link" href="#contact" [translate]="'NAVIGATION.CONTACT'"
+        <a
+          class="nav-link"
+          href="#contact"
+          [translate]="'NAVIGATION.CONTACT'"
+          cursor-size="1.5rem"
           >Contact<svg
             width="7"
             height="7"
@@ -69,7 +81,11 @@
         ></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#" [translate]="'NAVIGATION.RESUME'"
+        <a
+          class="nav-link"
+          href="#"
+          [translate]="'NAVIGATION.RESUME'"
+          cursor-size="1.5rem"
           >Resume<svg
             width="7"
             height="7"
@@ -93,7 +109,7 @@
 
   <div class="nav-header sm:hidden flex justify-between p-6">
     <div class="logo z-10">
-      <a class="flex logo" href="/">
+      <a class="flex logo" href="/" cursor-size="1.5rem">
         <span class="w-auto text-lg md:text-2xl">Aleksandra Jevtovic</span>
       </a>
     </div>
@@ -179,34 +195,47 @@
         <ul class="menu-mobile-list">
           <li class="navLinks" (click)="closeMenu()">
             <a href="#about" class="nav-link" title="About"
-              ><span class="nav-link-title" [translate]="'NAVIGATION.ABOUT'"
+              ><span
+                class="nav-link-title"
+                [translate]="'NAVIGATION.ABOUT'"
+                cursor-size="1.5rem"
                 >About</span
               ></a
             >
           </li>
           <li class="navLinks" (click)="closeMenu()">
             <a href="#projects" class="nav-link" title="Work"
-              ><span class="nav-link-title" [translate]="'NAVIGATION.WORK'"
+              ><span
+                class="nav-link-title"
+                [translate]="'NAVIGATION.WORK'"
+                cursor-size="1.5rem"
                 >Work</span
               ></a
             >
           </li>
           <li class="navLinks" (click)="closeMenu()">
             <a href="#contact" class="nav-link" title="Contact"
-              ><span class="nav-link-title" [translate]="'NAVIGATION.CONTACT'"
+              ><span
+                class="nav-link-title"
+                [translate]="'NAVIGATION.CONTACT'"
+                cursor-size="1.5rem"
                 >Contact</span
               ></a
             >
           </li>
           <li class="navLinks" (click)="closeMenu()">
             <a href="" class="nav-link" title="Resume"
-              ><span class="nav-link-title" [translate]="'NAVIGATION.RESUME'"
+              ><span
+                class="nav-link-title"
+                [translate]="'NAVIGATION.RESUME'"
+                cursor-size="1.5rem"
                 >Resume</span
               ></a
             >
           </li>
           <li class="social to-diamond">
             <a
+              cursor-size="1.5rem"
               href="https://www.linkedin.com/"
               target="_blank"
               rel="noopener"
@@ -214,6 +243,7 @@
               >LinkedIn</a
             >
             <a
+              cursor-size="1.5rem"
               href="https://github.com/sanja048"
               target="_blank"
               rel="noopener"

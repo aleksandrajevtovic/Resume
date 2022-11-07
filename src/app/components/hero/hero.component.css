@@ -134,7 +134,7 @@
 
 
 /* language btn */
-.my_switcher {
+.my-switcher {
   position: fixed;
   top: 200px;
   right: 0;
@@ -146,23 +146,28 @@
 }
 
 @media(max-width:640px) {
-  .my_switcher {
+  .my-switcher {
     top: 130px;
   }
 }
 
-.my_switcher select {
+.my-switcher select {
   background: transparent;
   cursor: pointer;
   border: none;
   outline: none;
+  box-shadow: none;
+  background-color: var(--shade);
+}
+.my-switcher select::-ms-expand {
+  display: none;
+}
+.my-switcher select * {
+  border-radius: 15px;
 }
 
-.my_switcher select option {
-  background-color: red;
-}
 
-.my_switcher ul {
+.my-switcher ul {
   list-style: none;
   padding: 0;
   margin: 0;
@@ -170,7 +175,7 @@
   align-items: center;
 }
 
-.my_switcher ul li a {
+.my-switcher ul li a {
   text-align: center;
   color: var(--white);
   font-size: 18px;

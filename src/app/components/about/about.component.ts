@@ -27,7 +27,7 @@ export class AboutComponent implements OnInit {
     // this.scrollAnim();
     // this.scrollAnimRemove();
   }
-  
+
   // scrollAnim(): void {
   //   this.tlH.fromTo('.hero h1', { opacity: 1 }, { opacity: 0 });
   //   this.tlH.fromTo(

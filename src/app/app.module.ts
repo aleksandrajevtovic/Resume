@@ -5,6 +5,8 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
+import { NgxCursorModule } from 'ngx-cursor';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
@@ -29,6 +31,7 @@ import { ProjectsComponent } from './components/projects/projects.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    NgxCursorModule,
     HttpClientModule,
     TranslateModule.forRoot({
       loader: {
