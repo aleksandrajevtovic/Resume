@@ -1,8 +1,9 @@
 .contact {
   height: 35vh;
 }
+
 .contact p {
-  font-family: "Oswald", sans-serif;
+  font-family: var(--ffSecondary);
   color: var(--light);
   padding: 1rem 1rem;
 }
@@ -12,28 +13,14 @@
     height: 45vh;
   }
 }
+
 @media (min-width: 992px) {
   .contact {
     height: 65vh;
   }
+
   .contact .heading {
     font-size: 13rem;
     line-height: 14rem;
   }
 }
-
-
-/*
-.second-page {
-  min-height: 125vh;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  justify-content: center;
-}
-.second-text {
-  padding: 5% 10%;
-  position: relative;
-  z-index: 2;
-  font-size: 3.5rem;
-} */
