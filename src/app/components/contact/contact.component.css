@@ -8,6 +8,11 @@
   padding: 1rem 1rem;
 }
 
+.contact .heading {
+  font-size: clamp(3.7rem, 11vw, 15rem);
+  line-height: 1;
+}
+
 @media (min-width: 768px) {
   .contact {
     height: 45vh;
@@ -19,8 +24,5 @@
     height: 65vh;
   }
 
-  .contact .heading {
-    font-size: 13rem;
-    line-height: 14rem;
-  }
 }
+

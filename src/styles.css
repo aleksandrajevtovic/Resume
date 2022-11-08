@@ -88,6 +88,12 @@ body {
   border: 1px solid var(--tint);
   transition: all 400ms ease;
 }
+.social a.white:before {
+  border: 1px solid var(--white);
+}
+.social a.white:after {
+  color: var(--white);
+}
 
 .social a:after {
   position: relative;
