@@ -1,23 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
-// import { HeroComponent } from './components/hero/hero.component';
+import { ErrorComponent } from './pages/error/error.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full', redirectTo: '' },
-  // { path: 'about', component: AboutPageComponent },
-  // { path: 'contact', component: ContactPageComponent },
-  // { path: 'projects', component: ProjectsPageComponent },
-  // { path: '**', component: PageNotFoundComponent },
-
-
+  { path: '**', component: ErrorComponent },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
-
-
-
+export class AppRoutingModule {}

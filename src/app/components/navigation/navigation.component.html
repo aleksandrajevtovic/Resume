@@ -4,22 +4,18 @@
   >
     <div class="logo z-10">
       <a class="flex logo" href="#" cursor-size="1.5rem">
-        <span class="w-auto hidden sm:block text-lg md:text-2xl"
-          >Aleksandra Jevtovic</span
-        >
+        <span class="w-auto hidden sm:block text-lg md:text-2xl">
+          Aleksandra Jevtovic
+        </span>
       </a>
     </div>
     <ul
       class="nav-list flex justify-around gap-3 md:gap-6 md:text-2xl text-lg pl-0 list-none"
     >
-      <!-- <label>{{'title' | translate}}</label> -->
       <li class="nav-item">
-        <a
-          class="nav-link"
-          href="#about"
-          [translate]="'NAVIGATION.ABOUT'"
-          cursor-size="1.5rem"
-          >About<svg
+        <a class="nav-link" href="#about" cursor-size="1.5rem"
+          >{{ "NAVIGATION.ABOUT" | translate
+          }}<svg
             width="7"
             height="7"
             viewBox="0 0 6 6"
@@ -36,12 +32,9 @@
         ></a>
       </li>
       <li class="nav-item">
-        <a
-          class="nav-link"
-          href="#projects"
-          [translate]="'NAVIGATION.WORK'"
-          cursor-size="1.5rem"
-          >Work<svg
+        <a class="nav-link" href="#projects" cursor-size="1.5rem"
+          >{{ "NAVIGATION.WORK" | translate
+          }}<svg
             width="7"
             height="7"
             viewBox="0 0 6 6"
@@ -59,12 +52,9 @@
       </li>
 
       <li class="nav-item">
-        <a
-          class="nav-link"
-          href="#contact"
-          [translate]="'NAVIGATION.CONTACT'"
-          cursor-size="1.5rem"
-          >Contact<svg
+        <a class="nav-link" href="#contact" cursor-size="1.5rem"
+          >{{ "NAVIGATION.CONTACT" | translate
+          }}<svg
             width="7"
             height="7"
             viewBox="0 0 6 6"
@@ -81,12 +71,9 @@
         ></a>
       </li>
       <li class="nav-item">
-        <a
-          class="nav-link"
-          href="#"
-          [translate]="'NAVIGATION.RESUME'"
-          cursor-size="1.5rem"
-          >Resume<svg
+        <a class="nav-link" href="#" cursor-size="1.5rem"
+          >{{ "NAVIGATION.RESUME" | translate
+          }}<svg
             width="7"
             height="7"
             viewBox="0 0 6 6"
@@ -195,42 +182,30 @@
         <ul class="menu-mobile-list">
           <li class="navLinks" (click)="closeMenu()">
             <a href="#about" class="nav-link" title="About"
-              ><span
-                class="nav-link-title"
-                [translate]="'NAVIGATION.ABOUT'"
-                cursor-size="1.5rem"
-                >About</span
-              ></a
+              ><span class="nav-link-title" cursor-size="1.5rem">{{
+                "NAVIGATION.ABOUT" | translate
+              }}</span></a
             >
           </li>
           <li class="navLinks" (click)="closeMenu()">
             <a href="#projects" class="nav-link" title="Work"
-              ><span
-                class="nav-link-title"
-                [translate]="'NAVIGATION.WORK'"
-                cursor-size="1.5rem"
-                >Work</span
-              ></a
+              ><span class="nav-link-title" cursor-size="1.5rem">{{
+                "NAVIGATION.WORK" | translate
+              }}</span></a
             >
           </li>
           <li class="navLinks" (click)="closeMenu()">
             <a href="#contact" class="nav-link" title="Contact"
-              ><span
-                class="nav-link-title"
-                [translate]="'NAVIGATION.CONTACT'"
-                cursor-size="1.5rem"
-                >Contact</span
-              ></a
+              ><span class="nav-link-title" cursor-size="1.5rem">{{
+                "NAVIGATION.CONTACT" | translate
+              }}</span></a
             >
           </li>
           <li class="navLinks" (click)="closeMenu()">
             <a href="" class="nav-link" title="Resume"
-              ><span
-                class="nav-link-title"
-                [translate]="'NAVIGATION.RESUME'"
-                cursor-size="1.5rem"
-                >Resume</span
-              ></a
+              ><span class="nav-link-title" cursor-size="1.5rem">{{
+                "NAVIGATION.RESUME" | translate
+              }}</span></a
             >
           </li>
           <li class="social round to-diamond">
@@ -254,8 +229,5 @@
         </ul>
       </div>
     </div>
-
-    <!-- <div class="togglee" (click)="menu()">Menu</div>
-<div class="closemenubtn" (click)="close()">Menu</div> -->
   </div>
 </div>
