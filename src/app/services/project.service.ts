@@ -46,7 +46,7 @@ export class ProjectService {
       '',
       '',
       'https://github.com/sanja048/Nutritionist',
-      'https://mylahbloomfit.herokuapp.com/'
+      'https://mylahbloomfit.netlify.app/'
 
     ),
     new Project(
