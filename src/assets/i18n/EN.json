@@ -6,24 +6,28 @@
     "RESUME": "Resume"
   },
   "ABOUT": {
-    "SPAN1": "Hey I am Aleksandra, a creative web developer from Serbia.",
-    "SPAN2": " I work as a freelancer with agencies, start-ups and individuals,",
-    "SPAN3": " helping them to develop their website and achieve their goals.",
-    "SPAN4": " I have a fondness for clean designs, subtle interactions and interactive development."
+    "SPAN1": "Hey I am Aleksandra, a creative frontend web developer from Serbia.",
+    "SPAN2": " With longevity and sustainability in mind,",
+    "SPAN3": " I strive to create functional and valuable user experiences",
+    "SPAN4": " that positively impact viewers and are memorable.",
+    "SPAN5": " I have a fondness for clean designs,",
+    "SPAN6": " subtle interactions",
+    "SPAN7": " and interactive development.",
+    "SPAN8": " I am curious by nature and am constantly working",
+    "SPAN9": " to improve my skills step by step."
   },
   "PROJECTS": {
     "HEADLINE": "Selected projects",
-    "TITLE1":"E-Mobilnost",
-    "TITLE2":"Margotekstil",
-    "TITLE3":"Mylah Bloom",
-    "TITLE4":"Fitness Trainer",
-    "TITLE5":"Studio Jablan",
-    "DESC1": "E-Mobilnost, the association of electric vehicle drivers in Serbia, was founded with the aim of raising awareness, not only among drivers and owners, but also the entire society. To show and prove that electric vehicles are not a distant future but are very much a part of the present. They are a smart choice for every individual, better quality, more efficient and much healthier life.",
-    "DESC2": "Margotekstil is a team with more than 20 years of proven practical experience in sewing. They have professional knowledge and all the necessary production capacities to fulfill all the needs of our clients. They offer the services of professional custom tailoring in the field of HoReCa textiles, decorative textiles and a unique domestic PET MANIA program for pets.",
-    "DESC3": "Mylah is a healthy lifestyle, nutrition, and mindfulness platform established by Mylah Bloom - a certified nutritionist, sharing her knowledge and expertise in her innovative exercise and dietary plans. MylahFit is empowering its clients to attain their body goals while being kind and gentle to their bodies and minds.",
+    "TITLE1": "E-Mobilnost",
+    "TITLE2": "Margotekstil",
+    "TITLE3": "Mylah Bloom",
+    "TITLE4": "Fitness Trainer",
+    "TITLE5": "Studio Jablan",
+    "DESC1": "E-Mobilnost, the association of electric vehicle drivers in Serbia, was founded with the aim of raising awareness, not only among drivers and owners, but also the entire society. To show and prove that electric vehicles are not a distant future but are very much a part of the present. The website has a news section, where news are added through a custom admin page built with Spring.",
+    "DESC2": "Margotekstil is a team with more than 20 years of proven practical experience in sewing. They offer the services of professional custom tailoring in the field of HoReCa textiles, decorative textiles and a unique domestic PET MANIA program for pets. This is a webshop based on Spring Boot and databases using MySQL.",
+    "DESC3": "Mylah is a healthy lifestyle, nutrition, and mindfulness platform established by Mylah Bloom - a certified nutritionist, sharing her knowledge and expertise in her innovative exercise and dietary plans. MylahFit is empowering its clients to attain their body goals while being kind and gentle to their bodies and minds. This is a personal project.",
     "DESC4": "Project 4 desc",
-    "DESC5": "As an interior design studio built on creativity, collaboration and unparalleled service, established in 2013, Studio Jablan experience is focused on crafting the ideal environment for each client."
-
+    "DESC5": "As an interior design studio built on creativity, collaboration and unparalleled service, established in 2013, Studio Jablan experience is focused on crafting the ideal environment for each client. This is a personal project."
   },
   "CONTACT": {
     "P1": "If you have any questions or want to work with me,",

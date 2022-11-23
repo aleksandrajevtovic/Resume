@@ -21,9 +21,11 @@
     padding: 5% 20%;
   }
 }
-
+.mb-32r {
+  margin-bottom: 32rem;
+}
 .about-page {
-  min-height: 125vh;
+  min-height: 150vh;
   display: flex;
   flex-direction: column;
   position: relative;

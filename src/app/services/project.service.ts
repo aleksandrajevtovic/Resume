@@ -45,7 +45,7 @@ export class ProjectService {
       'Spoonacular API',
       '',
       '',
-      'https://github.com/sanja048/Nutritionist',
+      'https://github.com/aleksandrajevtovic/Nutritionist',
       'https://mylahbloomfit.netlify.app/'
 
     ),
@@ -71,7 +71,7 @@ export class ProjectService {
       'GSAP',
       '',
       '',
-      'https://github.com/sanja048/jablan',
+      'https://github.com/aleksandrajevtovic/jablan',
       'https://studiojablan.herokuapp.com/'
     ),
   ];

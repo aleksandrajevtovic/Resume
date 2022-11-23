@@ -6,10 +6,15 @@
     "RESUME":"Lebenslauf"
   },
   "ABOUT": {
-    "SPAN1":"Hey, ich bin Aleksandra, eine kreative Webentwicklerin aus Serbien.",
-    "SPAN2":" Ich arbeite als Freelancer mit Agenturen, Start-ups und Privatpersonen,",
-    "SPAN3":" ihnen dabei zu helfen, ihre Website zu entwickeln und ihre Ziele zu erreichen.",
-    "SPAN4":" Ich habe eine Vorliebe für klare Designs, subtile Interaktionen und interaktive Entwicklung."
+    "SPAN1":"Hey, ich bin Aleksandra, eine kreative Frontend-Webentwicklerin aus Serbien.",
+    "SPAN2":" Mit Blick auf die Langlebigkeit und Nachhaltigkeit",
+    "SPAN3":" bemühe ich mich, funktionale und wertvolle Benutzer­erfahrungen zu schaffen,",
+    "SPAN4":" die sich positiv auf die Betrachter auswirken und im Gedächtnis bleiben.",
+    "SPAN5":" Ich habe eine Vorliebe für klare Designs,",
+    "SPAN6":" subtile Interaktionen",
+    "SPAN7":" und interaktive Entwicklung.",
+    "SPAN8":" Ich bin von Natur aus neugierig und arbeite ständig daran,",
+    "SPAN9":" meine Fähigkeiten Schritt für Schritt zu verbessern."
   },
    "PROJECTS": {
     "HEADLINE":"Ausgewählte Projekte",
@@ -18,11 +23,11 @@
     "TITLE3":"Mylah Bloom",
     "TITLE4":"Fitnesstrainer",
     "TITLE5":"Studio Jablan",
-    "DESC1":"E-Mobilnost, der Verband der Fahrer von Elektrofahrzeugen in Serbien, wurde mit dem Ziel gegründet, das Bewusstsein nicht nur bei Fahrern und Besitzern, sondern in der gesamten Gesellschaft zu schärfen. Zu zeigen und zu beweisen, dass Elektrofahrzeuge keine ferne Zukunft sind, sondern ein Teil der Gegenwart. Sie sind eine kluge Wahl für jeden Einzelnen, bessere Qualität, effizienteres und viel gesünderes Leben.",
-    "DESC2":"Margotekstil ist ein Team mit mehr als 20 Jahren praktischer Erfahrung im Nähen. Sie verfügen über professionelles Wissen und alle notwendigen Produktionskapazitäten, um alle Bedürfnisse unserer Kunden zu erfüllen. Sie bieten die Dienstleistungen einer professionellen Maßschneiderei in der Bereich HoReCa-Textilien, Dekorationstextilien und ein einzigartiges Heimtierprogramm PET MANIA für Haustiere.",
-    "DESC3":"Mylah ist eine Plattform für gesunde Lebensweise, Ernährung und Achtsamkeit, die von Mylah Bloom gegründet wurde – einer zertifizierten Ernährungsberaterin, die ihr Wissen und ihre Expertise in ihren innovativen Trainings- und Ernährungsplänen weitergibt. MylahFit befähigt seine Kunden, ihre körperlichen Ziele zu erreichen und gleichzeitig freundlich und sanft zu ihrem Körper und Geist zu sein.",
+    "DESC1":"E-Mobilnost, der Verband der Fahrer von Elektrofahrzeugen in Serbien, wurde mit dem Ziel gegründet, das Bewusstsein nicht nur bei Fahrern und Besitzern, sondern in der gesamten Gesellschaft zu schärfen. Zu zeigen und zu beweisen, dass Elektrofahrzeuge keine ferne Zukunft sind, sondern ein Teil der Gegenwart. Die Website verfügt über einen Nachrichtenbereich, in dem Nachrichten über eine benutzerdefinierte Admin-Seite hinzugefügt werden, die mit Spring erstellt wurde.",
+    "DESC2":"Margotekstil ist ein Team mit mehr als 20 Jahren praktischer Erfahrung im Nähen.  Sie bieten die Dienstleistungen einer professionellen Maßschneiderei in der Bereich HoReCa-Textilien, Dekorationstextilien und ein einzigartiges Heimtierprogramm PET MANIA für Haustiere. Das ist ein Webshop, der auf Spring Boot und MySQL-Datenbanken basiert.",
+    "DESC3":"Mylah ist eine Plattform für gesunde Lebensweise, Ernährung und Achtsamkeit, die von Mylah Bloom gegründet wurde – einer zertifizierten Ernährungsberaterin, die ihr Wissen und ihre Expertise in ihren innovativen Trainings- und Ernährungsplänen weitergibt. MylahFit befähigt seine Kunden, ihre körperlichen Ziele zu erreichen und gleichzeitig freundlich und sanft zu ihrem Körper und Geist zu sein. Das ist ein persönliches Projekt.",
     "DESC4": "Projekt 4 Beschreibung",
-    "DESC5": "Als Innenarchitekturstudio, das auf Kreativität, Zusammenarbeit und beispiellosem Service basiert und 2013 gegründet wurde, konzentriert sich Studio Jablan auf die Schaffung der idealen Umgebung für jeden Kunden."
+    "DESC5": "Als Innenarchitekturstudio, das auf Kreativität, Zusammenarbeit und beispiellosem Service basiert und 2013 gegründet wurde, konzentriert sich Studio Jablan auf die Schaffung der idealen Umgebung für jeden Kunden. Das ist ein persönliches Projekt."
     },
   "CONTACT": {
     "P1":"Wenn Sie Fragen haben oder mit mir arbeiten möchten,",

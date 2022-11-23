@@ -13,15 +13,6 @@ gsap.registerPlugin(ScrollTrigger);
 export class AboutComponent implements OnInit {
   constructor(@Inject(DOCUMENT) private document: Document) {}
 
-  // tlH = gsap.timeline({
-  //   scrollTrigger: {
-  //     trigger: '.about-page',
-  // markers: { startColor: 'yellow', endColor: 'yellow' },
-  //     scrub: true,
-  //     start: '3%',
-  //     end: '15%',
-  //   },
-  // });
   // const matches = this.document.querySelectorAll(".highlight");
   // target= this.target.forEach((".highlight") => {
   //   tl=gsap.to(".highlight", {
@@ -38,7 +29,6 @@ export class AboutComponent implements OnInit {
 
   ngOnInit() {
     this.scrollAboutText();
-    // this.scrollAnim();
     // this.scrollAnimRemove();
   }
   scrollAboutText(): void {
@@ -52,20 +42,11 @@ export class AboutComponent implements OnInit {
           trigger: '.highlight',
           scrub: true,
           start: 'top center',
-          end: 'bottom 20%',
+          end: 'bottom 0%',
         },
       });
     });
   }
-
-  // scrollAnim(): void {
-  //   this.tlH.fromTo('.hero h1', { opacity: 1 }, { opacity: 0 });
-  //   this.tlH.fromTo(
-  //     '.highlight',
-  //     { color: 'rgba(255,255,255,0.2' },
-  //     { color: 'rgba(255,255,255,1', stagger: 1 }
-  //   );
-  // }
 
   // tlHRemove = gsap.timeline({
   //   scrollTrigger: {

@@ -106,3 +106,13 @@
 .my-switcher select::-ms-expand {
   display: none;
 }
+
+.lighterfont {
+  /* background-color: green; */
+  font-weight: normal;
+}
+
+.bolderFont {
+  /* background-color: red; */
+  font-weight: bolder;
+}

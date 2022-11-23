@@ -16,8 +16,8 @@
     <a href="#about" class="intro-scroll"></a>
   </div>
 
-  <!-- language btn -->
-  <div class="my-switcher d-lg-block">
+  <!-- language btn select options -->
+  <!-- <div class="my-switcher d-lg-block">
     <select
       class="form-control"
       #selectedLang
@@ -31,5 +31,20 @@
         {{ language }}
       </option>
     </select>
+  </div> -->
+
+  <div class="my-switcher d-lg-block">
+    <button
+      [ngClass]="{ bolderFont: click, lighterfont: !click }"
+      (click)="changeLangSwitch('EN')"
+    >
+      EN |
+    </button>
+    <button
+      [ngClass]="{ lighterfont: click, bolderFont: !click }"
+      (click)="changeLangSwitch('DE')"
+    >
+      &nbsp;DE
+    </button>
   </div>
 </section>
