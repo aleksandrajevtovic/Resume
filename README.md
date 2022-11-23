@@ -2,6 +2,8 @@
 
 ![Alt text](https://i.imgur.com/z87uwVA.jpg "Personal portfolio image")
 
+Personal website made using Angular, animations using GSAP library, hosted on Netflify.
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.2.4.
 
 ## Development server
