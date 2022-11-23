@@ -1,4 +1,6 @@
-# Portfolio
+# Personal Portfolio Website
+
+![Alt text](https://i.imgur.com/z87uwVA.jpg "Personal portfolio image")
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.2.4.
 
