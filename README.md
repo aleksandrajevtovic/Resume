@@ -1,3 +1,3 @@
 # Personal Portfolio Website
 
-![Alt text](https://i.imgur.com/z87uwVA.jpg "Personal portfolio image")
+![Alt text](https://i.imgur.com/iI78q61.png "Personal portfolio image")
