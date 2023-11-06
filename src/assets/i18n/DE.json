@@ -3,18 +3,19 @@
     "ABOUT": "Über mich",
     "WORK": "Projekte",
     "CONTACT": "Kontakt",
-    "RESUME":"Lebenslauf"
+    "RESUME":"Lebenslauf",
+    "RESUME_FILE": "./assets/files/CV_Aleksandra_Jevtovic_de.pdf"
   },
   "ABOUT": {
-    "SPAN1":"Hey, ich bin Aleksandra, eine kreative Frontend-Webentwicklerin aus Serbien.",
-    "SPAN2":" Mit Blick auf die Langlebigkeit und Nachhaltigkeit",
-    "SPAN3":" bemühe ich mich, funktionale und wertvolle Benutzer­erfahrungen zu schaffen,",
-    "SPAN4":" die sich positiv auf die Betrachter auswirken und im Gedächtnis bleiben.",
-    "SPAN5":" Ich habe eine Vorliebe für klare Designs,",
-    "SPAN6":" subtile Interaktionen",
-    "SPAN7":" und interaktive Entwicklung.",
-    "SPAN8":" Ich bin von Natur aus neugierig und arbeite ständig daran,",
-    "SPAN9":" meine Fähigkeiten Schritt für Schritt zu verbessern."
+    "SPAN1":"Hallo, ich bin Aleksandra, eine kreative Frontend-Entwicklerin aus Serbien",
+    "SPAN2":" und lebe in Hamburg, Deutschland.",
+    "SPAN3":" Mit Blick auf die Langlebigkeit und Nachhaltigkeit",
+    "SPAN4":" bemühe ich mich, funktionale und wertvolle Benutzer­erfahrungen zu schaffen,",
+    "SPAN5":" die sich positiv auf die Betrachter auswirken und im Gedächtnis bleiben.",
+    "SPAN6":" Ich habe eine Vorliebe für klare Designs,",
+    "SPAN7":" subtile Interaktionen",
+    "SPAN8":" und interaktive Entwicklung.",
+    "SPAN9":" Meine Neugier treibt mich an, stetig meine Fähigkeiten zu verfeinern."
   },
    "PROJECTS": {
     "HEADLINE":"Ausgewählte Projekte",

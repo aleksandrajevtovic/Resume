@@ -35,13 +35,13 @@
 
   <div class="my-switcher d-lg-block">
     <button
-      [ngClass]="{ bolderFont: click, lighterfont: !click }"
+      [ngStyle]="{ opacity: activeLang === 'EN' ? '1' : '0.3' }"
       (click)="changeLangSwitch('EN')"
     >
       EN |
     </button>
     <button
-      [ngClass]="{ lighterfont: click, bolderFont: !click }"
+      [ngStyle]="{ opacity: activeLang === 'DE' ? '1' : '0.3' }"
       (click)="changeLangSwitch('DE')"
     >
       &nbsp;DE

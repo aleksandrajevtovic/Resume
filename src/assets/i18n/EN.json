@@ -3,10 +3,11 @@
     "ABOUT": "About",
     "WORK": "Work",
     "CONTACT": "Contact",
-    "RESUME": "Resume"
+    "RESUME": "Resume",
+    "RESUME_FILE": "./assets/files/CV_Aleksandra_Jevtovic_en.pdf"
   },
   "ABOUT": {
-    "SPAN1": "Hey I am Aleksandra, a creative frontend web developer from Serbia.",
+    "SPAN1": "Hey I am Aleksandra, a creative frontend web developer from Serbia, living in Hamburg, Germany.",
     "SPAN2": " With longevity and sustainability in mind,",
     "SPAN3": " I strive to create functional and valuable user experiences",
     "SPAN4": " that positively impact viewers and are memorable.",

@@ -29,7 +29,7 @@ export class WorkComponent implements OnInit {
       },
     });
     this.tlScrollPin1.to('#projects', {
-      backgroundColor: '#2e2e4c',
+      backgroundColor: '#151527',
       position: 'relative',
       zIndex: '2',
     });

@@ -52,13 +52,21 @@ html {
 }
 
 :root {
-  --dark: #2e2e4c;
+  /* --dark: #2e2e4c;
   --white: #ffffff;
   --accent: #6667ab;
   --pale: #f2f2ff;
   --light: #cfcfe5;
   --tint: #9595ba;
-  --shade: #3d3d66;
+  --shade: #3d3d66; */
+
+  --dark: #151527;
+  --white: #ffffff;
+  --accent: #454560;
+  --pale: #d0d0e8;
+  --light: #8989a0;
+  --tint: #5e5e7a;
+  --shade: #252540;
   --ffPrimary: "Saint Monica", sans-serif;
   --ffSecondary: 'Oswald', sans-serif;
   --radiusSm: 6px;

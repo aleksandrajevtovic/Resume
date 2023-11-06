@@ -109,7 +109,7 @@
   .tech ul li {
     padding: 0.3rem 0.8rem;
     background: var(--light);
-    color: var(--shade);
+    color: var(--dark);
     border-radius: var(--radiusLg);
     font-weight: 300;
     margin-bottom: 0.8rem

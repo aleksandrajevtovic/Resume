@@ -71,7 +71,7 @@
         ></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="./assets/files/Aleksandra_Jevtovic_CV_2022_English.pdf" target="_blank" rel="noopener" cursor-size="1.5rem"
+        <a class="nav-link" [href]="('NAVIGATION.RESUME_FILE' | translate)"  target="_blank" rel="noopener" cursor-size="1.5rem"
           >{{ "NAVIGATION.RESUME" | translate
           }}<svg
             width="7"
@@ -202,7 +202,7 @@
             >
           </li>
           <li class="navLinks" (click)="closeMenu()">
-            <a href="./assets/files/Aleksandra_Jevtovic_CV_2022_English.pdf" target="_blank" rel="noopener" class="nav-link" title="Resume"
+            <a [href]="('NAVIGATION.RESUME_FILE' | translate)" target="_blank" rel="noopener" class="nav-link" title="Resume"
               ><span class="nav-link-title" cursor-size="1.5rem">{{
                 "NAVIGATION.RESUME" | translate
               }}</span></a

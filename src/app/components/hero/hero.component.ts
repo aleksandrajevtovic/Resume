@@ -32,12 +32,15 @@ export class HeroComponent implements OnInit {
 
   click = true;
   status = 'Enable';
+  activeLang: string = 'EN';
 
   changeLangSwitch(lang: string) {
     this.click = !this.click;
     this.status = this.click ? 'Enable' : 'Disable';
+    this.activeLang = lang;
     this.translate.use(lang);
     localStorage.setItem('lang', lang);
+
   }
 
   tlH = gsap.timeline({
@@ -61,4 +64,6 @@ export class HeroComponent implements OnInit {
     //   { color: 'rgba(255,255,255,0' }
     // );
   }
+
+
 }

@@ -15,7 +15,6 @@ import { NavigationComponent } from './components/navigation/navigation.componen
 import { AboutComponent } from './components/about/about.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { ContactComponent } from './components/contact/contact.component';
-import { ProjectsComponent } from './components/projects/projects.component';
 import { WorkComponent } from './components/work/work.component';
 import { ErrorComponent } from './pages/error/error.component';
 
@@ -28,7 +27,6 @@ import { ErrorComponent } from './pages/error/error.component';
     AboutComponent,
     FooterComponent,
     ContactComponent,
-    ProjectsComponent,
     WorkComponent,
     ErrorComponent,
   ],
