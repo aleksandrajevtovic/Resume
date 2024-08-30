@@ -19,11 +19,13 @@
   },
    "PROJECTS": {
     "HEADLINE":"Ausgewählte Projekte",
+    "TITLEО": "SIUVS",
     "TITLE1":"E-Mobilnost",
     "TITLE2":"Margotekstil",
     "TITLE3":"Mylah Bloom",
     "TITLE4":"Fitnesstrainer",
     "TITLE5":"Studio Jablan",
+    "DESC0":"Die SIUVS-Anwendung (System für integriertes Management von Notfallsituationen) wurde entwickelt, um das Katastrophenmanagement und die Reaktion in verschiedenen Gemeinden zu verbessern. Die Hauptnutzer dieser Anwendung sind lokale Selbstverwaltungen, Regierungsbehörden und Notfallmanagementteams. Das System ermöglicht eine effektive Planung, Koordination und Kommunikation im Falle von Naturkatastrophen wie Überschwemmungen, Erdbeben und anderen Notfällen.",
     "DESC1":"E-Mobilnost, der Verband der Fahrer von Elektrofahrzeugen in Serbien, wurde mit dem Ziel gegründet, das Bewusstsein nicht nur bei Fahrern und Besitzern, sondern in der gesamten Gesellschaft zu schärfen. Zu zeigen und zu beweisen, dass Elektrofahrzeuge keine ferne Zukunft sind, sondern ein Teil der Gegenwart. Die Website verfügt über einen Nachrichtenbereich, in dem Nachrichten über eine benutzerdefinierte Admin-Seite hinzugefügt werden, die mit Spring erstellt wurde.",
     "DESC2":"Margotekstil ist ein Team mit mehr als 20 Jahren praktischer Erfahrung im Nähen.  Sie bieten die Dienstleistungen einer professionellen Maßschneiderei in der Bereich HoReCa-Textilien, Dekorationstextilien und ein einzigartiges Heimtierprogramm PET MANIA für Haustiere. Das ist ein Webshop, der auf Spring Boot und MySQL-Datenbanken basiert.",
     "DESC3":"Mylah ist eine Plattform für gesunde Lebensweise, Ernährung und Achtsamkeit, die von Mylah Bloom gegründet wurde – einer zertifizierten Ernährungsberaterin, die ihr Wissen und ihre Expertise in ihren innovativen Trainings- und Ernährungsplänen weitergibt. MylahFit befähigt seine Kunden, ihre körperlichen Ziele zu erreichen und gleichzeitig freundlich und sanft zu ihrem Körper und Geist zu sein. Das ist ein persönliches Projekt.",
