@@ -6,9 +6,10 @@ import ScrollTrigger from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
 @Component({
-  selector: 'app-work',
-  templateUrl: './work.component.html',
-  styleUrls: ['./work.component.css'],
+    selector: 'app-work',
+    templateUrl: './work.component.html',
+    styleUrls: ['./work.component.css'],
+    standalone: false
 })
 export class WorkComponent implements OnInit {
   constructor() {}

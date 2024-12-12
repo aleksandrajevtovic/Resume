@@ -6,9 +6,10 @@ import { DOCUMENT } from '@angular/common';
 
 gsap.registerPlugin(ScrollTrigger);
 @Component({
-  selector: 'app-about',
-  templateUrl: './about.component.html',
-  styleUrls: ['./about.component.css'],
+    selector: 'app-about',
+    templateUrl: './about.component.html',
+    styleUrls: ['./about.component.css'],
+    standalone: false
 })
 export class AboutComponent implements OnInit {
   constructor(@Inject(DOCUMENT) private document: Document) {}

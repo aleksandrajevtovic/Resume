@@ -7,9 +7,10 @@ import { DOCUMENT } from '@angular/common';
 
 gsap.registerPlugin(ScrollTrigger);
 @Component({
-  selector: 'app-hero',
-  templateUrl: './hero.component.html',
-  styleUrls: ['./hero.component.css'],
+    selector: 'app-hero',
+    templateUrl: './hero.component.html',
+    styleUrls: ['./hero.component.css'],
+    standalone: false
 })
 export class HeroComponent implements OnInit {
   constructor(
