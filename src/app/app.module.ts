@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
@@ -18,34 +18,27 @@ import { ContactComponent } from './components/contact/contact.component';
 import { WorkComponent } from './components/work/work.component';
 import { ErrorComponent } from './pages/error/error.component';
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    HomeComponent,
-    HeroComponent,
-    NavigationComponent,
-    AboutComponent,
-    FooterComponent,
-    ContactComponent,
-    WorkComponent,
-    ErrorComponent,
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    NgxCursorModule,
-    HttpClientModule,
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
-        deps: [HttpClient],
-      },
-    }),
-  ],
-  providers: [],
-  bootstrap: [AppComponent],
-})
+@NgModule({ declarations: [
+        AppComponent,
+        HomeComponent,
+        HeroComponent,
+        NavigationComponent,
+        AboutComponent,
+        FooterComponent,
+        ContactComponent,
+        WorkComponent,
+        ErrorComponent,
+    ],
+    bootstrap: [AppComponent], imports: [BrowserModule,
+        AppRoutingModule,
+        NgxCursorModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient],
+            },
+        })], providers: [provideHttpClient(withInterceptorsFromDi())] })
 export class AppModule {}
 
 // AoT requires an exported function for factories
