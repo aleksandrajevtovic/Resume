@@ -4,13 +4,9 @@
 >
   <div class="about-text">
     <p class="mb-96 mb-32r lg:mt-20 xl:mt-24 text-container">
-      <span class="highlight">{{ "ABOUT.SPAN1" | translate }}</span>
-      <span class="highlight">{{ "ABOUT.SPAN2" | translate }}</span>
-      <span class="highlight">{{ "ABOUT.SPAN3" | translate }}</span>
-      <span class="highlight">{{ "ABOUT.SPAN4" | translate }}</span>
-      <span class="highlight">{{ "ABOUT.SPAN5" | translate }}</span>
-      <span class="highlight">{{ "ABOUT.SPAN6" | translate }}</span>
-      <span class="highlight">{{ "ABOUT.SPAN7" | translate }}</span>
+      @for (span of aboutSpans; track $index) {
+        <span class="highlight">{{ span }}</span>
+      }
     </p>
   </div>
 </section>

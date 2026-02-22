@@ -6,15 +6,6 @@
     "RESUME":"Lebenslauf",
     "RESUME_FILE": "./assets/files/CV_Aleksandra_Jevtovic_de.pdf"
   },
-  "ABOUT": {
-    "SPAN1":" Hey, ich bin Aleksandra, Softwareentwicklerin mit Sitz in Hamburg.",
-    "SPAN2":" Ich konzipiere und entwickle robuste, skalierbare Software ",
-    "SPAN3":" mit Fokus auf Klarheit, Struktur und langfristige Wartbarkeit. ",
-    "SPAN4":" Es begeistert mich, omplexe Anforderungen in saubere, ",
-    "SPAN5":" effiziente Lösungen zu übersetzen und Systeme zu gestalten, ",
-    "SPAN6":" die nachhaltig funktionieren. Mir sind durchdachte Architektur, ",
-    "SPAN7":" Performance und verständlicher Code wichtig,  heute und in Zukunft. "
-  },
    "PROJECTS": {
     "HEADLINE":"Ausgewählte Projekte",
     "TITLEО": "SIUVS",

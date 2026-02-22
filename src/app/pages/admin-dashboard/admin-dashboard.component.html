@@ -32,7 +32,7 @@
   }
 
   <div class="admin-dashboard__grid">
-    <article class="admin-card">
+    <article class="admin-card admin-card--about-summary">
       <div class="admin-card__title-row">
         <h2>Projects</h2>
         <button type="button" class="primary-btn" (click)="openAddProjectModal()">
@@ -54,6 +54,22 @@
         </li>
         }
       </ul>
+    </article>
+
+    <article class="admin-card">
+      <div class="admin-card__title-row">
+        <h2>About text</h2>
+        <button type="button" class="primary-btn" (click)="openAboutModal()">
+          Open editor
+        </button>
+      </div>
+
+      <p class="about-admin-summary">
+        Manage bilingual About text (EN/DE) in a modal editor.
+      </p>
+      @if (!loadingAboutContent && !canManageAboutContent) {
+      <p class="about-admin-error">{{ aboutContentErrorMessage }}</p>
+      }
     </article>
 
   </div>
@@ -254,11 +270,6 @@
         <span>This project will be removed permanently and cannot be restored.</span>
       </div>
 
-      <div class="delete-preview">
-        <div class="delete-preview__label">Project to delete</div>
-        <div class="delete-preview__name">{{ getDeleteProjectDisplayName() }}</div>
-      </div>
-
       <div class="form-actions">
         <button
           type="button"
@@ -273,6 +284,135 @@
           class="btn-secondary"
           (click)="closeDeleteProjectModal()"
           [disabled]="deletingProject"
+        >
+          Cancel
+        </button>
+      </div>
+    </article>
+    </section>
+    }
+
+    @if (showAboutModal) {
+    <div
+      class="modal-backdrop"
+      (click)="closeAboutModal()"
+    ></div>
+    <section class="modal-window" role="dialog" aria-modal="true">
+    <article class="modal-card modal-card--about">
+      <div class="modal-card__header">
+        <h3>About text</h3>
+        <button
+          type="button"
+          class="ghost-btn ghost-btn--icon"
+          (click)="closeAboutModal()"
+          aria-label="Close about dialog"
+        >
+          <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+            <path d="M3.5 3.5L12.5 12.5M12.5 3.5L3.5 12.5" />
+          </svg>
+          <span class="admin-sr-only">Close</span>
+        </button>
+      </div>
+
+      @if (loadingAboutContent) {
+      <p>Loading About text...</p>
+      } @else if (!canManageAboutContent) {
+      <p class="about-admin-error">{{ aboutContentErrorMessage }}</p>
+      } @else {
+        @if (aboutRows[0]; as row) {
+        <section class="about-admin-row">
+          <div class="form-grid">
+            <div class="form-field">
+              <label [for]="'about-en-' + row.index">About text (EN)</label>
+              <textarea
+                [id]="'about-en-' + row.index"
+                [name]="'aboutEn' + row.index"
+                [(ngModel)]="row.enValue"
+                placeholder="English About line"
+              ></textarea>
+            </div>
+            <div class="form-field">
+              <label [for]="'about-de-' + row.index">About text (DE)</label>
+              <textarea
+                [id]="'about-de-' + row.index"
+                [name]="'aboutDe' + row.index"
+                [(ngModel)]="row.deValue"
+                placeholder="Deutsche About-Zeile"
+              ></textarea>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button
+              type="button"
+              class="btn-primary"
+              (click)="saveAboutRow(row)"
+              [disabled]="row.saving"
+            >
+              {{ row.saving ? "Saving..." : "Save text" }}
+            </button>
+            <button
+              type="button"
+              class="btn-danger"
+              (click)="requestDeleteAboutRow(row)"
+              [disabled]="row.saving"
+            >
+              Delete text
+            </button>
+          </div>
+        </section>
+        }
+      }
+    </article>
+    </section>
+    }
+
+    @if (showDeleteAboutModal) {
+    <div
+      class="modal-backdrop"
+      (click)="closeDeleteAboutModal()"
+    ></div>
+    <section
+      class="modal-window"
+      role="dialog"
+      aria-modal="true"
+    >
+    <article class="modal-card modal-card--compact">
+      <div class="modal-card__header">
+        <h3>Delete About text</h3>
+        <button
+          type="button"
+          class="ghost-btn ghost-btn--icon"
+          (click)="closeDeleteAboutModal()"
+          [disabled]="deletingAbout"
+          aria-label="Close delete about dialog"
+        >
+          <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+            <path d="M3.5 3.5L12.5 12.5M12.5 3.5L3.5 12.5" />
+          </svg>
+          <span class="admin-sr-only">Close</span>
+        </button>
+      </div>
+
+      <div class="danger-callout">
+        <strong>Warning:</strong>
+        <span>The About text (EN and DE) will be removed.</span>
+      </div>
+
+      <div class="form-actions">
+        <button
+          type="button"
+          class="btn-danger"
+          (click)="confirmDeleteAboutRow()"
+          [disabled]="deletingAbout"
+        >
+          {{ deletingAbout ? "Deleting..." : "Delete" }}
+        </button>
+        <button
+          type="button"
+          class="btn-secondary"
+          (click)="closeDeleteAboutModal()"
+          [disabled]="deletingAbout"
         >
           Cancel
         </button>

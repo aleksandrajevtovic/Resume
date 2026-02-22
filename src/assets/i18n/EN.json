@@ -6,15 +6,6 @@
     "RESUME": "Resume",
     "RESUME_FILE": "./assets/files/CV_Aleksandra_Jevtovic_en.pdf"
   },
-  "ABOUT": {
-    "SPAN1": " Hey, I’m Aleksandra, a Software Developer based in Hamburg, Germany.",
-    "SPAN2": " I design and build robust, scalable software ",
-    "SPAN3": " with a focus on clarity, structure, and long-term maintainability. ",
-    "SPAN4": " I enjoy turning complex problems into clean, efficient solutions ",
-    "SPAN5": " and creating systems that are built to last. ",
-    "SPAN6": " I care about thoughtful architecture, performance, ",
-    "SPAN7": " and writing code that makes sense, today and in the future. "
-  },
   "PROJECTS": {
     "HEADLINE": "Selected projects",
     "TITLEО": "SIUVS",

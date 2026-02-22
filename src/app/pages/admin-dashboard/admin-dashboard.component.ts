@@ -1,9 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Component, HostListener, Inject, OnDestroy, OnInit } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { TranslateService } from '@ngx-translate/core';
+import { forkJoin, Observable } from 'rxjs';
+import { ContentBlock } from '../../models/content-block';
 import { Project } from '../../models/project';
 import { AuthService } from '../../services/auth.service';
+import { ContentService } from '../../services/content.service';
 import { ProjectService } from '../../services/project.service';
+
+interface AboutContentRow {
+  index: number;
+  enId?: string;
+  deId?: string;
+  enValue: string;
+  deValue: string;
+  saving?: boolean;
+}
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -11,7 +24,7 @@ import { ProjectService } from '../../services/project.service';
   styleUrls: ['./admin-dashboard.component.css'],
   standalone: false,
 })
-export class AdminDashboardComponent implements OnInit {
+export class AdminDashboardComponent implements OnInit, OnDestroy {
   projects: Project[] = [];
   errorMessage = '';
   successMessage = '';
@@ -21,17 +34,28 @@ export class AdminDashboardComponent implements OnInit {
   uploadingImage = false;
   uploadStatus = '';
   selectedImageFile: File | null = null;
+  contentBlocks: ContentBlock[] = [];
+  aboutRows: AboutContentRow[] = [];
+  loadingAboutContent = false;
+  canManageAboutContent = true;
+  aboutContentErrorMessage = '';
 
   projectForm: Project = this.emptyProject();
   editingProjectId: string | null = null;
   techStackInput = '';
   showProjectModal = false;
   showDeleteProjectModal = false;
+  showAboutModal = false;
+  showDeleteAboutModal = false;
   projectToDelete: Project | null = null;
+  aboutRowToDelete: AboutContentRow | null = null;
+  deletingAbout = false;
 
   constructor(
+    @Inject(DOCUMENT) private readonly document: Document,
     private readonly authService: AuthService,
     private readonly projectService: ProjectService,
+    private readonly contentService: ContentService,
     private readonly translate: TranslateService
   ) {}
 
@@ -41,16 +65,81 @@ export class AdminDashboardComponent implements OnInit {
     this.loadAll();
   }
 
+  ngOnDestroy(): void {
+    this.unlockBodyScroll();
+  }
+
+  @HostListener('window:keydown.escape', ['$event'])
+  onEscapeKey(event: KeyboardEvent): void {
+    event.preventDefault();
+
+    if (this.showDeleteAboutModal && !this.deletingAbout) {
+      this.closeDeleteAboutModal();
+      return;
+    }
+
+    if (this.showDeleteProjectModal && !this.deletingProject) {
+      this.closeDeleteProjectModal();
+      return;
+    }
+
+    if (this.showAboutModal) {
+      this.closeAboutModal();
+      return;
+    }
+
+    if (this.showProjectModal) {
+      this.closeProjectModal();
+    }
+  }
+
   loadAll(): void {
+    this.loadingAboutContent = true;
+    this.aboutContentErrorMessage = '';
+    this.canManageAboutContent = true;
     this.projectService.getAdminProjects().subscribe({
       next: (projects) => (this.projects = projects),
       error: () => (this.errorMessage = 'Failed to load projects.'),
+    });
+    this.contentService.getAdminContentBlocks().subscribe({
+      next: (blocks) => {
+        this.contentBlocks = blocks;
+        const mappedRows = this.mapAboutRowsFromBlocks(blocks);
+        this.aboutRows = mappedRows.length
+          ? [mappedRows[0]]
+          : [
+              {
+                index: 1,
+                enValue: '',
+                deValue: '',
+              },
+            ];
+        this.loadingAboutContent = false;
+      },
+      error: () => {
+        this.loadingAboutContent = false;
+        this.canManageAboutContent = false;
+        this.aboutRows = [];
+        this.aboutContentErrorMessage =
+          'About content management is not authorized (403). Enable /api/admin/content in backend admin security.';
+      },
     });
   }
 
   openAddProjectModal(): void {
     this.resetProjectForm();
     this.showProjectModal = true;
+    this.syncBodyScrollLock();
+  }
+
+  openAboutModal(): void {
+    this.showAboutModal = true;
+    this.syncBodyScrollLock();
+  }
+
+  closeAboutModal(): void {
+    this.showAboutModal = false;
+    this.syncBodyScrollLock();
   }
 
   openEditProjectModal(project: Project): void {
@@ -75,6 +164,7 @@ export class AdminDashboardComponent implements OnInit {
     };
     this.techStackInput = project.techStack.join(', ');
     this.showProjectModal = true;
+    this.syncBodyScrollLock();
     this.uploadStatus = '';
     this.selectedImageFile = null;
 
@@ -97,6 +187,7 @@ export class AdminDashboardComponent implements OnInit {
     this.uploadStatus = '';
     this.selectedImageFile = null;
     this.resetProjectForm();
+    this.syncBodyScrollLock();
   }
 
   saveProject(): void {
@@ -116,6 +207,7 @@ export class AdminDashboardComponent implements OnInit {
             this.saving = false;
             this.showProjectModal = false;
             this.resetProjectForm();
+            this.syncBodyScrollLock();
             this.setSuccessMessage('Project updated successfully.');
             this.loadAll();
           },
@@ -132,6 +224,7 @@ export class AdminDashboardComponent implements OnInit {
         this.saving = false;
         this.showProjectModal = false;
         this.resetProjectForm();
+        this.syncBodyScrollLock();
         this.setSuccessMessage('Project added successfully.');
         this.loadAll();
       },
@@ -156,11 +249,13 @@ export class AdminDashboardComponent implements OnInit {
   requestDeleteProject(project: Project): void {
     this.projectToDelete = project;
     this.showDeleteProjectModal = true;
+    this.syncBodyScrollLock();
   }
 
   closeDeleteProjectModal(): void {
     this.projectToDelete = null;
     this.showDeleteProjectModal = false;
+    this.syncBodyScrollLock();
   }
 
   confirmDeleteProject(): void {
@@ -324,6 +419,127 @@ export class AdminDashboardComponent implements OnInit {
     this.errorMessage = '';
   }
 
+  saveAboutRow(row: AboutContentRow): void {
+    if (!this.canManageAboutContent) {
+      this.errorMessage = 'About content endpoint is not authorized.';
+      return;
+    }
+
+    this.clearMessages();
+
+    const enValue = row.enValue.trim();
+    const deValue = row.deValue.trim();
+
+    if (!enValue || !deValue) {
+      this.closeAboutModal();
+      this.errorMessage = 'Both English and German About text are required.';
+      return;
+    }
+
+    row.saving = true;
+    this.closeAboutModal();
+
+    const enKey = this.buildAboutContentKey('EN', row.index);
+    const deKey = this.buildAboutContentKey('DE', row.index);
+
+    const enRequest = row.enId
+      ? this.contentService.updateContentBlock(row.enId, { key: enKey, value: enValue })
+      : this.contentService.createContentBlock({ key: enKey, value: enValue });
+
+    const deRequest = row.deId
+      ? this.contentService.updateContentBlock(row.deId, { key: deKey, value: deValue })
+      : this.contentService.createContentBlock({ key: deKey, value: deValue });
+
+    forkJoin([enRequest, deRequest]).subscribe({
+      next: ([enBlock, deBlock]) => {
+        row.enId = enBlock.id;
+        row.deId = deBlock.id;
+        row.enValue = enBlock.value;
+        row.deValue = deBlock.value;
+        row.saving = false;
+        this.setSuccessMessage('About text saved successfully.');
+        this.loadAll();
+      },
+      error: () => {
+        row.saving = false;
+        this.errorMessage = 'Failed to save About text. Check backend /api/admin/content permissions.';
+      },
+    });
+  }
+
+  requestDeleteAboutRow(row: AboutContentRow): void {
+    if (!this.canManageAboutContent) {
+      this.errorMessage = 'About content endpoint is not authorized.';
+      return;
+    }
+
+    this.aboutRowToDelete = row;
+    this.showDeleteAboutModal = true;
+    this.syncBodyScrollLock();
+  }
+
+  closeDeleteAboutModal(): void {
+    if (this.deletingAbout) {
+      return;
+    }
+    this.aboutRowToDelete = null;
+    this.showDeleteAboutModal = false;
+    this.syncBodyScrollLock();
+  }
+
+  confirmDeleteAboutRow(): void {
+    if (!this.aboutRowToDelete) {
+      return;
+    }
+
+    this.deleteAboutRow(this.aboutRowToDelete);
+  }
+
+  private deleteAboutRow(row: AboutContentRow): void {
+    if (!this.canManageAboutContent) {
+      this.errorMessage = 'About content endpoint is not authorized.';
+      return;
+    }
+
+    this.clearMessages();
+    this.deletingAbout = true;
+    this.showDeleteAboutModal = false;
+    this.showAboutModal = false;
+    this.syncBodyScrollLock();
+
+    const requests: Observable<void>[] = [];
+    if (row.enId) {
+      requests.push(this.contentService.deleteContentBlock(row.enId));
+    }
+    if (row.deId) {
+      requests.push(this.contentService.deleteContentBlock(row.deId));
+    }
+
+    if (!requests.length) {
+      this.aboutRows = this.aboutRows.filter((item) => item !== row);
+      this.aboutRowToDelete = null;
+      this.deletingAbout = false;
+      return;
+    }
+
+    row.saving = true;
+    forkJoin(requests).subscribe({
+      next: () => {
+        row.saving = false;
+        this.aboutRowToDelete = null;
+        this.deletingAbout = false;
+        this.setSuccessMessage('About text deleted.');
+        this.loadAll();
+      },
+      error: () => {
+        row.saving = false;
+        this.aboutRowToDelete = null;
+        this.deletingAbout = false;
+        this.errorMessage = 'Failed to delete About text. Check backend /api/admin/content permissions.';
+      },
+    });
+  }
+
   private setSuccessMessage(message: string): void {
     this.successMessage = message;
     if (this.messageTimerId) {
@@ -368,6 +584,64 @@ export class AdminDashboardComponent implements OnInit {
     }
     this.projectForm.name = this.projectForm.titleEn?.trim() || this.projectForm.name || '';
     this.projectForm.description = this.projectForm.descriptionEn?.trim() || this.projectForm.description || '';
+  }
+
+  private mapAboutRowsFromBlocks(blocks: ContentBlock[]): AboutContentRow[] {
+    const rowMap = new Map<number, AboutContentRow>();
+
+    for (const block of blocks) {
+      const parsed = this.parseAboutContentKey(block.key);
+      if (!parsed) {
+        continue;
+      }
+
+      const row =
+        rowMap.get(parsed.index) ??
+        {
+          index: parsed.index,
+          enValue: '',
+          deValue: '',
+        };
+
+      if (parsed.lang === 'EN') {
+        row.enId = block.id;
+        row.enValue = block.value ?? '';
+      } else {
+        row.deId = block.id;
+        row.deValue = block.value ?? '';
+      }
+
+      rowMap.set(parsed.index, row);
+    }
+
+    return Array.from(rowMap.values()).sort((a, b) => a.index - b.index);
+  }
+
+  private parseAboutContentKey(key: string): { lang: 'EN' | 'DE'; index: number } | null {
+    const match = key.match(/^ABOUT\.(EN|DE)\.SPAN(\d+)$/);
+    if (!match) {
+      return null;
+    }
+
+    return {
+      lang: match[1] as 'EN' | 'DE',
+      index: Number(match[2]),
+    };
+  }
+
+  buildAboutContentKey(lang: 'EN' | 'DE', index: number): string {
+    return `ABOUT.${lang}.SPAN${index}`;
+  }
+
+  private syncBodyScrollLock(): void {
+    const hasOpenModal =
+      this.showProjectModal || this.showDeleteProjectModal || this.showAboutModal || this.showDeleteAboutModal;
+
+    this.document.body.style.overflow = hasOpenModal ? 'hidden' : '';
+  }
+
+  private unlockBodyScroll(): void {
+    this.document.body.style.overflow = '';
   }
 
 }
