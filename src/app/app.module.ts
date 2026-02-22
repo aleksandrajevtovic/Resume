@@ -13,6 +13,7 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
 import { HeroComponent } from './components/hero/hero.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
+import { PreloaderComponent } from './components/preloader/preloader.component';
 import { AboutComponent } from './components/about/about.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { ContactComponent } from './components/contact/contact.component';
@@ -27,6 +28,7 @@ import { authTokenInterceptor } from './interceptors/auth-token.interceptor';
         HomeComponent,
         HeroComponent,
         NavigationComponent,
+        PreloaderComponent,
         AboutComponent,
         FooterComponent,
         ContactComponent,

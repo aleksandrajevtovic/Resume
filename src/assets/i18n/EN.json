@@ -7,15 +7,13 @@
     "RESUME_FILE": "./assets/files/CV_Aleksandra_Jevtovic_en.pdf"
   },
   "ABOUT": {
-    "SPAN1": "Hey I am Aleksandra, a creative frontend web developer from Serbia, living in Hamburg, Germany.",
-    "SPAN2": " With longevity and sustainability in mind,",
-    "SPAN3": " I strive to create functional and valuable user experiences",
-    "SPAN4": " that positively impact viewers and are memorable.",
-    "SPAN5": " I have a fondness for clean designs,",
-    "SPAN6": " subtle interactions",
-    "SPAN7": " and interactive development.",
-    "SPAN8": " I am curious by nature and am constantly working",
-    "SPAN9": " to improve my skills step by step."
+    "SPAN1": " Hey, I’m Aleksandra, a Software Developer based in Hamburg, Germany.",
+    "SPAN2": " I design and build robust, scalable software ",
+    "SPAN3": " with a focus on clarity, structure, and long-term maintainability. ",
+    "SPAN4": " I enjoy turning complex problems into clean, efficient solutions ",
+    "SPAN5": " and creating systems that are built to last. ",
+    "SPAN6": " I care about thoughtful architecture, performance, ",
+    "SPAN7": " and writing code that makes sense, today and in the future. "
   },
   "PROJECTS": {
     "HEADLINE": "Selected projects",
@@ -33,8 +31,8 @@
     "DESC5": "As an interior design studio built on creativity, collaboration and unparalleled service, established in 2013, Studio Jablan experience is focused on crafting the ideal environment for each client. This is a personal project."
   },
   "CONTACT": {
-    "P1": "If you have any questions or want to work with me,",
-    "P2": "please drop me an email:",
+    "P1": "If you’d like to collaborate or discuss a project,",
+    "P2": "feel free to reach out.",
     "BTN": "Contact me"
   }
 }

@@ -7,15 +7,13 @@
     "RESUME_FILE": "./assets/files/CV_Aleksandra_Jevtovic_de.pdf"
   },
   "ABOUT": {
-    "SPAN1":"Hallo, ich bin Aleksandra, eine kreative Frontend-Entwicklerin aus Serbien",
-    "SPAN2":" und lebe in Hamburg, Deutschland.",
-    "SPAN3":" Mit Blick auf die Langlebigkeit und Nachhaltigkeit",
-    "SPAN4":" bemühe ich mich, funktionale und wertvolle Benutzer­erfahrungen zu schaffen,",
-    "SPAN5":" die sich positiv auf die Betrachter auswirken und im Gedächtnis bleiben.",
-    "SPAN6":" Ich habe eine Vorliebe für klare Designs,",
-    "SPAN7":" subtile Interaktionen",
-    "SPAN8":" und interaktive Entwicklung.",
-    "SPAN9":" Meine Neugier treibt mich an, stetig meine Fähigkeiten zu verfeinern."
+    "SPAN1":" Hey, ich bin Aleksandra, Softwareentwicklerin mit Sitz in Hamburg.",
+    "SPAN2":" Ich konzipiere und entwickle robuste, skalierbare Software ",
+    "SPAN3":" mit Fokus auf Klarheit, Struktur und langfristige Wartbarkeit. ",
+    "SPAN4":" Es begeistert mich, omplexe Anforderungen in saubere, ",
+    "SPAN5":" effiziente Lösungen zu übersetzen und Systeme zu gestalten, ",
+    "SPAN6":" die nachhaltig funktionieren. Mir sind durchdachte Architektur, ",
+    "SPAN7":" Performance und verständlicher Code wichtig,  heute und in Zukunft. "
   },
    "PROJECTS": {
     "HEADLINE":"Ausgewählte Projekte",
@@ -33,9 +31,9 @@
     "DESC5": "Als Innenarchitekturstudio, das auf Kreativität, Zusammenarbeit und beispiellosem Service basiert und 2013 gegründet wurde, konzentriert sich Studio Jablan auf die Schaffung der idealen Umgebung für jeden Kunden. Das ist ein persönliches Projekt."
     },
   "CONTACT": {
-    "P1":"Wenn Sie Fragen haben oder mit mir arbeiten möchten,",
-    "P2":"schreiben Sie mir bitte eine E-Mail:",
-    "BTN":"Kontaktiere mich"
+    "P1":"Wenn Sie an einer Zusammenarbeit interessiert sind oder ein Projekt besprechen möchten, ",
+    "P2":"freue ich mich über Ihre Nachricht.",
+    "BTN":"Kontakt aufnehmen"
   }
 }
 
