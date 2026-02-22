@@ -3,6 +3,7 @@ import { Component, HostListener, Inject, OnDestroy, OnInit } from '@angular/cor
 import { HttpErrorResponse } from '@angular/common/http';
 import { TranslateService } from '@ngx-translate/core';
 import { forkJoin, Observable } from 'rxjs';
+import gsap from 'gsap';
 import { ContentBlock } from '../../models/content-block';
 import { Project } from '../../models/project';
 import { AuthService } from '../../services/auth.service';
@@ -26,6 +27,7 @@ interface AboutContentRow {
 })
 export class AdminDashboardComponent implements OnInit, OnDestroy {
   readonly sidebarBreakpoint = 900;
+  isPageLoading = true;
   sidebarExpanded = true;
   isMobileSidebar = false;
   projects: Project[] = [];
@@ -53,6 +55,11 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
   projectToDelete: Project | null = null;
   aboutRowToDelete: AboutContentRow | null = null;
   deletingAbout = false;
+  private preloaderRafId?: number;
+  private preloadTl = gsap.timeline();
+  private originalBodyOverflow = '';
+  private originalHtmlOverflow = '';
+  private preloadScrollUnlocked = false;
 
   constructor(
     @Inject(DOCUMENT) private readonly document: Document,
@@ -63,6 +70,8 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.lockPreloadScroll();
+    this.preloaderRafId = requestAnimationFrame(() => this.preloaderAnim());
     const activeLang = localStorage.getItem('lang') || 'EN';
     this.translate.use(activeLang);
     this.syncSidebarLayout(true);
@@ -70,6 +79,11 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    if (this.preloaderRafId) {
+      cancelAnimationFrame(this.preloaderRafId);
+    }
+    this.preloadTl.kill();
+    this.unlockPreloadScroll();
     this.unlockBodyScroll();
   }
 
@@ -664,4 +678,83 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
     this.isMobileSidebar = nextIsMobile;
   }
 
+  private preloaderAnim(): void {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    gsap.set('.admin-dashboard-shell', { opacity: 0 });
+    gsap.set('.admin-topbar', {
+      opacity: 0,
+      y: reduceMotion ? 0 : -12,
+    });
+    gsap.set('.admin-layout', {
+      opacity: 0,
+      y: reduceMotion ? 0 : 14,
+    });
+
+    this.preloadTl.clear();
+    this.preloadTl.to('.wave-animation', {
+      delay: reduceMotion ? 0.95 : 1.95,
+      duration: 0.35,
+      opacity: 0,
+    });
+    this.preloadTl.to('.preloader', {
+      delay: 0.25,
+      duration: reduceMotion ? 0.15 : 0.24,
+      opacity: 0,
+      ease: 'power2.out',
+    });
+    this.preloadTl.to(
+      '.admin-dashboard-shell',
+      {
+        duration: reduceMotion ? 0.18 : 0.4,
+        opacity: 1,
+        ease: 'power2.out',
+      },
+      '<'
+    );
+    this.preloadTl.to(
+      '.admin-topbar',
+      {
+        duration: reduceMotion ? 0.18 : 0.38,
+        opacity: 1,
+        y: 0,
+        ease: 'power2.out',
+      },
+      '<+0.14'
+    );
+    this.preloadTl.to(
+      '.admin-layout',
+      {
+        duration: reduceMotion ? 0.2 : 0.48,
+        opacity: 1,
+        y: 0,
+        ease: 'power3.out',
+      },
+      '<+0.05'
+    );
+    this.preloadTl.call(() => {
+      this.isPageLoading = false;
+      this.unlockPreloadScroll();
+    });
+  }
+
+  private lockPreloadScroll(): void {
+    const body = this.document.body;
+    const html = this.document.documentElement;
+
+    this.originalBodyOverflow = body.style.overflow;
+    this.originalHtmlOverflow = html.style.overflow;
+    body.style.overflow = 'hidden';
+    html.style.overflow = 'hidden';
+  }
+
+  private unlockPreloadScroll(): void {
+    if (this.preloadScrollUnlocked) {
+      return;
+    }
+
+    this.preloadScrollUnlocked = true;
+    this.document.body.style.overflow = this.originalBodyOverflow;
+    this.document.documentElement.style.overflow = this.originalHtmlOverflow;
+  }
 }

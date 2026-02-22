@@ -1,4 +1,8 @@
-<section class="admin-login">
+@if (isPageLoading) {
+  <app-preloader></app-preloader>
+}
+
+<section class="admin-login" [class.admin-login--ready]="!isPageLoading">
   <a class="admin-login__logo" routerLink="/">
     <span class="admin-login__logo-name">Aleksandra Jevtovic</span>
   </a>
@@ -35,11 +39,13 @@
         </button>
       </div>
 
-      <button type="submit" [disabled]="isLoading">
+      <button type="submit" class="admin-login__submit" [disabled]="isLoading">
         {{ isLoading ? "Signing in..." : "Sign in" }}
       </button>
     </form>
 
-    <p *ngIf="errorMessage" class="admin-login__error">{{ errorMessage }}</p>
+    @if (errorMessage) {
+      <p class="admin-login__error">{{ errorMessage }}</p>
+    }
   </div>
 </section>

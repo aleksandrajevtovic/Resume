@@ -1,4 +1,8 @@
-<section class="admin-dashboard-shell">
+@if (isPageLoading) {
+  <app-preloader></app-preloader>
+}
+
+<section class="admin-dashboard-shell" [class.admin-dashboard-shell--ready]="!isPageLoading">
   <header class="admin-topbar">
     <a class="admin-topbar__logo" routerLink="/">
       <span class="admin-topbar__logo-name">Aleksandra Jevtovic</span>
