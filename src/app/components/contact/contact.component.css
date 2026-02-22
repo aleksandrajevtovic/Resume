@@ -16,7 +16,9 @@
   line-height: 1;
 }
 
-
+.contact .heading a {
+  white-space: pre-line;
+}
 
 @media (min-width: 768px) {
   .contact {

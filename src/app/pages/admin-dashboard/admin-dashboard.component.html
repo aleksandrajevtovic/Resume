@@ -1,24 +1,35 @@
-<section class="admin-dashboard">
-  <header class="admin-dashboard__header">
-    <h1>Admin Dashboard</h1>
-    <div class="admin-dashboard__header-actions">
-      <a class="header-link" routerLink="/">Home</a>
-      <button type="button" (click)="logout()">Logout</button>
-    </div>
+<section class="admin-dashboard-shell">
+  <header class="admin-topbar">
+    <a class="admin-topbar__logo" routerLink="/">
+      <span class="admin-topbar__logo-name">Aleksandra Jevtovic</span>
+    </a>
+    <nav class="admin-topbar__nav" aria-label="Admin navigation">
+      <a class="admin-topbar__link" routerLink="/">Home</a>
+      <button type="button" class="admin-topbar__button" (click)="logout()">Logout</button>
+    </nav>
   </header>
 
-  <div *ngIf="successMessage" class="admin-alert admin-alert--success" role="status" aria-live="polite">
+  <section class="admin-dashboard">
+    <header class="admin-dashboard__header">
+      <h1>Admin Dashboard</h1>
+    </header>
+
+  @if (successMessage) {
+  <div class="admin-alert admin-alert--success" role="status" aria-live="polite">
     <span>{{ successMessage }}</span>
     <button type="button" class="admin-alert__close" (click)="dismissSuccessMessage()" aria-label="Close message">
       ×
     </button>
   </div>
-  <div *ngIf="errorMessage" class="admin-alert admin-alert--error" role="alert">
+  }
+  @if (errorMessage) {
+  <div class="admin-alert admin-alert--error" role="alert">
     <span>{{ errorMessage }}</span>
     <button type="button" class="admin-alert__close" (click)="dismissErrorMessage()" aria-label="Close message">
       ×
     </button>
   </div>
+  }
 
   <div class="admin-dashboard__grid">
     <article class="admin-card">
@@ -30,7 +41,8 @@
       </div>
 
       <ul class="item-list">
-        <li *ngFor="let project of projects">
+        @for (project of projects; track project.id ?? project.sortOrder) {
+        <li>
           <div>
             <strong>{{ getProjectDisplayName(project) }}</strong>
             <span>#{{ project.sortOrder }}</span>
@@ -40,21 +52,32 @@
             <button type="button" (click)="requestDeleteProject(project)">Delete</button>
           </div>
         </li>
+        }
       </ul>
     </article>
 
   </div>
 
-  <div
-    *ngIf="showProjectModal"
-    class="modal-backdrop"
-    (click)="closeProjectModal()"
-  ></div>
-  <section *ngIf="showProjectModal" class="modal-window" role="dialog" aria-modal="true">
+    @if (showProjectModal) {
+    <div
+      class="modal-backdrop"
+      (click)="closeProjectModal()"
+    ></div>
+    <section class="modal-window" role="dialog" aria-modal="true">
     <article class="modal-card">
       <div class="modal-card__header">
         <h3>{{ editingProjectId ? "Edit project" : "Add project" }}</h3>
-        <button type="button" class="ghost-btn" (click)="closeProjectModal()">Close</button>
+        <button
+          type="button"
+          class="ghost-btn ghost-btn--icon"
+          (click)="closeProjectModal()"
+          aria-label="Close project dialog"
+        >
+          <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+            <path d="M3.5 3.5L12.5 12.5M12.5 3.5L3.5 12.5" />
+          </svg>
+          <span class="admin-sr-only">Close</span>
+        </button>
       </div>
       <form
         #projectNgForm="ngForm"
@@ -149,7 +172,9 @@
               Copy path
             </button>
           </div>
-          <small *ngIf="uploadStatus">{{ uploadStatus }}</small>
+          @if (uploadStatus) {
+          <small>{{ uploadStatus }}</small>
+          }
           </div>
           <div class="form-field">
             <label for="project-tech">Tech stack</label>
@@ -194,29 +219,33 @@
         </div>
       </form>
     </article>
-  </section>
+    </section>
+    }
 
-  <div
-    *ngIf="showDeleteProjectModal"
-    class="modal-backdrop"
-    (click)="!deletingProject && closeDeleteProjectModal()"
-  ></div>
-  <section
-    *ngIf="showDeleteProjectModal"
-    class="modal-window"
-    role="dialog"
-    aria-modal="true"
-  >
+    @if (showDeleteProjectModal) {
+    <div
+      class="modal-backdrop"
+      (click)="!deletingProject && closeDeleteProjectModal()"
+    ></div>
+    <section
+      class="modal-window"
+      role="dialog"
+      aria-modal="true"
+    >
     <article class="modal-card modal-card--compact">
       <div class="modal-card__header">
         <h3>Delete project</h3>
         <button
           type="button"
-          class="ghost-btn"
+          class="ghost-btn ghost-btn--icon"
           (click)="closeDeleteProjectModal()"
           [disabled]="deletingProject"
+          aria-label="Close delete project dialog"
         >
-          Close
+          <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+            <path d="M3.5 3.5L12.5 12.5M12.5 3.5L3.5 12.5" />
+          </svg>
+          <span class="admin-sr-only">Close</span>
         </button>
       </div>
 
@@ -249,5 +278,8 @@
         </button>
       </div>
     </article>
+    </section>
+    }
   </section>
 </section>
+<app-footer [showSocial]="false" [centered]="true"></app-footer>

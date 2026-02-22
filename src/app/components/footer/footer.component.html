@@ -1,15 +1,16 @@
-<footer class="footer grid mt-20">
+<footer class="footer grid mt-20" [class.footer--centered]="centered">
   <div
     class="container-w-100 mx-auto flex items-center flex-col-reverse md:flex-row border-top px-4"
+    [class.footer__inner--centered]="centered"
   >
-    <div class="copyright grow mt-6 md:mt-0">
+    <div class="copyright mt-6 md:mt-0" [class.grow]="!centered" [class.copyright--centered]="centered">
       <p
         class="uppercase text-center md:text-left text-sm sm:text-md md:text-lg font-extralight"
       >
         {{ currentYear }}©Aleksandra Jevtovic - All rights reserved
       </p>
     </div>
-    <div class="social round to-diamond mb-4 md:mb-0 mt-12 md:mt-0">
+    <div *ngIf="showSocial" class="social round to-diamond mb-4 md:mb-0 mt-12 md:mt-0">
       <a
         cursor-size="1.5rem"
         href="https://www.linkedin.com/in/aleksandra-jevtovic/"

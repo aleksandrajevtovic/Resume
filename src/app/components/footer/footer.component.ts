@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
     selector: 'app-footer',
@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
     standalone: false
 })
 export class FooterComponent implements OnInit {
+  @Input() centered = false;
+  @Input() showSocial = true;
   currentYear: number;
 
   constructor() {
