@@ -19,6 +19,8 @@ import { FooterComponent } from './components/footer/footer.component';
 import { ContactComponent } from './components/contact/contact.component';
 import { WorkComponent } from './components/work/work.component';
 import { AmbientShapesComponent } from './components/ambient-shapes/ambient-shapes.component';
+import { AdminSidebarComponent } from './components/admin-sidebar/admin-sidebar.component';
+import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.component';
 import { ErrorComponent } from './pages/error/error.component';
 import { AdminLoginComponent } from './pages/admin-login/admin-login.component';
 import { AdminDashboardComponent } from './pages/admin-dashboard/admin-dashboard.component';
@@ -35,6 +37,8 @@ import { authTokenInterceptor } from './interceptors/auth-token.interceptor';
         ContactComponent,
         WorkComponent,
         AmbientShapesComponent,
+        AdminSidebarComponent,
+        ConfirmModalComponent,
         ErrorComponent,
         AdminLoginComponent,
         AdminDashboardComponent,

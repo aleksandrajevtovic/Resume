@@ -19,9 +19,35 @@
   text-align: center !important;
 }
 
+.footer--compact {
+  height: auto;
+  min-height: 0;
+  margin-top: 2rem !important;
+}
+
+.footer--compact .container-w-100 {
+  padding-top: 0.9rem;
+  padding-bottom: 0.9rem;
+}
+
+.footer--compact .copyright {
+  margin-top: 0 !important;
+}
+
+.footer--compact .copyright p {
+  font-size: 0.9rem !important;
+  line-height: 1.35;
+}
+
 @media (min-width: 768px) {
   .footer {
     height: 20vh;
+  }
+}
+
+@media (min-width: 768px) {
+  .footer--compact {
+    height: auto;
   }
 }
 

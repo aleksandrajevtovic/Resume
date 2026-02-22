@@ -3,13 +3,21 @@
     <a class="admin-topbar__logo" routerLink="/">
       <span class="admin-topbar__logo-name">Aleksandra Jevtovic</span>
     </a>
-    <nav class="admin-topbar__nav" aria-label="Admin navigation">
-      <a class="admin-topbar__link" routerLink="/">Home</a>
-      <button type="button" class="admin-topbar__button" (click)="logout()">Logout</button>
-    </nav>
   </header>
 
-  <section class="admin-dashboard">
+  <div
+    class="admin-layout"
+    [class.admin-layout--sidebar-collapsed]="!sidebarExpanded"
+    [class.admin-layout--mobile]="isMobileSidebar"
+  >
+    <app-admin-sidebar
+      [expanded]="sidebarExpanded"
+      [isMobile]="isMobileSidebar"
+      (toggleRequested)="toggleSidebar()"
+      (logoutRequested)="logout()"
+    ></app-admin-sidebar>
+
+    <section class="admin-dashboard">
     <header class="admin-dashboard__header">
       <h1>Admin Dashboard</h1>
     </header>
@@ -238,59 +246,18 @@
     </section>
     }
 
-    @if (showDeleteProjectModal) {
-    <div
-      class="modal-backdrop"
-      (click)="!deletingProject && closeDeleteProjectModal()"
-    ></div>
-    <section
-      class="modal-window"
-      role="dialog"
-      aria-modal="true"
-    >
-    <article class="modal-card modal-card--compact">
-      <div class="modal-card__header">
-        <h3>Delete project</h3>
-        <button
-          type="button"
-          class="ghost-btn ghost-btn--icon"
-          (click)="closeDeleteProjectModal()"
-          [disabled]="deletingProject"
-          aria-label="Close delete project dialog"
-        >
-          <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-            <path d="M3.5 3.5L12.5 12.5M12.5 3.5L3.5 12.5" />
-          </svg>
-          <span class="admin-sr-only">Close</span>
-        </button>
-      </div>
-
-      <div class="danger-callout">
-        <strong>Warning:</strong>
-        <span>This project will be removed permanently and cannot be restored.</span>
-      </div>
-
-      <div class="form-actions">
-        <button
-          type="button"
-          class="btn-danger"
-          (click)="confirmDeleteProject()"
-          [disabled]="deletingProject"
-        >
-          {{ deletingProject ? "Deleting..." : "Delete" }}
-        </button>
-        <button
-          type="button"
-          class="btn-secondary"
-          (click)="closeDeleteProjectModal()"
-          [disabled]="deletingProject"
-        >
-          Cancel
-        </button>
-      </div>
-    </article>
-    </section>
-    }
+    <app-confirm-modal
+      [open]="showDeleteProjectModal"
+      title="Delete project"
+      warningTitle="Warning:"
+      message="This project will be removed permanently and cannot be restored."
+      [confirmLabel]="deletingProject ? 'Deleting...' : 'Delete'"
+      cancelLabel="Cancel"
+      [busy]="deletingProject"
+      [closeDisabled]="deletingProject"
+      (confirm)="confirmDeleteProject()"
+      (close)="closeDeleteProjectModal()"
+    ></app-confirm-modal>
 
     @if (showAboutModal) {
     <div
@@ -367,59 +334,19 @@
     </section>
     }
 
-    @if (showDeleteAboutModal) {
-    <div
-      class="modal-backdrop"
-      (click)="closeDeleteAboutModal()"
-    ></div>
-    <section
-      class="modal-window"
-      role="dialog"
-      aria-modal="true"
-    >
-    <article class="modal-card modal-card--compact">
-      <div class="modal-card__header">
-        <h3>Delete About text</h3>
-        <button
-          type="button"
-          class="ghost-btn ghost-btn--icon"
-          (click)="closeDeleteAboutModal()"
-          [disabled]="deletingAbout"
-          aria-label="Close delete about dialog"
-        >
-          <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-            <path d="M3.5 3.5L12.5 12.5M12.5 3.5L3.5 12.5" />
-          </svg>
-          <span class="admin-sr-only">Close</span>
-        </button>
-      </div>
-
-      <div class="danger-callout">
-        <strong>Warning:</strong>
-        <span>The About text (EN and DE) will be removed.</span>
-      </div>
-
-      <div class="form-actions">
-        <button
-          type="button"
-          class="btn-danger"
-          (click)="confirmDeleteAboutRow()"
-          [disabled]="deletingAbout"
-        >
-          {{ deletingAbout ? "Deleting..." : "Delete" }}
-        </button>
-        <button
-          type="button"
-          class="btn-secondary"
-          (click)="closeDeleteAboutModal()"
-          [disabled]="deletingAbout"
-        >
-          Cancel
-        </button>
-      </div>
-    </article>
-    </section>
-    }
+    <app-confirm-modal
+      [open]="showDeleteAboutModal"
+      title="Delete About text"
+      warningTitle="Warning:"
+      message="The About text (EN and DE) will be removed."
+      [confirmLabel]="deletingAbout ? 'Deleting...' : 'Delete'"
+      cancelLabel="Cancel"
+      [busy]="deletingAbout"
+      [closeDisabled]="deletingAbout"
+      (confirm)="confirmDeleteAboutRow()"
+      (close)="closeDeleteAboutModal()"
+    ></app-confirm-modal>
   </section>
+  </div>
 </section>
-<app-footer [showSocial]="false" [centered]="true"></app-footer>
+<app-footer [showSocial]="false" [centered]="true" [compact]="true"></app-footer>

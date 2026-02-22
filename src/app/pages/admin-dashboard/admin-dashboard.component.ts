@@ -25,6 +25,9 @@ interface AboutContentRow {
   standalone: false,
 })
 export class AdminDashboardComponent implements OnInit, OnDestroy {
+  readonly sidebarBreakpoint = 900;
+  sidebarExpanded = true;
+  isMobileSidebar = false;
   projects: Project[] = [];
   errorMessage = '';
   successMessage = '';
@@ -62,6 +65,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     const activeLang = localStorage.getItem('lang') || 'EN';
     this.translate.use(activeLang);
+    this.syncSidebarLayout(true);
     this.loadAll();
   }
 
@@ -91,6 +95,11 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
     if (this.showProjectModal) {
       this.closeProjectModal();
     }
+  }
+
+  @HostListener('window:resize')
+  onWindowResize(): void {
+    this.syncSidebarLayout();
   }
 
   loadAll(): void {
@@ -235,17 +244,6 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
     });
   }
 
-  deleteProject(id?: string): void {
-    if (!id) {
-      return;
-    }
-
-    this.projectService.deleteProject(id).subscribe({
-      next: () => this.loadAll(),
-      error: () => (this.errorMessage = 'Project delete failed.'),
-    });
-  }
-
   requestDeleteProject(project: Project): void {
     this.projectToDelete = project;
     this.showDeleteProjectModal = true;
@@ -330,6 +328,10 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
   logout(): void {
     this.authService.logout();
     window.location.href = '/admin/login';
+  }
+
+  toggleSidebar(): void {
+    this.sidebarExpanded = !this.sidebarExpanded;
   }
 
   resetProjectForm(): void {
@@ -642,6 +644,24 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
 
   private unlockBodyScroll(): void {
     this.document.body.style.overflow = '';
+  }
+
+  private syncSidebarLayout(initial = false): void {
+    const nextIsMobile = window.innerWidth < this.sidebarBreakpoint;
+
+    if (initial) {
+      this.isMobileSidebar = nextIsMobile;
+      this.sidebarExpanded = !nextIsMobile;
+      return;
+    }
+
+    if (nextIsMobile !== this.isMobileSidebar) {
+      this.isMobileSidebar = nextIsMobile;
+      this.sidebarExpanded = !nextIsMobile;
+      return;
+    }
+
+    this.isMobileSidebar = nextIsMobile;
   }
 
 }

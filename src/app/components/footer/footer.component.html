@@ -1,4 +1,4 @@
-<footer class="footer grid mt-20" [class.footer--centered]="centered">
+<footer class="footer grid mt-20" [class.footer--centered]="centered" [class.footer--compact]="compact">
   <div
     class="container-w-100 mx-auto flex items-center flex-col-reverse md:flex-row border-top px-4"
     [class.footer__inner--centered]="centered"
@@ -10,7 +10,8 @@
         {{ currentYear }}©Aleksandra Jevtovic - All rights reserved
       </p>
     </div>
-    <div *ngIf="showSocial" class="social round to-diamond mb-4 md:mb-0 mt-12 md:mt-0">
+    @if (showSocial) {
+    <div class="social round to-diamond mb-4 md:mb-0 mt-12 md:mt-0">
       <a
         cursor-size="1.5rem"
         href="https://www.linkedin.com/in/aleksandra-jevtovic/"
@@ -28,5 +29,6 @@
         >GitHub</a
       >
     </div>
+    }
   </div>
 </footer>

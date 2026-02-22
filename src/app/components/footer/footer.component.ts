@@ -9,6 +9,7 @@ import { Component, Input, OnInit } from '@angular/core';
 export class FooterComponent implements OnInit {
   @Input() centered = false;
   @Input() showSocial = true;
+  @Input() compact = false;
   currentYear: number;
 
   constructor() {
