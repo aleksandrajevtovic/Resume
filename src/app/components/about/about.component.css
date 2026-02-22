@@ -44,4 +44,8 @@
   color: transparent;
   background-clip: text;
   -webkit-background-clip: text;
-  }
+}
+
+.highlight-word {
+  color: rgba(69, 69, 96, 0.95);
+}

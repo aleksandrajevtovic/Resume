@@ -89,6 +89,24 @@
             /></svg
         ></a>
       </li>
+      <li class="nav-item" *ngIf="isAdminLoggedIn()">
+        <a class="nav-link" routerLink="/admin" cursor-size="1.5rem"
+          >Admin<svg
+            width="7"
+            height="7"
+            viewBox="0 0 6 6"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect
+              y="2.82843"
+              width="4"
+              height="4"
+              transform="rotate(-45 0 2.82843)"
+              fill="white"
+            /></svg
+        ></a>
+      </li>
     </ul>
   </div>
 
@@ -206,6 +224,11 @@
               ><span class="nav-link-title" cursor-size="1.5rem">{{
                 "NAVIGATION.RESUME" | translate
               }}</span></a
+            >
+          </li>
+          <li class="navLinks" (click)="closeMenu()" *ngIf="isAdminLoggedIn()">
+            <a routerLink="/admin" class="nav-link" title="Admin"
+              ><span class="nav-link-title" cursor-size="1.5rem">Admin</span></a
             >
           </li>
           <li class="social round to-diamond">

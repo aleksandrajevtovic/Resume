@@ -87,6 +87,7 @@
   padding: 10px 15px;
   z-index: 5;
   color: var(--white);
+  font-family: var(--ffSecondary);
 }
 
 @media(max-width:640px) {

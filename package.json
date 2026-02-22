@@ -8,6 +8,8 @@
   "scripts": {
     "ng": "ng",
     "start": "node server.js",
+    "frontend:dev": "ng serve",
+    "backend:dev": "cd backend && mvn spring-boot:run",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "heroku-postbuild": "ng build --prod",

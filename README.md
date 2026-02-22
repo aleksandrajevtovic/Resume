@@ -6,6 +6,41 @@ Personal website made using Angular, animations using GSAP library, hosted on Ne
 
 This project now targets Angular 20.
 
+## Full-stack architecture
+
+- Frontend: Angular (`/`)
+- Backend: Java Spring Boot + MongoDB (`/backend`)
+- Admin auth: JWT login (`/api/auth/login`)
+- Protected CRUD: `/api/admin/projects`
+- Public data: `/api/public/projects`
+
+## Backend setup (Spring Boot + MongoDB)
+
+1. Start MongoDB locally (default expected URL: `mongodb://localhost:27017/portfolio`).
+2. In a terminal:
+   - `cd backend`
+   - `mvn spring-boot:run`
+3. API runs on `http://localhost:8081`.
+
+### Backend environment variables
+
+- `MONGODB_URI` (default `mongodb://localhost:27017/portfolio`)
+- `JWT_SECRET` (base64 secret, set your own in production)
+- `JWT_EXPIRATION_MS` (default `86400000`)
+- `CORS_ALLOWED_ORIGIN` (default `http://localhost:4200`)
+- `ADMIN_USERNAME` (default `admin`)
+- `ADMIN_PASSWORD` (default `admin123!`)
+
+Default admin user is auto-seeded on first backend run. Change credentials immediately for real deployment.
+
+## Admin dashboard
+
+1. Start frontend: `npm install && npm run ng -- serve`
+2. Open `http://localhost:4200/admin/login`
+3. Login with admin credentials.
+4. Use `/admin` dashboard to:
+   - add/edit/delete projects
+
 ## Development server
 
 Run `npm install` first, then run `npm start` (or `npm run ng -- serve`) for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.

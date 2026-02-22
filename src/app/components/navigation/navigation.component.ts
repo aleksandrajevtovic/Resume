@@ -2,6 +2,7 @@ import { DOCUMENT } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
+import { AuthService } from '../../services/auth.service';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -12,7 +13,10 @@ gsap.registerPlugin(ScrollTrigger);
     standalone: false
 })
 export class NavigationComponent implements OnInit {
-  constructor(@Inject(DOCUMENT) private document: Document) {}
+  constructor(
+    @Inject(DOCUMENT) private document: Document,
+    private readonly authService: AuthService
+  ) {}
   tl = gsap.timeline({
     defaults: { duration: 0.75, reversed: true, ease: 'Power2.easeOut' },
   });
@@ -36,6 +40,10 @@ export class NavigationComponent implements OnInit {
   closeMenu() {
     this.tl.reversed() ? this.tl.play() : this.tl.reverse();
     return console.log('closed');
+  }
+
+  isAdminLoggedIn(): boolean {
+    return this.authService.isLoggedIn();
   }
   // closeMenu() {
   //   this.tl.timeScale(2.5);

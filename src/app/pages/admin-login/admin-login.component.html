@@ -1,0 +1,41 @@
+<section class="admin-login">
+  <div class="admin-login__card">
+    <a class="admin-login__home-link" routerLink="/">← Back to Homepage</a>
+    <h1>Admin Login</h1>
+    <form (ngSubmit)="submit()">
+      <label for="username">Username</label>
+      <input
+        id="username"
+        type="text"
+        name="username"
+        [(ngModel)]="username"
+        required
+      />
+
+      <label for="password">Password</label>
+      <div class="password-field">
+        <input
+          id="password"
+          [type]="showPassword ? 'text' : 'password'"
+          name="password"
+          [(ngModel)]="password"
+          required
+        />
+        <button
+          type="button"
+          class="password-toggle"
+          (click)="togglePasswordVisibility()"
+          [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'"
+        >
+          {{ showPassword ? "Hide" : "Show" }}
+        </button>
+      </div>
+
+      <button type="submit" [disabled]="isLoading">
+        {{ isLoading ? "Signing in..." : "Sign in" }}
+      </button>
+    </form>
+
+    <p *ngIf="errorMessage" class="admin-login__error">{{ errorMessage }}</p>
+  </div>
+</section>

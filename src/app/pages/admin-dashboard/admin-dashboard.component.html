@@ -1,0 +1,253 @@
+<section class="admin-dashboard">
+  <header class="admin-dashboard__header">
+    <h1>Admin Dashboard</h1>
+    <div class="admin-dashboard__header-actions">
+      <a class="header-link" routerLink="/">Home</a>
+      <button type="button" (click)="logout()">Logout</button>
+    </div>
+  </header>
+
+  <div *ngIf="successMessage" class="admin-alert admin-alert--success" role="status" aria-live="polite">
+    <span>{{ successMessage }}</span>
+    <button type="button" class="admin-alert__close" (click)="dismissSuccessMessage()" aria-label="Close message">
+      ×
+    </button>
+  </div>
+  <div *ngIf="errorMessage" class="admin-alert admin-alert--error" role="alert">
+    <span>{{ errorMessage }}</span>
+    <button type="button" class="admin-alert__close" (click)="dismissErrorMessage()" aria-label="Close message">
+      ×
+    </button>
+  </div>
+
+  <div class="admin-dashboard__grid">
+    <article class="admin-card">
+      <div class="admin-card__title-row">
+        <h2>Projects</h2>
+        <button type="button" class="primary-btn" (click)="openAddProjectModal()">
+          Add project
+        </button>
+      </div>
+
+      <ul class="item-list">
+        <li *ngFor="let project of projects">
+          <div>
+            <strong>{{ getProjectDisplayName(project) }}</strong>
+            <span>#{{ project.sortOrder }}</span>
+          </div>
+          <div class="item-actions">
+            <button type="button" (click)="openEditProjectModal(project)">Edit</button>
+            <button type="button" (click)="requestDeleteProject(project)">Delete</button>
+          </div>
+        </li>
+      </ul>
+    </article>
+
+  </div>
+
+  <div
+    *ngIf="showProjectModal"
+    class="modal-backdrop"
+    (click)="closeProjectModal()"
+  ></div>
+  <section *ngIf="showProjectModal" class="modal-window" role="dialog" aria-modal="true">
+    <article class="modal-card">
+      <div class="modal-card__header">
+        <h3>{{ editingProjectId ? "Edit project" : "Add project" }}</h3>
+        <button type="button" class="ghost-btn" (click)="closeProjectModal()">Close</button>
+      </div>
+      <form
+        #projectNgForm="ngForm"
+        (ngSubmit)="saveProject()"
+        class="modal-form"
+        autocomplete="off"
+      >
+        <div class="form-grid">
+          <div class="form-field">
+            <label for="project-title-en">Project title (EN)</label>
+            <input
+              id="project-title-en"
+              type="text"
+              name="titleEn"
+              [(ngModel)]="projectForm.titleEn"
+              placeholder="Project title in English"
+              required
+            />
+          </div>
+          <div class="form-field">
+            <label for="project-title-de">Project title (DE)</label>
+            <input
+              id="project-title-de"
+              type="text"
+              name="titleDe"
+              [(ngModel)]="projectForm.titleDe"
+              placeholder="Projektname auf Deutsch"
+              required
+            />
+          </div>
+          <div class="form-field">
+            <label for="project-order">Sort order</label>
+            <input
+              id="project-order"
+              type="number"
+              name="sortOrder"
+              [(ngModel)]="projectForm.sortOrder"
+              placeholder="0"
+            />
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-field">
+            <label for="project-description-en">Project description (EN)</label>
+            <textarea
+              id="project-description-en"
+              name="descriptionEn"
+              [(ngModel)]="projectForm.descriptionEn"
+              placeholder="Project description in English"
+              required
+            ></textarea>
+          </div>
+          <div class="form-field">
+            <label for="project-description-de">Project description (DE)</label>
+            <textarea
+              id="project-description-de"
+              name="descriptionDe"
+              [(ngModel)]="projectForm.descriptionDe"
+              placeholder="Projektbeschreibung auf Deutsch"
+              required
+            ></textarea>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-field">
+          <label for="project-image">Image URL</label>
+          <input
+            id="project-image"
+            type="text"
+            name="imageUrl"
+            [(ngModel)]="projectForm.imageUrl"
+            placeholder="./assets/images/example.png"
+            required
+          />
+          <div class="image-tools">
+            <input
+              type="file"
+              accept="image/*"
+              (change)="onImageFileSelected($event)"
+            />
+            <button
+              type="button"
+              class="btn-secondary"
+              (click)="uploadSelectedImage()"
+              [disabled]="uploadingImage"
+            >
+              {{ uploadingImage ? "Uploading..." : "Upload image" }}
+            </button>
+            <button type="button" class="btn-secondary" (click)="copyImagePath()">
+              Copy path
+            </button>
+          </div>
+          <small *ngIf="uploadStatus">{{ uploadStatus }}</small>
+          </div>
+          <div class="form-field">
+            <label for="project-tech">Tech stack</label>
+            <input
+              id="project-tech"
+              type="text"
+              name="techStackInput"
+              [(ngModel)]="techStackInput"
+              placeholder="Angular, Spring Boot, MongoDB"
+            />
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-field form-field--wide">
+            <label for="project-live">Live URL</label>
+            <input
+              id="project-live"
+              type="text"
+              name="liveUrl"
+              [(ngModel)]="projectForm.liveUrl"
+              placeholder="https://example.com"
+            />
+          </div>
+          <div class="form-field form-field--wide">
+            <label for="project-github">Github URL</label>
+            <input
+              id="project-github"
+              type="text"
+              name="githubUrl"
+              [(ngModel)]="projectForm.githubUrl"
+              placeholder="https://github.com/..."
+            />
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn-primary" [disabled]="saving || projectNgForm.invalid">
+            {{ saving ? "Saving..." : "Save project" }}
+          </button>
+          <button type="button" class="btn-secondary" (click)="closeProjectModal()">Cancel</button>
+        </div>
+      </form>
+    </article>
+  </section>
+
+  <div
+    *ngIf="showDeleteProjectModal"
+    class="modal-backdrop"
+    (click)="!deletingProject && closeDeleteProjectModal()"
+  ></div>
+  <section
+    *ngIf="showDeleteProjectModal"
+    class="modal-window"
+    role="dialog"
+    aria-modal="true"
+  >
+    <article class="modal-card modal-card--compact">
+      <div class="modal-card__header">
+        <h3>Delete project</h3>
+        <button
+          type="button"
+          class="ghost-btn"
+          (click)="closeDeleteProjectModal()"
+          [disabled]="deletingProject"
+        >
+          Close
+        </button>
+      </div>
+
+      <div class="danger-callout">
+        <strong>Warning:</strong>
+        <span>This project will be removed permanently and cannot be restored.</span>
+      </div>
+
+      <div class="delete-preview">
+        <div class="delete-preview__label">Project to delete</div>
+        <div class="delete-preview__name">{{ getDeleteProjectDisplayName() }}</div>
+      </div>
+
+      <div class="form-actions">
+        <button
+          type="button"
+          class="btn-danger"
+          (click)="confirmDeleteProject()"
+          [disabled]="deletingProject"
+        >
+          {{ deletingProject ? "Deleting..." : "Delete" }}
+        </button>
+        <button
+          type="button"
+          class="btn-secondary"
+          (click)="closeDeleteProjectModal()"
+          [disabled]="deletingProject"
+        >
+          Cancel
+        </button>
+      </div>
+    </article>
+  </section>
+</section>

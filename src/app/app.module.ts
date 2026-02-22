@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
+import { HttpClient, provideHttpClient, withInterceptors } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
@@ -17,6 +18,9 @@ import { FooterComponent } from './components/footer/footer.component';
 import { ContactComponent } from './components/contact/contact.component';
 import { WorkComponent } from './components/work/work.component';
 import { ErrorComponent } from './pages/error/error.component';
+import { AdminLoginComponent } from './pages/admin-login/admin-login.component';
+import { AdminDashboardComponent } from './pages/admin-dashboard/admin-dashboard.component';
+import { authTokenInterceptor } from './interceptors/auth-token.interceptor';
 
 @NgModule({ declarations: [
         AppComponent,
@@ -28,9 +32,12 @@ import { ErrorComponent } from './pages/error/error.component';
         ContactComponent,
         WorkComponent,
         ErrorComponent,
+        AdminLoginComponent,
+        AdminDashboardComponent,
     ],
     bootstrap: [AppComponent], imports: [BrowserModule,
         AppRoutingModule,
+        FormsModule,
         NgxCursorModule,
         TranslateModule.forRoot({
             loader: {
@@ -38,7 +45,7 @@ import { ErrorComponent } from './pages/error/error.component';
                 useFactory: HttpLoaderFactory,
                 deps: [HttpClient],
             },
-        })], providers: [provideHttpClient(withInterceptorsFromDi())] })
+        })], providers: [provideHttpClient(withInterceptors([authTokenInterceptor]))] })
 export class AppModule {}
 
 // AoT requires an exported function for factories
