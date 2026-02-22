@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, HostListener, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, Inject, Input, OnDestroy, OnInit } from '@angular/core';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import { AuthService } from '../../services/auth.service';
@@ -13,6 +13,7 @@ gsap.registerPlugin(ScrollTrigger);
     standalone: false
 })
 export class NavigationComponent implements OnInit, OnDestroy {
+  @Input() errorMode = false;
   activeSection: 'about' | 'projects' | 'contact' | null = null;
   isAtTop = true;
   private sectionObserver?: IntersectionObserver;
@@ -71,6 +72,22 @@ export class NavigationComponent implements OnInit, OnDestroy {
       top: Math.max(0, top),
       behavior: 'smooth',
     });
+  }
+
+  handleSectionLinkClick(event: Event, section: 'about' | 'projects' | 'contact'): void {
+    if (this.errorMode) {
+      return;
+    }
+
+    this.scrollToSection(event, section);
+  }
+
+  getSectionHref(section: 'about' | 'projects' | 'contact'): string {
+    return this.errorMode ? `/#${section}` : `#${section}`;
+  }
+
+  getLogoHref(): string {
+    return this.errorMode ? '/' : '#';
   }
 
   @HostListener('window:scroll')

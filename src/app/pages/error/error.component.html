@@ -1,21 +1,24 @@
-<!-- <app-navigation></app-navigation> -->
+@if (isLoading) {
+  <app-preloader></app-preloader>
+}
 
-<div class="error-page ">
-  <div class="error h-screen flex flex-col items-center justify-center text-center	relative m-0	">
-    <h1 class="glitch relative" data-text="Page Not Found">Page Not Found</h1>
-    <p class="paragraph-glitch relative mb-8 mt-12" data-content="/* The page you're looking for isn't here! */">
-      /* The page you're looking for isn't here! */
-    </p>
-      <button routerLink="/" class="btn-glitch relative p-4 uppercase text-xl	">
-        Return to home
-      </button>
-  </div>
-  <div class="object">
-    <img src="/assets/images/shape1.png" class="shape shape1" />
-    <img src="/assets/images/shape2.png" class="shape shape2" />
-    <img src="/assets/images/shape3.png" class="shape shape3" />
-    <img src="/assets/images/shape4.png" class="shape shape4" />
-    <img src="/assets/images/shape5.png" class="shape shape5" />
-    <img src="/assets/images/shape6.png" class="shape shape6" />
-  </div>
+<div class="error-shell" [class.error-shell--ready]="!isLoading">
+  <app-navigation [errorMode]="true"></app-navigation>
+
+  <main class="error-page" aria-labelledby="error-title">
+    <app-ambient-shapes [errorMode]="true"></app-ambient-shapes>
+
+    <div class="error-card">
+      <p class="error-eyebrow">404</p>
+      <h1 id="error-title" class="error-title error-title--glitch" data-text="Page not found">
+        Page not found
+      </h1>
+      <p class="error-copy">
+        The page you requested does not exist or has been moved.
+      </p>
+      <div class="error-actions">
+        <a routerLink="/" class="error-btn error-btn--glitch" data-text="Return home">Return home</a>
+      </div>
+    </div>
+  </main>
 </div>

@@ -1,9 +1,9 @@
-<div class="navbar" [class.nav-visible]="isAtTop">
+<div class="navbar" [class.nav-visible]="isAtTop" [class.navbar--error]="errorMode">
   <div
     class="navbar-content flex justify-between items-center p-6"
   >
     <div class="logo z-10">
-      <a class="flex logo logo-link" href="#" cursor-size="1.5rem">
+      <a class="flex logo logo-link" [attr.href]="getLogoHref()" cursor-size="1.5rem">
         <span class="logo-name w-auto text-lg md:text-2xl">
           Aleksandra Jevtovic
         </span>
@@ -13,8 +13,8 @@
       class="nav-list flex justify-around gap-3 md:gap-6 md:text-2xl text-lg pl-0 list-none"
     >
       <li class="nav-item">
-        <a class="nav-link" [class.is-active]="activeSection === 'about'" href="#about" (click)="scrollToSection($event, 'about')" cursor-size="1.5rem"
-          >{{ "NAVIGATION.ABOUT" | translate
+        <a class="nav-link" [class.is-active]="!errorMode && activeSection === 'about'" [attr.href]="getSectionHref('about')" (click)="handleSectionLinkClick($event, 'about')" cursor-size="1.5rem"
+          >{{ errorMode ? 'About' : ('NAVIGATION.ABOUT' | translate)
           }}<svg
             width="7"
             height="7"
@@ -32,8 +32,8 @@
         ></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" [class.is-active]="activeSection === 'projects'" href="#projects" (click)="scrollToSection($event, 'projects')" cursor-size="1.5rem"
-          >{{ "NAVIGATION.WORK" | translate
+        <a class="nav-link" [class.is-active]="!errorMode && activeSection === 'projects'" [attr.href]="getSectionHref('projects')" (click)="handleSectionLinkClick($event, 'projects')" cursor-size="1.5rem"
+          >{{ errorMode ? 'Projects' : ('NAVIGATION.WORK' | translate)
           }}<svg
             width="7"
             height="7"
@@ -52,8 +52,8 @@
       </li>
 
       <li class="nav-item">
-        <a class="nav-link" [class.is-active]="activeSection === 'contact'" href="#contact" (click)="scrollToSection($event, 'contact')" cursor-size="1.5rem"
-          >{{ "NAVIGATION.CONTACT" | translate
+        <a class="nav-link" [class.is-active]="!errorMode && activeSection === 'contact'" [attr.href]="getSectionHref('contact')" (click)="handleSectionLinkClick($event, 'contact')" cursor-size="1.5rem"
+          >{{ errorMode ? 'Contact' : ('NAVIGATION.CONTACT' | translate)
           }}<svg
             width="7"
             height="7"
@@ -72,7 +72,7 @@
       </li>
       <li class="nav-item">
         <a class="nav-link" [href]="('NAVIGATION.RESUME_FILE' | translate)"  target="_blank" rel="noopener" cursor-size="1.5rem"
-          >{{ "NAVIGATION.RESUME" | translate
+          >{{ errorMode ? 'Resume' : ('NAVIGATION.RESUME' | translate)
           }}<svg
             width="7"
             height="7"
@@ -89,24 +89,26 @@
             /></svg
         ></a>
       </li>
-      <li class="nav-item" *ngIf="isAdminLoggedIn()">
-        <a class="nav-link" routerLink="/admin" cursor-size="1.5rem"
-          >Admin<svg
-            width="7"
-            height="7"
-            viewBox="0 0 6 6"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <rect
-              y="2.82843"
-              width="4"
-              height="4"
-              transform="rotate(-45 0 2.82843)"
-              fill="white"
-            /></svg
-        ></a>
-      </li>
+      @if (isAdminLoggedIn()) {
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/admin" cursor-size="1.5rem"
+            >Admin<svg
+              width="7"
+              height="7"
+              viewBox="0 0 6 6"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect
+                y="2.82843"
+                width="4"
+                height="4"
+                transform="rotate(-45 0 2.82843)"
+                fill="white"
+              /></svg
+          ></a>
+        </li>
+      }
     </ul>
   </div>
 
@@ -114,7 +116,7 @@
 
   <div class="nav-header sm:hidden flex justify-between p-6">
     <div class="logo z-10">
-      <a class="flex logo logo-link" href="#" cursor-size="1.5rem">
+      <a class="flex logo logo-link" [attr.href]="getLogoHref()" cursor-size="1.5rem">
         <span class="logo-name w-auto text-lg md:text-2xl">Aleksandra Jevtovic</span>
       </a>
     </div>
@@ -199,21 +201,21 @@
         </div>
         <ul class="menu-mobile-list">
           <li class="navLinks" (click)="closeMenu()">
-            <a href="#about" class="nav-link" title="About"
+            <a [attr.href]="getSectionHref('about')" class="nav-link" title="About"
               ><span class="nav-link-title" cursor-size="1.5rem">{{
                 "NAVIGATION.ABOUT" | translate
               }}</span></a
             >
           </li>
           <li class="navLinks" (click)="closeMenu()">
-            <a href="#projects" class="nav-link" title="Work"
+            <a [attr.href]="getSectionHref('projects')" class="nav-link" title="Work"
               ><span class="nav-link-title" cursor-size="1.5rem">{{
                 "NAVIGATION.WORK" | translate
               }}</span></a
             >
           </li>
           <li class="navLinks" (click)="closeMenu()">
-            <a href="#contact" class="nav-link" title="Contact"
+            <a [attr.href]="getSectionHref('contact')" class="nav-link" title="Contact"
               ><span class="nav-link-title" cursor-size="1.5rem">{{
                 "NAVIGATION.CONTACT" | translate
               }}</span></a
@@ -226,11 +228,13 @@
               }}</span></a
             >
           </li>
-          <li class="navLinks" (click)="closeMenu()" *ngIf="isAdminLoggedIn()">
-            <a routerLink="/admin" class="nav-link" title="Admin"
-              ><span class="nav-link-title" cursor-size="1.5rem">Admin</span></a
-            >
-          </li>
+          @if (isAdminLoggedIn()) {
+            <li class="navLinks" (click)="closeMenu()">
+              <a routerLink="/admin" class="nav-link" title="Admin"
+                ><span class="nav-link-title" cursor-size="1.5rem">Admin</span></a
+              >
+            </li>
+          }
           <li class="social round to-diamond">
             <a
               cursor-size="1.5rem"
