@@ -1,10 +1,10 @@
-<div class="navbar">
+<div class="navbar" [class.nav-visible]="isAtTop">
   <div
-    class="navbar-content hidden sm:flex flex justify-between items-center p-6"
+    class="navbar-content flex justify-between items-center p-6"
   >
     <div class="logo z-10">
-      <a class="flex logo" href="#" cursor-size="1.5rem">
-        <span class="w-auto hidden sm:block text-lg md:text-2xl">
+      <a class="flex logo logo-link" href="#" cursor-size="1.5rem">
+        <span class="logo-name w-auto text-lg md:text-2xl">
           Aleksandra Jevtovic
         </span>
       </a>
@@ -13,7 +13,7 @@
       class="nav-list flex justify-around gap-3 md:gap-6 md:text-2xl text-lg pl-0 list-none"
     >
       <li class="nav-item">
-        <a class="nav-link" href="#about" cursor-size="1.5rem"
+        <a class="nav-link" [class.is-active]="activeSection === 'about'" href="#about" (click)="scrollToSection($event, 'about')" cursor-size="1.5rem"
           >{{ "NAVIGATION.ABOUT" | translate
           }}<svg
             width="7"
@@ -32,7 +32,7 @@
         ></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#projects" cursor-size="1.5rem"
+        <a class="nav-link" [class.is-active]="activeSection === 'projects'" href="#projects" (click)="scrollToSection($event, 'projects')" cursor-size="1.5rem"
           >{{ "NAVIGATION.WORK" | translate
           }}<svg
             width="7"
@@ -52,7 +52,7 @@
       </li>
 
       <li class="nav-item">
-        <a class="nav-link" href="#contact" cursor-size="1.5rem"
+        <a class="nav-link" [class.is-active]="activeSection === 'contact'" href="#contact" (click)="scrollToSection($event, 'contact')" cursor-size="1.5rem"
           >{{ "NAVIGATION.CONTACT" | translate
           }}<svg
             width="7"
@@ -114,8 +114,8 @@
 
   <div class="nav-header sm:hidden flex justify-between p-6">
     <div class="logo z-10">
-      <a class="flex logo" href="#" cursor-size="1.5rem">
-        <span class="w-auto text-lg md:text-2xl">Aleksandra Jevtovic</span>
+      <a class="flex logo logo-link" href="#" cursor-size="1.5rem">
+        <span class="logo-name w-auto text-lg md:text-2xl">Aleksandra Jevtovic</span>
       </a>
     </div>
 

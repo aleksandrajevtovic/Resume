@@ -14,6 +14,9 @@ gsap.registerPlugin(ScrollTrigger);
 })
 export class HeroComponent implements OnInit, OnDestroy {
   private heroTimeline?: gsap.core.Timeline;
+  heroLine1 = 'Software';
+  heroLine2 = 'Developer';
+  heroLine3 = '';
 
   constructor(
     @Inject(DOCUMENT) private document: Document,
@@ -25,6 +28,7 @@ export class HeroComponent implements OnInit, OnDestroy {
   switchLang(lang: string) {
     this.translate.use(lang);
     localStorage.setItem('lang', lang);
+    this.setHeroLines(lang);
     // window.location.reload();
   }
   lang: any;
@@ -32,11 +36,9 @@ export class HeroComponent implements OnInit, OnDestroy {
     this.lang = localStorage.getItem('lang') || 'EN';
     this.activeLang = this.lang;
     this.translate.use(this.lang);
+    this.setHeroLines(this.lang);
     this.scrollAnim();
   }
-  heroLine1 = 'Frontend';
-  heroLine2 = 'Web';
-  heroLine3 = 'Developer';
 
   click = true;
   status = 'Enable';
@@ -48,8 +50,23 @@ export class HeroComponent implements OnInit, OnDestroy {
     this.activeLang = lang;
     this.translate.use(lang);
     localStorage.setItem('lang', lang);
+    this.setHeroLines(lang);
 
   }
+
+  private setHeroLines(lang: string): void {
+    if (lang === 'DE') {
+      this.heroLine1 = 'Software';
+      this.heroLine2 = 'Entwicklerin';
+      this.heroLine3 = '';
+      return;
+    }
+
+    this.heroLine1 = 'Software';
+    this.heroLine2 = 'Developer';
+    this.heroLine3 = '';
+  }
+
   scrollAnim(): void {
     if (!this.document.querySelector('.about')) {
       return;
