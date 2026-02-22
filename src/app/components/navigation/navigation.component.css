@@ -43,8 +43,8 @@
 
 .navbar-content .logo {
   position: fixed;
-  top: 1.65rem;
-  left: 1.8rem;
+  top: 1.2rem;
+  left: 1rem;
   z-index: 11;
   pointer-events: auto;
   transition: opacity 0.22s ease, transform 0.22s ease;

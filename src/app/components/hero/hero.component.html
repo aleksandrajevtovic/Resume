@@ -1,34 +1,37 @@
 <section class="hero">
+  <div class="hero-ambient" aria-hidden="true">
+    <span class="hero-ambient__panel hero-ambient__panel--a"></span>
+    <span class="hero-ambient__panel hero-ambient__panel--b"></span>
+    <span class="hero-ambient__panel hero-ambient__panel--c"></span>
+    <span class="hero-ambient__line hero-ambient__line--a"></span>
+    <span class="hero-ambient__line hero-ambient__line--b"></span>
+    <span class="hero-ambient__line hero-ambient__line--c"></span>
+    <span class="hero-ambient__diamond hero-ambient__diamond--a"></span>
+    <span class="hero-ambient__diamond hero-ambient__diamond--b"></span>
+    <span class="hero-ambient__diamond hero-ambient__diamond--c"></span>
+    <span class="hero-ambient__diamond hero-ambient__diamond--d"></span>
+    <span class="hero-ambient__diamond hero-ambient__diamond--e"></span>
+    <span class="hero-ambient__diamond hero-ambient__diamond--f"></span>
+  </div>
   <div
     class="container mx-auto grid sm:place-content-center sm:text-center text-left h-90vh h-80vh sm:pl-0"
   >
     <h1 class="hero-title uppercase">
-      <span>{{ heroLine1 }}</span>
-      <span>{{ heroLine2 }}</span>
-      <span *ngIf="heroLine3">{{ heroLine3 }}</span>
+      <span class="hero-title-line">
+        <span class="hero-title-line__inner">{{ heroLine1 }}</span>
+      </span>
+      <span class="hero-title-line">
+        <span class="hero-title-line__inner">{{ heroLine2 }}</span>
+      </span>
+      <span class="hero-title-line" *ngIf="heroLine3">
+        <span class="hero-title-line__inner">{{ heroLine3 }}</span>
+      </span>
     </h1>
   </div>
   <div class="scroll-indicator relative">
     <a href="#about" class="intro-scroll"></a>
   </div>
-
-  <!-- language btn select options -->
-  <!-- <div class="my-switcher d-lg-block">
-    <select
-      class="form-control"
-      #selectedLang
-      (change)="switchLang(selectedLang.value)"
-    >
-      <option
-        *ngFor="let language of translate.getLangs()"
-        [value]="language"
-        [selected]="language === translate.currentLang"
-      >
-        {{ language }}
-      </option>
-    </select>
-  </div> -->
-
+  
   <div class="my-switcher d-lg-block">
     <button
       [ngStyle]="{ opacity: activeLang === 'EN' ? '1' : '0.3' }"
