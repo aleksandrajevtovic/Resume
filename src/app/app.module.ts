@@ -20,6 +20,7 @@ import { ContactComponent } from './components/contact/contact.component';
 import { WorkComponent } from './components/work/work.component';
 import { AmbientShapesComponent } from './components/ambient-shapes/ambient-shapes.component';
 import { AdminSidebarComponent } from './components/admin-sidebar/admin-sidebar.component';
+import { AdminCvManagerComponent } from './components/admin-cv-manager/admin-cv-manager.component';
 import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.component';
 import { ErrorComponent } from './pages/error/error.component';
 import { AdminLoginComponent } from './pages/admin-login/admin-login.component';
@@ -38,6 +39,7 @@ import { authTokenInterceptor } from './interceptors/auth-token.interceptor';
         WorkComponent,
         AmbientShapesComponent,
         AdminSidebarComponent,
+        AdminCvManagerComponent,
         ConfirmModalComponent,
         ErrorComponent,
         AdminLoginComponent,

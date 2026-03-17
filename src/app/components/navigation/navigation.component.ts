@@ -3,6 +3,8 @@ import { Component, HostListener, Inject, Input, OnDestroy, OnInit } from '@angu
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import { AuthService } from '../../services/auth.service';
+import { ContentService } from '../../services/content.service';
+import { ProjectService } from '../../services/project.service';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -16,11 +18,14 @@ export class NavigationComponent implements OnInit, OnDestroy {
   @Input() errorMode = false;
   activeSection: 'about' | 'projects' | 'contact' | null = null;
   isAtTop = true;
+  private contentMap: Record<string, string> = {};
   private sectionObserver?: IntersectionObserver;
 
   constructor(
     @Inject(DOCUMENT) private document: Document,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
+    private readonly contentService: ContentService,
+    private readonly projectService: ProjectService
   ) {}
   tl = gsap.timeline({
     defaults: { duration: 0.75, reversed: true, ease: 'Power2.easeOut' },
@@ -31,6 +36,10 @@ export class NavigationComponent implements OnInit, OnDestroy {
     this.updateTopState();
     this.initSectionObserver();
     this.updateActiveSectionFromScroll();
+    this.contentService.getPublicContentMap().subscribe({
+      next: (contentMap) => (this.contentMap = contentMap),
+      error: () => undefined,
+    });
   }
 
   navAnim(): void {
@@ -88,6 +97,18 @@ export class NavigationComponent implements OnInit, OnDestroy {
 
   getLogoHref(): string {
     return this.errorMode ? '/' : '#';
+  }
+
+  getResumeHref(): string {
+    const currentLang = (localStorage.getItem('lang') || 'EN').toUpperCase();
+    const contentKey = currentLang === 'DE' ? 'CV.DE.FILE' : 'CV.EN.FILE';
+    const uploadedPath = this.contentMap[contentKey];
+
+    if (uploadedPath?.trim()) {
+      return this.projectService.resolveImageUrl(uploadedPath);
+    }
+
+    return this.translateResumeFallback(currentLang);
   }
 
   @HostListener('window:scroll')
@@ -166,6 +187,13 @@ export class NavigationComponent implements OnInit, OnDestroy {
 
   private updateTopState(): void {
     this.isAtTop = window.scrollY < 24;
+  }
+
+  private translateResumeFallback(lang: string): string {
+    if (lang === 'DE') {
+      return './assets/files/CV_Aleksandra_Jevtovic_de.pdf';
+    }
+    return './assets/files/CV_Aleksandra_Jevtovic_en.pdf';
   }
   // closeMenu() {
   //   this.tl.timeScale(2.5);

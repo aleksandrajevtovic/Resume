@@ -42,6 +42,19 @@ export class ProjectService {
     );
   }
 
+  uploadCv(lang: 'EN' | 'DE', file: File): Observable<{ filePath: string; fileUrl: string }> {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.http.post<{ filePath: string; fileUrl: string }>(
+      `${this.baseUrl}/admin/uploads/cv/${lang.toLowerCase()}`,
+      formData
+    );
+  }
+
+  deleteCv(lang: 'EN' | 'DE'): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/admin/uploads/cv/${lang.toLowerCase()}`);
+  }
+
   resolveImageUrl(pathOrUrl: string): string {
     if (!pathOrUrl) {
       return '';

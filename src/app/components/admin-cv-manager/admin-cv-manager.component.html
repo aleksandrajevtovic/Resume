@@ -1,0 +1,75 @@
+<article class="admin-card admin-cv-card">
+  <div class="admin-cv-card__title-row">
+    <div>
+      <h2>CV files</h2>
+      <p>Upload or replace the public CV PDF for each language.</p>
+    </div>
+  </div>
+
+  <div class="admin-cv-list">
+    @for (lang of langs; track lang) {
+      <section class="admin-cv-item">
+        <div class="admin-cv-item__header">
+          <div>
+            <h3>{{ getLangLabel(lang) }}</h3>
+            <p>{{ hasCv(lang) ? 'Uploaded and active.' : 'No uploaded CV yet.' }}</p>
+          </div>
+          @if (hasCv(lang)) {
+            <a
+              class="admin-cv-item__link"
+              [href]="getCvUrl(lang)"
+              target="_blank"
+              rel="noopener"
+            >
+              Open current CV
+            </a>
+          }
+        </div>
+
+        <div class="admin-cv-item__body">
+          <input type="file" accept="application/pdf,.pdf" (change)="onFileSelected(lang, $event)" />
+
+          @if (hasCv(lang)) {
+            <small class="admin-cv-item__path">{{ getCvPath(lang) }}</small>
+          }
+
+          @if (uploadStatuses[lang]) {
+            <small class="admin-cv-item__status">{{ uploadStatuses[lang] }}</small>
+          }
+
+          <div class="admin-cv-item__actions">
+            <button
+              type="button"
+              class="btn-primary"
+              (click)="uploadSelectedCv(lang)"
+              [disabled]="uploadingLang === lang"
+            >
+              {{ uploadingLang === lang ? 'Uploading...' : 'Upload CV' }}
+            </button>
+            <button
+              type="button"
+              class="btn-danger"
+              (click)="requestDeleteCv(lang)"
+              [disabled]="!hasCv(lang) || deletingLang === lang"
+            >
+              {{ deletingLang === lang ? 'Removing...' : 'Remove CV' }}
+            </button>
+          </div>
+        </div>
+      </section>
+    }
+  </div>
+</article>
+
+<app-confirm-modal
+  [open]="showDeleteModal"
+  title="Delete CV"
+  warningTitle="Warning:"
+  [message]="getDeleteMessage()"
+  [confirmLabel]="deletingLang ? 'Deleting...' : 'Delete'"
+  cancelLabel="Cancel"
+  [busy]="!!deletingLang"
+  [closeDisabled]="!!deletingLang"
+  (confirm)="confirmDeleteCv()"
+  (close)="closeDeleteModal()"
+></app-confirm-modal>

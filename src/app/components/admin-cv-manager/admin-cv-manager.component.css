@@ -1,0 +1,155 @@
+.admin-cv-card {
+  background: var(--shade);
+  border-radius: var(--radiusMd);
+  padding: 1.1rem;
+  font-family: var(--ffSecondary);
+}
+
+.admin-cv-card__title-row {
+  margin-bottom: 1rem;
+}
+
+.admin-cv-card__title-row h2 {
+  margin: 0;
+  font-family: var(--ffSecondary);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  font-size: 1.5rem;
+}
+
+.admin-cv-card__title-row p {
+  margin: 0.35rem 0 0;
+  color: var(--light);
+}
+
+.admin-cv-list {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.admin-cv-item {
+  border: 1px solid var(--accent);
+  border-radius: var(--radiusSm);
+  background: rgba(0, 0, 0, 0.12);
+  padding: 0.9rem;
+}
+
+.admin-cv-item__header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: flex-start;
+  margin-bottom: 0.85rem;
+}
+
+.admin-cv-item__header h3 {
+  margin: 0;
+  color: var(--pale);
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.admin-cv-item__header p {
+  margin: 0.2rem 0 0;
+  color: var(--light);
+  font-size: 0.92rem;
+}
+
+.admin-cv-item__link {
+  color: var(--pale);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(208, 208, 232, 0.32);
+}
+
+.admin-cv-item__link:hover,
+.admin-cv-item__link:focus-visible {
+  color: var(--white);
+  border-bottom-color: rgba(255, 255, 255, 0.65);
+  outline: none;
+}
+
+.admin-cv-item__body {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.admin-cv-item input[type='file'] {
+  width: 100%;
+  border: 1px dashed var(--tint);
+  border-radius: var(--radiusSm);
+  padding: 0.55rem 0.6rem;
+  background: rgba(0, 0, 0, 0.18);
+  color: var(--white);
+}
+
+.admin-cv-item__path,
+.admin-cv-item__status {
+  color: var(--light);
+  word-break: break-word;
+}
+
+.admin-cv-item__actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.btn-primary,
+.btn-danger {
+  border: none;
+  border-radius: var(--radiusSm);
+  padding: 0.55rem 0.8rem;
+  cursor: pointer;
+  font-family: var(--ffSecondary);
+  transition: transform 120ms ease, opacity 120ms ease;
+}
+
+.btn-primary:hover,
+.btn-danger:hover {
+  opacity: 0.92;
+}
+
+.btn-primary:active,
+.btn-danger:active {
+  transform: translateY(1px);
+}
+
+.btn-primary {
+  background: var(--pale);
+  color: var(--dark);
+}
+
+.btn-danger {
+  background: #a53c50;
+  color: #fff;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+@media (max-width: 900px) {
+  .admin-cv-card {
+    padding: 0.95rem;
+  }
+
+  .admin-cv-item__header {
+    flex-direction: column;
+  }
+
+  .admin-cv-item__actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .admin-cv-card__title-row h2 {
+    font-size: 1.2rem;
+  }
+
+  .admin-cv-card {
+    padding: 0.85rem;
+  }
+}

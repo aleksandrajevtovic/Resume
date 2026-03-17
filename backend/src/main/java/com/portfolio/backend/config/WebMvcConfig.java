@@ -1,22 +1,23 @@
 package com.portfolio.backend.config;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
-    @Value("${app.upload.dir:uploads}")
-    private String uploadDir;
+    private final UploadPathResolver uploadPathResolver;
+
+    public WebMvcConfig(UploadPathResolver uploadPathResolver) {
+        this.uploadPathResolver = uploadPathResolver;
+    }
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        Path absoluteUploadPath = Paths.get(uploadDir).toAbsolutePath().normalize();
+        Path absoluteUploadPath = uploadPathResolver.resolveUploadPath();
         registry.addResourceHandler("/uploads/**")
                 .addResourceLocations("file:" + absoluteUploadPath + "/");
     }

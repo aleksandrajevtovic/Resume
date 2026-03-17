@@ -209,6 +209,12 @@
   align-items: start;
 }
 
+.admin-dashboard__stack {
+  display: grid;
+  gap: 1rem;
+  align-content: start;
+}
+
 .admin-card {
   background: var(--shade);
   border-radius: var(--radiusMd);

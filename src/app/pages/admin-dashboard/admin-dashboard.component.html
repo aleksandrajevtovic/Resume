@@ -68,21 +68,30 @@
       </ul>
     </article>
 
-    <article class="admin-card">
-      <div class="admin-card__title-row">
-        <h2>About text</h2>
-        <button type="button" class="primary-btn" (click)="openAboutModal()">
-          Open editor
-        </button>
-      </div>
+    <div class="admin-dashboard__stack">
+      <article class="admin-card">
+        <div class="admin-card__title-row">
+          <h2>About text</h2>
+          <button type="button" class="primary-btn" (click)="openAboutModal()">
+            Open editor
+          </button>
+        </div>
 
-      <p class="about-admin-summary">
-        Manage bilingual About text (EN/DE) in a modal editor.
-      </p>
-      @if (!loadingAboutContent && !canManageAboutContent) {
-      <p class="about-admin-error">{{ aboutContentErrorMessage }}</p>
-      }
-    </article>
+        <p class="about-admin-summary">
+          Manage bilingual About text (EN/DE) in a modal editor.
+        </p>
+        @if (!loadingAboutContent && !canManageAboutContent) {
+        <p class="about-admin-error">{{ aboutContentErrorMessage }}</p>
+        }
+      </article>
+
+      <app-admin-cv-manager
+        [contentBlocks]="contentBlocks"
+        (success)="handleComponentSuccess($event)"
+        (error)="handleComponentError($event)"
+        (refreshRequested)="loadAll()"
+      ></app-admin-cv-manager>
+    </div>
 
   </div>
 

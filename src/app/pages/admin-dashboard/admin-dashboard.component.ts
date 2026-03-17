@@ -436,6 +436,15 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
     this.errorMessage = '';
   }
 
+  handleComponentSuccess(message: string): void {
+    this.setSuccessMessage(message);
+  }
+
+  handleComponentError(message: string): void {
+    this.clearMessages();
+    this.errorMessage = message;
+  }
+
   saveAboutRow(row: AboutContentRow): void {
     if (!this.canManageAboutContent) {
       this.errorMessage = 'About content endpoint is not authorized.';
