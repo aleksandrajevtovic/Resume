@@ -9,6 +9,7 @@ import { Project } from '../../models/project';
 import { AuthService } from '../../services/auth.service';
 import { ContentService } from '../../services/content.service';
 import { ProjectService } from '../../services/project.service';
+import { DocumentScrollLock, runSharedPreloaderIntro } from '../../utils/page-preloader';
 
 interface AboutContentRow {
   index: number;
@@ -57,9 +58,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
   deletingAbout = false;
   private preloaderRafId?: number;
   private preloadTl = gsap.timeline();
-  private originalBodyOverflow = '';
-  private originalHtmlOverflow = '';
-  private preloadScrollUnlocked = false;
+  private readonly preloadScrollLock: DocumentScrollLock;
 
   constructor(
     @Inject(DOCUMENT) private readonly document: Document,
@@ -67,10 +66,12 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
     private readonly projectService: ProjectService,
     private readonly contentService: ContentService,
     private readonly translate: TranslateService
-  ) {}
+  ) {
+    this.preloadScrollLock = new DocumentScrollLock(document);
+  }
 
   ngOnInit(): void {
-    this.lockPreloadScroll();
+    this.preloadScrollLock.lock();
     this.preloaderRafId = requestAnimationFrame(() => this.preloaderAnim());
     const activeLang = localStorage.getItem('lang') || 'EN';
     this.translate.use(activeLang);
@@ -83,7 +84,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
       cancelAnimationFrame(this.preloaderRafId);
     }
     this.preloadTl.kill();
-    this.unlockPreloadScroll();
+    this.preloadScrollLock.unlock();
     this.unlockBodyScroll();
   }
 
@@ -692,17 +693,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
     });
 
     this.preloadTl.clear();
-    this.preloadTl.to('.wave-animation', {
-      delay: reduceMotion ? 0.95 : 1.95,
-      duration: 0.35,
-      opacity: 0,
-    });
-    this.preloadTl.to('.preloader', {
-      delay: 0.25,
-      duration: reduceMotion ? 0.15 : 0.24,
-      opacity: 0,
-      ease: 'power2.out',
-    });
+    runSharedPreloaderIntro(this.preloadTl, reduceMotion);
     this.preloadTl.to(
       '.admin-dashboard-shell',
       {
@@ -734,27 +725,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
     );
     this.preloadTl.call(() => {
       this.isPageLoading = false;
-      this.unlockPreloadScroll();
+      this.preloadScrollLock.unlock();
     });
-  }
-
-  private lockPreloadScroll(): void {
-    const body = this.document.body;
-    const html = this.document.documentElement;
-
-    this.originalBodyOverflow = body.style.overflow;
-    this.originalHtmlOverflow = html.style.overflow;
-    body.style.overflow = 'hidden';
-    html.style.overflow = 'hidden';
-  }
-
-  private unlockPreloadScroll(): void {
-    if (this.preloadScrollUnlocked) {
-      return;
-    }
-
-    this.preloadScrollUnlocked = true;
-    this.document.body.style.overflow = this.originalBodyOverflow;
-    this.document.documentElement.style.overflow = this.originalHtmlOverflow;
   }
 }

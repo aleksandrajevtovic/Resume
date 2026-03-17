@@ -4,6 +4,7 @@ import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import gsap from 'gsap';
 import { AuthService } from '../../services/auth.service';
+import { DocumentScrollLock, runSharedPreloaderIntro } from '../../utils/page-preloader';
 
 @Component({
   selector: 'app-admin-login',
@@ -18,20 +19,20 @@ export class AdminLoginComponent implements OnInit, OnDestroy {
   errorMessage = '';
   isLoading = false;
   isPageLoading = true;
-  private originalBodyOverflow = '';
-  private originalHtmlOverflow = '';
-  private hasUnlockedScroll = false;
   private preloaderRafId?: number;
   private tlLoad = gsap.timeline();
+  private readonly preloadScrollLock: DocumentScrollLock;
 
   constructor(
     private readonly authService: AuthService,
     private readonly router: Router,
     @Inject(DOCUMENT) private readonly document: Document
-  ) {}
+  ) {
+    this.preloadScrollLock = new DocumentScrollLock(document);
+  }
 
   ngOnInit(): void {
-    this.lockScroll();
+    this.preloadScrollLock.lock();
     this.preloaderRafId = requestAnimationFrame(() => this.preloaderAnim());
   }
 
@@ -40,7 +41,7 @@ export class AdminLoginComponent implements OnInit, OnDestroy {
       cancelAnimationFrame(this.preloaderRafId);
     }
     this.tlLoad.kill();
-    this.unlockScroll();
+    this.preloadScrollLock.unlock();
   }
 
   submit(): void {
@@ -82,17 +83,7 @@ export class AdminLoginComponent implements OnInit, OnDestroy {
     });
 
     this.tlLoad.clear();
-    this.tlLoad.to('.wave-animation', {
-      delay: reduceMotion ? 0.95 : 1.95,
-      duration: 0.35,
-      opacity: 0,
-    });
-    this.tlLoad.to('.preloader', {
-      delay: 0.25,
-      duration: reduceMotion ? 0.15 : 0.24,
-      opacity: 0,
-      ease: 'power2.out',
-    });
+    runSharedPreloaderIntro(this.tlLoad, reduceMotion);
     this.tlLoad.to(
       '.admin-login',
       {
@@ -125,27 +116,7 @@ export class AdminLoginComponent implements OnInit, OnDestroy {
     );
     this.tlLoad.call(() => {
       this.isPageLoading = false;
-      this.unlockScroll();
+      this.preloadScrollLock.unlock();
     });
-  }
-
-  private lockScroll(): void {
-    const body = this.document.body;
-    const html = this.document.documentElement;
-
-    this.originalBodyOverflow = body.style.overflow;
-    this.originalHtmlOverflow = html.style.overflow;
-    body.style.overflow = 'hidden';
-    html.style.overflow = 'hidden';
-  }
-
-  private unlockScroll(): void {
-    if (this.hasUnlockedScroll) {
-      return;
-    }
-
-    this.hasUnlockedScroll = true;
-    this.document.body.style.overflow = this.originalBodyOverflow;
-    this.document.documentElement.style.overflow = this.originalHtmlOverflow;
   }
 }

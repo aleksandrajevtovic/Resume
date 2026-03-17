@@ -1,6 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import gsap from 'gsap';
+import { DocumentScrollLock, runSharedPreloaderIntro } from '../../utils/page-preloader';
 
 @Component({
     selector: 'app-home',
@@ -8,20 +9,20 @@ import gsap from 'gsap';
     standalone: false
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  private originalBodyOverflow = '';
-  private originalHtmlOverflow = '';
-  private hasUnlockedScroll = false;
   private originalScrollRestoration?: ScrollRestoration;
   private finalTopResetTimer?: number;
   private heroLoadedRafIds: number[] = [];
+  private readonly preloadScrollLock: DocumentScrollLock;
 
-  constructor(@Inject(DOCUMENT) private readonly document: Document) {}
+  constructor(@Inject(DOCUMENT) private readonly document: Document) {
+    this.preloadScrollLock = new DocumentScrollLock(document);
+  }
   tlLoad = gsap.timeline();
 
   ngOnInit(): void {
     this.disableScrollRestoration();
     this.resetToTop();
-    this.lockScroll();
+    this.preloadScrollLock.lock();
     requestAnimationFrame(() => this.preloaderAnim());
   }
 
@@ -34,7 +35,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       window.clearTimeout(this.finalTopResetTimer);
     }
     this.restoreScrollRestoration();
-    this.unlockScroll();
+    this.preloadScrollLock.unlock();
   }
 
   preloaderAnim(): void {
@@ -62,21 +63,11 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.tlLoad.eventCallback('onComplete', () => {
       this.ensureHeroLoaded();
       this.resetToTop();
-      this.unlockScroll();
+      this.preloadScrollLock.unlock();
       this.finalTopResetTimer = window.setTimeout(() => this.resetToTop(), 60);
     });
 
-    this.tlLoad.to('.wave-animation', {
-      delay: reduceMotion ? 0.95 : 1.95,
-      duration: 0.35,
-      opacity: 0,
-    });
-    this.tlLoad.to('.preloader', {
-      delay: 0.25,
-      duration: reduceMotion ? 0.15 : 0.24,
-      opacity: 0,
-      ease: 'power2.out',
-    });
+    runSharedPreloaderIntro(this.tlLoad, reduceMotion);
     this.tlLoad.to('.preloader', {
       zIndex: -1,
       pointerEvents: 'none',
@@ -136,17 +127,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.tlLoad.call(() => this.ensureHeroLoaded());
   }
 
-  private lockScroll(): void {
-    const body = this.document.body;
-    const html = this.document.documentElement;
-
-    this.originalBodyOverflow = body.style.overflow;
-    this.originalHtmlOverflow = html.style.overflow;
-
-    body.style.overflow = 'hidden';
-    html.style.overflow = 'hidden';
-  }
-
   private resetToTop(): void {
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
   }
@@ -183,13 +163,4 @@ export class HomeComponent implements OnInit, OnDestroy {
     window.history.scrollRestoration = this.originalScrollRestoration;
   }
 
-  private unlockScroll(): void {
-    if (this.hasUnlockedScroll) {
-      return;
-    }
-
-    this.hasUnlockedScroll = true;
-    this.document.body.style.overflow = this.originalBodyOverflow;
-    this.document.documentElement.style.overflow = this.originalHtmlOverflow;
-  }
 }
