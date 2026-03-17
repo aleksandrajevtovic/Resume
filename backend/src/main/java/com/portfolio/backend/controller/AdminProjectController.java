@@ -9,6 +9,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -32,7 +33,7 @@ public class AdminProjectController {
     public Project create(@Valid @RequestBody ProjectRequest request) {
         Project project = new Project();
         copyRequest(project, request);
-        return projectRepository.save(project);
+        return saveWithNormalizedSortOrder(project);
     }
 
     @PutMapping("/{id}")
@@ -41,16 +42,20 @@ public class AdminProjectController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Project not found"));
 
         copyRequest(project, request);
-        return projectRepository.save(project);
+        return saveWithNormalizedSortOrder(project);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable String id) {
-        if (!projectRepository.existsById(id)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Project not found");
-        }
-        projectRepository.deleteById(id);
+        Project project = projectRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Project not found"));
+
+        List<Project> projects = new ArrayList<>(projectRepository.findAllByOrderBySortOrderAsc());
+        projects.removeIf(existing -> id.equals(existing.getId()));
+        normalizeSortOrders(projects);
+        projectRepository.saveAll(projects);
+        projectRepository.delete(project);
     }
 
     private void copyRequest(Project project, ProjectRequest request) {
@@ -67,5 +72,25 @@ public class AdminProjectController {
         project.setLiveUrl(request.getLiveUrl());
         project.setGithubUrl(request.getGithubUrl());
         project.setSortOrder(request.getSortOrder() == null ? 0 : request.getSortOrder());
+    }
+
+    private Project saveWithNormalizedSortOrder(Project project) {
+        List<Project> projects = new ArrayList<>(projectRepository.findAllByOrderBySortOrderAsc());
+        String projectId = project.getId();
+
+        projects.removeIf(existing -> existing.getId() != null && existing.getId().equals(projectId));
+
+        int requestedIndex = project.getSortOrder() == null ? projects.size() : project.getSortOrder();
+        int normalizedIndex = Math.max(0, Math.min(requestedIndex, projects.size()));
+        projects.add(normalizedIndex, project);
+
+        normalizeSortOrders(projects);
+        return projectRepository.saveAll(projects).get(normalizedIndex);
+    }
+
+    private void normalizeSortOrders(List<Project> projects) {
+        for (int index = 0; index < projects.size(); index++) {
+            projects.get(index).setSortOrder(index);
+        }
     }
 }
