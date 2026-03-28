@@ -57,14 +57,15 @@ public class CloudinaryMediaService {
                     file.getBytes(),
                     ObjectUtils.asMap(
                             "folder", buildFolder("cv"),
-                            "resource_type", "raw",
+                            "resource_type", "image",
                             "public_id", publicId,
+                            "format", "pdf",
                             "overwrite", true,
                             "use_filename", false,
                             "unique_filename", false
                     )
             );
-            return toStoredAsset(response, "raw");
+            return toStoredAsset(response, "image");
         } catch (IOException ex) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "CV upload failed");
         }

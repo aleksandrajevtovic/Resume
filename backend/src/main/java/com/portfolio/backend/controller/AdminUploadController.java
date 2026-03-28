@@ -315,6 +315,6 @@ public class AdminUploadController {
             sanitizedBaseName = "cv-" + lang.toLowerCase();
         }
 
-        return lang.toLowerCase() + "/" + sanitizedBaseName + ".pdf";
+        return lang.toLowerCase() + "/" + sanitizedBaseName;
     }
 }
