@@ -1,0 +1,35 @@
+:host {
+  display: block;
+}
+
+.admin-project-editor__header {
+  gap: 1rem;
+}
+
+.admin-project-editor__card {
+  max-width: 1080px;
+}
+
+.admin-project-editor__back,
+.admin-project-editor__back-link {
+  text-decoration: none;
+}
+
+.admin-project-editor__back-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 900px) {
+  .admin-project-editor__header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .admin-project-editor__back,
+  .admin-project-editor__back-link {
+    width: 100%;
+    justify-content: center;
+  }
+}

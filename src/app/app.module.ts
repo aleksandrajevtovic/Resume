@@ -24,7 +24,10 @@ import { AdminCvManagerComponent } from './components/admin-cv-manager/admin-cv-
 import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.component';
 import { ErrorComponent } from './pages/error/error.component';
 import { AdminLoginComponent } from './pages/admin-login/admin-login.component';
+import { AdminAboutEditorComponent } from './pages/admin-about-editor/admin-about-editor.component';
 import { AdminDashboardComponent } from './pages/admin-dashboard/admin-dashboard.component';
+import { AdminContactEditorComponent } from './pages/admin-contact-editor/admin-contact-editor.component';
+import { AdminProjectEditorComponent } from './pages/admin-project-editor/admin-project-editor.component';
 import { authTokenInterceptor } from './interceptors/auth-token.interceptor';
 
 @NgModule({ declarations: [
@@ -43,7 +46,10 @@ import { authTokenInterceptor } from './interceptors/auth-token.interceptor';
         ConfirmModalComponent,
         ErrorComponent,
         AdminLoginComponent,
+        AdminAboutEditorComponent,
         AdminDashboardComponent,
+        AdminContactEditorComponent,
+        AdminProjectEditorComponent,
     ],
     bootstrap: [AppComponent], imports: [BrowserModule,
         AppRoutingModule,
@@ -58,7 +64,6 @@ import { authTokenInterceptor } from './interceptors/auth-token.interceptor';
         })], providers: [provideHttpClient(withInterceptors([authTokenInterceptor]))] })
 export class AppModule {}
 
-// AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }

@@ -1,0 +1,191 @@
+<section class="admin-dashboard-shell">
+  <header class="admin-topbar">
+    <a class="admin-topbar__logo" routerLink="/admin">
+      <span class="admin-topbar__logo-name">Aleksandra Jevtovic</span>
+    </a>
+  </header>
+
+  <div
+    class="admin-layout"
+    [class.admin-layout--sidebar-collapsed]="!sidebarExpanded"
+    [class.admin-layout--mobile]="isMobileSidebar"
+  >
+    <app-admin-sidebar
+      [expanded]="sidebarExpanded"
+      [isMobile]="isMobileSidebar"
+      (toggleRequested)="toggleSidebar()"
+      (logoutRequested)="logout()"
+    ></app-admin-sidebar>
+
+    <section class="admin-dashboard">
+      <header class="admin-dashboard__header admin-project-editor__header">
+        <div>
+          <h1>{{ isEditMode ? 'Edit Project' : 'Add Project' }}</h1>
+          <p class="about-admin-summary">Manage project content, image, links, and order.</p>
+        </div>
+        <a class="ghost-btn admin-project-editor__back" routerLink="/admin">← Back to dashboard</a>
+      </header>
+
+      @if (successMessage) {
+      <div class="admin-alert admin-alert--success" role="status" aria-live="polite">
+        <span>{{ successMessage }}</span>
+        <button type="button" class="admin-alert__close" (click)="dismissSuccessMessage()" aria-label="Close message">
+          ×
+        </button>
+      </div>
+      }
+
+      @if (errorMessage) {
+      <div class="admin-alert admin-alert--error" role="alert">
+        <span>{{ errorMessage }}</span>
+        <button type="button" class="admin-alert__close" (click)="dismissErrorMessage()" aria-label="Close message">
+          ×
+        </button>
+      </div>
+      }
+
+      <article class="admin-card admin-project-editor__card">
+        @if (loading) {
+        <p class="about-admin-summary">Loading project editor...</p>
+        } @else {
+        <form #projectNgForm="ngForm" (ngSubmit)="saveProject()" class="modal-form" autocomplete="off">
+          <div class="form-grid">
+            <div class="form-field">
+              <label for="project-title-en">Project title (EN)</label>
+              <input
+                id="project-title-en"
+                type="text"
+                name="titleEn"
+                [(ngModel)]="projectForm.titleEn"
+                placeholder="Project title in English"
+                required
+              />
+            </div>
+            <div class="form-field">
+              <label for="project-title-de">Project title (DE)</label>
+              <input
+                id="project-title-de"
+                type="text"
+                name="titleDe"
+                [(ngModel)]="projectForm.titleDe"
+                placeholder="Projektname auf Deutsch"
+                required
+              />
+            </div>
+            <div class="form-field">
+              <label for="project-order">Sort order</label>
+              <input
+                id="project-order"
+                type="number"
+                name="sortOrder"
+                [(ngModel)]="projectForm.sortOrder"
+                min="1"
+                [max]="isEditMode ? projects.length : projects.length + 1"
+                placeholder="1"
+              />
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-field">
+              <label for="project-description-en">Project description (EN)</label>
+              <textarea
+                id="project-description-en"
+                name="descriptionEn"
+                [(ngModel)]="projectForm.descriptionEn"
+                placeholder="Project description in English"
+                required
+              ></textarea>
+            </div>
+            <div class="form-field">
+              <label for="project-description-de">Project description (DE)</label>
+              <textarea
+                id="project-description-de"
+                name="descriptionDe"
+                [(ngModel)]="projectForm.descriptionDe"
+                placeholder="Projektbeschreibung auf Deutsch"
+                required
+              ></textarea>
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-field">
+              <label for="project-image">Image URL</label>
+              <input
+                id="project-image"
+                type="text"
+                name="imageUrl"
+                [(ngModel)]="projectForm.imageUrl"
+                placeholder="./assets/images/example.png"
+                required
+              />
+              <div class="image-tools">
+                <input
+                  type="file"
+                  accept="image/*"
+                  (change)="onImageFileSelected($event)"
+                />
+                <button
+                  type="button"
+                  class="btn-secondary"
+                  (click)="uploadSelectedImage()"
+                  [disabled]="uploadingImage"
+                >
+                  {{ uploadingImage ? "Uploading..." : "Upload image" }}
+                </button>
+                <button type="button" class="btn-secondary" (click)="copyImagePath()">
+                  Copy path
+                </button>
+              </div>
+              @if (uploadStatus) {
+              <small>{{ uploadStatus }}</small>
+              }
+            </div>
+            <div class="form-field">
+              <label for="project-tech">Tech stack</label>
+              <input
+                id="project-tech"
+                type="text"
+                name="techStackInput"
+                [(ngModel)]="techStackInput"
+                placeholder="Angular, Spring Boot, MongoDB"
+              />
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-field form-field--wide">
+              <label for="project-live">Live URL</label>
+              <input
+                id="project-live"
+                type="text"
+                name="liveUrl"
+                [(ngModel)]="projectForm.liveUrl"
+                placeholder="https://example.com"
+              />
+            </div>
+            <div class="form-field form-field--wide">
+              <label for="project-github">Github URL</label>
+              <input
+                id="project-github"
+                type="text"
+                name="githubUrl"
+                [(ngModel)]="projectForm.githubUrl"
+                placeholder="https://github.com/..."
+              />
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn-primary" [disabled]="saving || projectNgForm.invalid">
+              {{ saving ? "Saving..." : "Save project" }}
+            </button>
+            <a class="btn-secondary admin-project-editor__back-link" routerLink="/admin">Cancel</a>
+          </div>
+        </form>
+        }
+      </article>
+    </section>
+  </div>
+</section>

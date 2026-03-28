@@ -1,0 +1,97 @@
+<section class="admin-dashboard-shell">
+  <header class="admin-topbar">
+    <a class="admin-topbar__logo" routerLink="/admin">
+      <span class="admin-topbar__logo-name">Aleksandra Jevtovic</span>
+    </a>
+  </header>
+
+  <div
+    class="admin-layout"
+    [class.admin-layout--sidebar-collapsed]="!sidebarExpanded"
+    [class.admin-layout--mobile]="isMobileSidebar"
+  >
+    <app-admin-sidebar
+      [expanded]="sidebarExpanded"
+      [isMobile]="isMobileSidebar"
+      (toggleRequested)="toggleSidebar()"
+      (logoutRequested)="logout()"
+    ></app-admin-sidebar>
+
+    <section class="admin-dashboard">
+      <header class="admin-dashboard__header admin-about-editor__header">
+        <div>
+          <h1>About Text</h1>
+          <p class="about-admin-summary">Edit the public EN/DE About text.</p>
+        </div>
+        <a class="ghost-btn admin-about-editor__back" routerLink="/admin">← Back to dashboard</a>
+      </header>
+
+      @if (successMessage) {
+      <div class="admin-alert admin-alert--success" role="status" aria-live="polite">
+        <span>{{ successMessage }}</span>
+        <button type="button" class="admin-alert__close" (click)="dismissSuccessMessage()" aria-label="Close message">
+          ×
+        </button>
+      </div>
+      }
+
+      @if (errorMessage) {
+      <div class="admin-alert admin-alert--error" role="alert">
+        <span>{{ errorMessage }}</span>
+        <button type="button" class="admin-alert__close" (click)="dismissErrorMessage()" aria-label="Close message">
+          ×
+        </button>
+      </div>
+      }
+
+      <article class="admin-card admin-about-editor__card">
+        @if (loading) {
+        <p class="about-admin-summary">Loading About text...</p>
+        } @else {
+        <form class="modal-form" autocomplete="off">
+          <div class="form-grid">
+            <div class="form-field">
+              <label for="about-en">About text (EN)</label>
+              <textarea
+                id="about-en"
+                name="aboutEn"
+                [(ngModel)]="aboutForm.enValue"
+                placeholder="English About line"
+              ></textarea>
+            </div>
+            <div class="form-field">
+              <label for="about-de">About text (DE)</label>
+              <textarea
+                id="about-de"
+                name="aboutDe"
+                [(ngModel)]="aboutForm.deValue"
+                placeholder="Deutsche About-Zeile"
+              ></textarea>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button
+              type="button"
+              class="btn-primary"
+              (click)="saveAboutContent()"
+              [disabled]="saving || deleting"
+            >
+              {{ saving ? "Saving..." : "Save text" }}
+            </button>
+            <button
+              type="button"
+              class="btn-danger"
+              (click)="deleteAboutContent()"
+              [disabled]="saving || deleting"
+            >
+              {{ deleting ? "Deleting..." : "Delete text" }}
+            </button>
+            <a class="btn-secondary admin-about-editor__back-link" routerLink="/admin">Cancel</a>
+          </div>
+        </form>
+        }
+      </article>
+    </section>
+  </div>
+</section>

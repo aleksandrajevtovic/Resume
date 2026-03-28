@@ -20,6 +20,22 @@ interface AboutContentRow {
   saving?: boolean;
 }
 
+interface ContactContentForm {
+  enP1Id?: string;
+  enP2Id?: string;
+  enBtnId?: string;
+  deP1Id?: string;
+  deP2Id?: string;
+  deBtnId?: string;
+  enP1: string;
+  enP2: string;
+  enBtn: string;
+  deP1: string;
+  deP2: string;
+  deBtn: string;
+  saving?: boolean;
+}
+
 @Component({
   selector: 'app-admin-dashboard',
   templateUrl: './admin-dashboard.component.html',
@@ -52,10 +68,16 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
   showProjectModal = false;
   showDeleteProjectModal = false;
   showAboutModal = false;
+  showContactModal = false;
   showDeleteAboutModal = false;
   projectToDelete: Project | null = null;
   aboutRowToDelete: AboutContentRow | null = null;
   deletingAbout = false;
+  reorderingProjects = false;
+  draggedProjectId: string | null = null;
+  contactContent: ContactContentForm = this.emptyContactContent();
+  loadingContactContent = false;
+  contactContentErrorMessage = '';
   private preloaderRafId?: number;
   private preloadTl = gsap.timeline();
   private readonly preloadScrollLock: DocumentScrollLock;
@@ -107,6 +129,11 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
       return;
     }
 
+    if (this.showContactModal) {
+      this.closeContactModal();
+      return;
+    }
+
     if (this.showProjectModal) {
       this.closeProjectModal();
     }
@@ -119,7 +146,9 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
 
   loadAll(): void {
     this.loadingAboutContent = true;
+    this.loadingContactContent = true;
     this.aboutContentErrorMessage = '';
+    this.contactContentErrorMessage = '';
     this.canManageAboutContent = true;
     this.projectService.getAdminProjects().subscribe({
       next: (projects) => (this.projects = projects),
@@ -129,6 +158,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
       next: (blocks) => {
         this.contentBlocks = blocks;
         const mappedRows = this.mapAboutRowsFromBlocks(blocks);
+        this.contactContent = this.mapContactContentFromBlocks(blocks);
         this.aboutRows = mappedRows.length
           ? [mappedRows[0]]
           : [
@@ -139,13 +169,18 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
               },
             ];
         this.loadingAboutContent = false;
+        this.loadingContactContent = false;
       },
       error: () => {
         this.loadingAboutContent = false;
+        this.loadingContactContent = false;
         this.canManageAboutContent = false;
         this.aboutRows = [];
+        this.contactContent = this.emptyContactContent();
         this.aboutContentErrorMessage =
           'About content management is not authorized (403). Enable /api/admin/content in backend admin security.';
+        this.contactContentErrorMessage =
+          'Contact content management is not authorized (403). Enable /api/admin/content in backend admin security.';
       },
     });
   }
@@ -163,6 +198,16 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
 
   closeAboutModal(): void {
     this.showAboutModal = false;
+    this.syncBodyScrollLock();
+  }
+
+  openContactModal(): void {
+    this.showContactModal = true;
+    this.syncBodyScrollLock();
+  }
+
+  closeContactModal(): void {
+    this.showContactModal = false;
     this.syncBodyScrollLock();
   }
 
@@ -184,7 +229,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
       techStack: [...project.techStack],
       liveUrl: project.liveUrl ?? '',
       githubUrl: project.githubUrl ?? '',
-      sortOrder: project.sortOrder ?? 0,
+      sortOrder: this.getProjectDisplayOrder(project),
     };
     this.techStackInput = project.techStack.join(', ');
     this.showProjectModal = true;
@@ -217,10 +262,12 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
   saveProject(): void {
     this.clearMessages();
     this.saving = true;
+    const normalizedSortOrder = this.normalizeProjectFormSortOrder(this.projectForm.sortOrder);
     this.projectForm.techStack = this.techStackInput
       .split(',')
       .map((item) => item.trim())
       .filter((item) => item.length > 0);
+    this.projectForm.sortOrder = normalizedSortOrder;
     this.ensureProjectTranslationKeys();
 
     if (this.editingProjectId) {
@@ -329,6 +376,48 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
       return translated;
     }
     return project.description?.trim() || '';
+  }
+
+  getProjectDisplayOrder(project: Project): number {
+    return (project.sortOrder ?? 0) + 1;
+  }
+
+  onProjectDragStart(project: Project): void {
+    if (this.reorderingProjects || !project.id) {
+      return;
+    }
+
+    this.draggedProjectId = project.id;
+  }
+
+  onProjectDragEnd(): void {
+    this.draggedProjectId = null;
+  }
+
+  onProjectDragOver(event: DragEvent): void {
+    event.preventDefault();
+  }
+
+  onProjectDrop(targetProject: Project): void {
+    if (this.reorderingProjects || !this.draggedProjectId || !targetProject.id) {
+      this.draggedProjectId = null;
+      return;
+    }
+
+    const fromIndex = this.projects.findIndex((project) => project.id === this.draggedProjectId);
+    const toIndex = this.projects.findIndex((project) => project.id === targetProject.id);
+
+    this.draggedProjectId = null;
+
+    if (fromIndex < 0 || toIndex < 0 || fromIndex === toIndex) {
+      return;
+    }
+
+    this.reorderProjects(fromIndex, toIndex);
+  }
+
+  isDraggedProject(project: Project): boolean {
+    return !!project.id && this.draggedProjectId === project.id;
   }
 
   private resolveTranslation(key?: string): string {
@@ -443,6 +532,104 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
   handleComponentError(message: string): void {
     this.clearMessages();
     this.errorMessage = message;
+  }
+
+  saveContactContent(): void {
+    if (!this.canManageAboutContent) {
+      this.errorMessage = 'Contact content endpoint is not authorized.';
+      return;
+    }
+
+    this.clearMessages();
+
+    const payload = {
+      enP1: this.contactContent.enP1.trim(),
+      enP2: this.contactContent.enP2.trim(),
+      enBtn: this.contactContent.enBtn.trim(),
+      deP1: this.contactContent.deP1.trim(),
+      deP2: this.contactContent.deP2.trim(),
+      deBtn: this.contactContent.deBtn.trim(),
+    };
+
+    if (Object.values(payload).some((value) => !value)) {
+      this.closeContactModal();
+      this.errorMessage = 'All English and German Contact fields are required.';
+      return;
+    }
+
+    this.contactContent.saving = true;
+    this.closeContactModal();
+
+    forkJoin([
+      this.upsertContentBlock(this.contactContent.enP1Id, 'CONTACT.EN.P1', payload.enP1),
+      this.upsertContentBlock(this.contactContent.enP2Id, 'CONTACT.EN.P2', payload.enP2),
+      this.upsertContentBlock(this.contactContent.enBtnId, 'CONTACT.EN.BTN', payload.enBtn),
+      this.upsertContentBlock(this.contactContent.deP1Id, 'CONTACT.DE.P1', payload.deP1),
+      this.upsertContentBlock(this.contactContent.deP2Id, 'CONTACT.DE.P2', payload.deP2),
+      this.upsertContentBlock(this.contactContent.deBtnId, 'CONTACT.DE.BTN', payload.deBtn),
+    ]).subscribe({
+      next: ([enP1, enP2, enBtn, deP1, deP2, deBtn]) => {
+        this.contactContent = {
+          enP1Id: enP1.id,
+          enP2Id: enP2.id,
+          enBtnId: enBtn.id,
+          deP1Id: deP1.id,
+          deP2Id: deP2.id,
+          deBtnId: deBtn.id,
+          enP1: enP1.value,
+          enP2: enP2.value,
+          enBtn: enBtn.value,
+          deP1: deP1.value,
+          deP2: deP2.value,
+          deBtn: deBtn.value,
+          saving: false,
+        };
+        this.setSuccessMessage('Contact text saved successfully.');
+        this.loadAll();
+      },
+      error: () => {
+        this.contactContent.saving = false;
+        this.errorMessage = 'Failed to save Contact text. Check backend /api/admin/content permissions.';
+      },
+    });
+  }
+
+  deleteContactContent(): void {
+    if (!this.canManageAboutContent) {
+      this.errorMessage = 'Contact content endpoint is not authorized.';
+      return;
+    }
+
+    const ids = [
+      this.contactContent.enP1Id,
+      this.contactContent.enP2Id,
+      this.contactContent.enBtnId,
+      this.contactContent.deP1Id,
+      this.contactContent.deP2Id,
+      this.contactContent.deBtnId,
+    ].filter((id): id is string => !!id);
+
+    this.clearMessages();
+    this.contactContent.saving = true;
+    this.closeContactModal();
+
+    if (!ids.length) {
+      this.contactContent = this.emptyContactContent();
+      this.setSuccessMessage('Contact text reset to translation fallback.');
+      return;
+    }
+
+    forkJoin(ids.map((id) => this.contentService.deleteContentBlock(id))).subscribe({
+      next: () => {
+        this.contactContent = this.emptyContactContent();
+        this.setSuccessMessage('Contact text deleted.');
+        this.loadAll();
+      },
+      error: () => {
+        this.contactContent.saving = false;
+        this.errorMessage = 'Failed to delete Contact text. Check backend /api/admin/content permissions.';
+      },
+    });
   }
 
   saveAboutRow(row: AboutContentRow): void {
@@ -591,7 +778,18 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
       techStack: [],
       liveUrl: '',
       githubUrl: '',
-      sortOrder: 0,
+      sortOrder: this.projects.length + 1,
+    };
+  }
+
+  private emptyContactContent(): ContactContentForm {
+    return {
+      enP1: '',
+      enP2: '',
+      enBtn: '',
+      deP1: '',
+      deP2: '',
+      deBtn: '',
     };
   }
 
@@ -601,7 +799,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
       .replace(/[^A-Z0-9]+/g, '_')
       .replace(/^_+|_+$/g, '');
 
-    const suffix = this.projectForm.sortOrder ?? this.projects.length + 1;
+    const suffix = (this.projectForm.sortOrder ?? this.projects.length) + 1;
     if (!this.projectForm.titleKey?.trim()) {
       this.projectForm.titleKey = `PROJECTS.TITLE_${cleanName}_${suffix}`;
     }
@@ -610,6 +808,66 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
     }
     this.projectForm.name = this.projectForm.titleEn?.trim() || this.projectForm.name || '';
     this.projectForm.description = this.projectForm.descriptionEn?.trim() || this.projectForm.description || '';
+  }
+
+  private normalizeProjectFormSortOrder(sortOrder: number | undefined): number {
+    const requestedOrder = Number.isFinite(sortOrder) ? Number(sortOrder) : this.projects.length + 1;
+    const maxOrder = this.editingProjectId ? this.projects.length : this.projects.length + 1;
+    const clampedOrder = Math.max(1, Math.min(Math.trunc(requestedOrder || 1), maxOrder));
+    return clampedOrder - 1;
+  }
+
+  private reorderProjects(fromIndex: number, toIndex: number): void {
+    const previousProjects = this.projects.map((project) => ({ ...project, techStack: [...project.techStack] }));
+    const reordered = [...this.projects];
+    const [movedProject] = reordered.splice(fromIndex, 1);
+    reordered.splice(toIndex, 0, movedProject);
+
+    this.projects = reordered.map((project, index) => ({
+      ...project,
+      techStack: [...project.techStack],
+      sortOrder: index,
+    }));
+    this.reorderingProjects = true;
+    this.clearMessages();
+
+    const updates = this.projects
+      .filter((project) => !!project.id)
+      .map((project) =>
+        this.projectService.updateProject(project.id!, this.createProjectPayload(project))
+      );
+
+    forkJoin(updates).subscribe({
+      next: (projects) => {
+        this.projects = [...projects].sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0));
+        this.reorderingProjects = false;
+        this.setSuccessMessage('Project order updated.');
+      },
+      error: () => {
+        this.projects = previousProjects;
+        this.reorderingProjects = false;
+        this.errorMessage = 'Failed to update project order.';
+      },
+    });
+  }
+
+  private createProjectPayload(project: Project): Project {
+    return {
+      id: project.id,
+      name: project.name ?? '',
+      description: project.description ?? '',
+      titleEn: project.titleEn ?? '',
+      titleDe: project.titleDe ?? '',
+      descriptionEn: project.descriptionEn ?? '',
+      descriptionDe: project.descriptionDe ?? '',
+      titleKey: project.titleKey ?? '',
+      descriptionKey: project.descriptionKey ?? '',
+      imageUrl: project.imageUrl,
+      techStack: [...project.techStack],
+      liveUrl: project.liveUrl ?? '',
+      githubUrl: project.githubUrl ?? '',
+      sortOrder: project.sortOrder ?? 0,
+    };
   }
 
   private mapAboutRowsFromBlocks(blocks: ContentBlock[]): AboutContentRow[] {
@@ -643,6 +901,31 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
     return Array.from(rowMap.values()).sort((a, b) => a.index - b.index);
   }
 
+  private mapContactContentFromBlocks(blocks: ContentBlock[]): ContactContentForm {
+    const getBlock = (key: string) => blocks.find((block) => block.key === key);
+    const enP1 = getBlock('CONTACT.EN.P1');
+    const enP2 = getBlock('CONTACT.EN.P2');
+    const enBtn = getBlock('CONTACT.EN.BTN');
+    const deP1 = getBlock('CONTACT.DE.P1');
+    const deP2 = getBlock('CONTACT.DE.P2');
+    const deBtn = getBlock('CONTACT.DE.BTN');
+
+    return {
+      enP1Id: enP1?.id,
+      enP2Id: enP2?.id,
+      enBtnId: enBtn?.id,
+      deP1Id: deP1?.id,
+      deP2Id: deP2?.id,
+      deBtnId: deBtn?.id,
+      enP1: enP1?.value ?? '',
+      enP2: enP2?.value ?? '',
+      enBtn: enBtn?.value ?? '',
+      deP1: deP1?.value ?? '',
+      deP2: deP2?.value ?? '',
+      deBtn: deBtn?.value ?? '',
+    };
+  }
+
   private parseAboutContentKey(key: string): { lang: 'EN' | 'DE'; index: number } | null {
     const match = key.match(/^ABOUT\.(EN|DE)\.SPAN(\d+)$/);
     if (!match) {
@@ -659,9 +942,19 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
     return `ABOUT.${lang}.SPAN${index}`;
   }
 
+  private upsertContentBlock(id: string | undefined, key: string, value: string): Observable<ContentBlock> {
+    return id
+      ? this.contentService.updateContentBlock(id, { key, value })
+      : this.contentService.createContentBlock({ key, value });
+  }
+
   private syncBodyScrollLock(): void {
     const hasOpenModal =
-      this.showProjectModal || this.showDeleteProjectModal || this.showAboutModal || this.showDeleteAboutModal;
+      this.showProjectModal ||
+      this.showDeleteProjectModal ||
+      this.showAboutModal ||
+      this.showContactModal ||
+      this.showDeleteAboutModal;
 
     this.document.body.style.overflow = hasOpenModal ? 'hidden' : '';
   }
@@ -718,6 +1011,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
         duration: reduceMotion ? 0.18 : 0.38,
         opacity: 1,
         y: 0,
+        clearProps: 'transform',
         ease: 'power2.out',
       },
       '<+0.14'
@@ -728,6 +1022,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
         duration: reduceMotion ? 0.2 : 0.48,
         opacity: 1,
         y: 0,
+        clearProps: 'transform',
         ease: 'power3.out',
       },
       '<+0.05'

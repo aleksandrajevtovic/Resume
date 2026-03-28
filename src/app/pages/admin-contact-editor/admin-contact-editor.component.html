@@ -1,0 +1,139 @@
+<section class="admin-dashboard-shell">
+  <header class="admin-topbar">
+    <a class="admin-topbar__logo" routerLink="/admin">
+      <span class="admin-topbar__logo-name">Aleksandra Jevtovic</span>
+    </a>
+  </header>
+
+  <div
+    class="admin-layout"
+    [class.admin-layout--sidebar-collapsed]="!sidebarExpanded"
+    [class.admin-layout--mobile]="isMobileSidebar"
+  >
+    <app-admin-sidebar
+      [expanded]="sidebarExpanded"
+      [isMobile]="isMobileSidebar"
+      (toggleRequested)="toggleSidebar()"
+      (logoutRequested)="logout()"
+    ></app-admin-sidebar>
+
+    <section class="admin-dashboard">
+      <header class="admin-dashboard__header admin-contact-editor__header">
+        <div>
+          <h1>Contact Text</h1>
+          <p class="about-admin-summary">Edit the public EN/DE contact intro and button label.</p>
+        </div>
+        <a class="ghost-btn admin-contact-editor__back" routerLink="/admin">← Back to dashboard</a>
+      </header>
+
+      @if (successMessage) {
+      <div class="admin-alert admin-alert--success" role="status" aria-live="polite">
+        <span>{{ successMessage }}</span>
+        <button type="button" class="admin-alert__close" (click)="dismissSuccessMessage()" aria-label="Close message">
+          ×
+        </button>
+      </div>
+      }
+
+      @if (errorMessage) {
+      <div class="admin-alert admin-alert--error" role="alert">
+        <span>{{ errorMessage }}</span>
+        <button type="button" class="admin-alert__close" (click)="dismissErrorMessage()" aria-label="Close message">
+          ×
+        </button>
+      </div>
+      }
+
+      <article class="admin-card admin-contact-editor__card">
+        @if (loading) {
+        <p class="about-admin-summary">Loading Contact text...</p>
+        } @else {
+        <form class="modal-form" autocomplete="off">
+          <div class="form-grid">
+            <div class="form-field">
+              <label for="contact-en-p1">Contact line 1 (EN)</label>
+              <textarea
+                id="contact-en-p1"
+                name="contactEnP1"
+                [(ngModel)]="contactContent.enP1"
+                placeholder="If you’d like to collaborate or discuss a project,"
+              ></textarea>
+            </div>
+            <div class="form-field">
+              <label for="contact-de-p1">Contact line 1 (DE)</label>
+              <textarea
+                id="contact-de-p1"
+                name="contactDeP1"
+                [(ngModel)]="contactContent.deP1"
+                placeholder="Wenn Sie an einer Zusammenarbeit interessiert sind..."
+              ></textarea>
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-field">
+              <label for="contact-en-p2">Contact line 2 (EN)</label>
+              <textarea
+                id="contact-en-p2"
+                name="contactEnP2"
+                [(ngModel)]="contactContent.enP2"
+                placeholder="feel free to reach out."
+              ></textarea>
+            </div>
+            <div class="form-field">
+              <label for="contact-de-p2">Contact line 2 (DE)</label>
+              <textarea
+                id="contact-de-p2"
+                name="contactDeP2"
+                [(ngModel)]="contactContent.deP2"
+                placeholder="freue ich mich über Ihre Nachricht."
+              ></textarea>
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-field">
+              <label for="contact-en-btn">CTA label (EN)</label>
+              <textarea
+                id="contact-en-btn"
+                name="contactEnBtn"
+                [(ngModel)]="contactContent.enBtn"
+                placeholder="Contact me"
+              ></textarea>
+            </div>
+            <div class="form-field">
+              <label for="contact-de-btn">CTA label (DE)</label>
+              <textarea
+                id="contact-de-btn"
+                name="contactDeBtn"
+                [(ngModel)]="contactContent.deBtn"
+                placeholder="Kontakt aufnehmen"
+              ></textarea>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button
+              type="button"
+              class="btn-primary"
+              (click)="saveContactContent()"
+              [disabled]="saving || deleting"
+            >
+              {{ saving ? "Saving..." : "Save text" }}
+            </button>
+            <button
+              type="button"
+              class="btn-danger"
+              (click)="deleteContactContent()"
+              [disabled]="saving || deleting"
+            >
+              {{ deleting ? "Deleting..." : "Delete text" }}
+            </button>
+            <a class="btn-secondary admin-contact-editor__back-link" routerLink="/admin">Cancel</a>
+          </div>
+        </form>
+        }
+      </article>
+    </section>
+  </div>
+</section>

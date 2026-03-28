@@ -5,6 +5,17 @@
   font-family: var(--ffSecondary);
 }
 
+.admin-cv-card,
+.admin-cv-card h2,
+.admin-cv-card h3,
+.admin-cv-card p,
+.admin-cv-card a,
+.admin-cv-card small,
+.admin-cv-card input,
+.admin-cv-card button {
+  font-family: var(--ffSecondary);
+}
+
 .admin-cv-card__title-row {
   margin-bottom: 1rem;
 }
@@ -80,12 +91,52 @@
   padding: 0.55rem 0.6rem;
   background: rgba(0, 0, 0, 0.18);
   color: var(--white);
+  font-size: 0.95rem;
+  line-height: 1.35;
+}
+
+.admin-cv-item input[type='file']::file-selector-button {
+  margin-right: 0.7rem;
+  border: 1px solid rgba(208, 208, 232, 0.22);
+  border-radius: calc(var(--radiusSm) - 1px);
+  padding: 0.45rem 0.7rem;
+  background: var(--pale);
+  color: var(--dark);
+  font-family: var(--ffSecondary);
+  font-size: 0.92rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color 160ms ease, color 160ms ease, opacity 160ms ease;
+}
+
+.admin-cv-item input[type='file']::file-selector-button:hover {
+  background: var(--white);
+}
+
+.admin-cv-item input[type='file']::-webkit-file-upload-button {
+  margin-right: 0.7rem;
+  border: 1px solid rgba(208, 208, 232, 0.22);
+  border-radius: calc(var(--radiusSm) - 1px);
+  padding: 0.45rem 0.7rem;
+  background: var(--pale);
+  color: var(--dark);
+  font-family: var(--ffSecondary);
+  font-size: 0.92rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color 160ms ease, color 160ms ease, opacity 160ms ease;
+}
+
+.admin-cv-item input[type='file']::-webkit-file-upload-button:hover {
+  background: var(--white);
 }
 
 .admin-cv-item__path,
 .admin-cv-item__status {
   color: var(--light);
   word-break: break-word;
+  font-size: 0.9rem;
+  line-height: 1.35;
 }
 
 .admin-cv-item__actions {

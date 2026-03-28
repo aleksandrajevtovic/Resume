@@ -1,7 +1,7 @@
 @if (open) {
 <div class="confirm-modal__backdrop" (click)="onBackdropClick()"></div>
-<section class="confirm-modal__window" role="dialog" aria-modal="true">
-  <article class="confirm-modal__card">
+<section class="confirm-modal__window" role="dialog" aria-modal="true" (click)="onBackdropClick()">
+  <article class="confirm-modal__card" (click)="$event.stopPropagation()">
     <div class="confirm-modal__header">
       <h3>{{ title }}</h3>
       <button

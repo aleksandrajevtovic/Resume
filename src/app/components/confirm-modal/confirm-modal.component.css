@@ -23,6 +23,14 @@
   font-family: var(--ffSecondary);
 }
 
+.confirm-modal__card,
+.confirm-modal__card h3,
+.confirm-modal__card strong,
+.confirm-modal__card span,
+.confirm-modal__card button {
+  font-family: var(--ffSecondary);
+}
+
 .confirm-modal__header {
   display: flex;
   justify-content: space-between;
@@ -90,6 +98,7 @@
 
 .confirm-modal__danger strong {
   font-weight: 500;
+  font-family: var(--ffSecondary);
 }
 
 .confirm-modal__actions {
@@ -162,12 +171,7 @@
 @media (max-width: 900px) {
   .confirm-modal__window {
     padding: 0.65rem;
-    align-items: start;
     overflow-y: auto;
-  }
-
-  .confirm-modal__card {
-    margin-top: 0.4rem;
   }
 
   .confirm-modal__actions {

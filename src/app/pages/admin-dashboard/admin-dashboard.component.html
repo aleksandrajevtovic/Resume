@@ -47,21 +47,41 @@
     <article class="admin-card admin-card--about-summary">
       <div class="admin-card__title-row">
         <h2>Projects</h2>
-        <button type="button" class="primary-btn" (click)="openAddProjectModal()">
-          Add project
-        </button>
+        <a class="primary-btn" routerLink="/admin/projects/new">Add project</a>
       </div>
+
+      <p class="about-admin-summary about-admin-summary--muted">
+        Drag projects to change the order shown on the site.
+      </p>
 
       <ul class="item-list">
         @for (project of projects; track project.id ?? project.sortOrder) {
-        <li>
-          <div>
+        <li
+          class="project-item"
+          draggable="true"
+          [class.project-item--dragging]="isDraggedProject(project)"
+          [class.project-item--reordering]="reorderingProjects"
+          (dragstart)="onProjectDragStart(project)"
+          (dragend)="onProjectDragEnd()"
+          (dragover)="onProjectDragOver($event)"
+          (drop)="onProjectDrop(project)"
+        >
+          <div class="project-item__meta">
+            <span class="project-item__handle" aria-hidden="true">::</span>
             <strong>{{ getProjectDisplayName(project) }}</strong>
-            <span>#{{ project.sortOrder }}</span>
+            <span>#{{ getProjectDisplayOrder(project) }}</span>
           </div>
           <div class="item-actions">
-            <button type="button" (click)="openEditProjectModal(project)">Edit</button>
-            <button type="button" (click)="requestDeleteProject(project)">Delete</button>
+            <a
+              class="item-actions__link"
+              [routerLink]="['/admin/projects', project.id]"
+              [attr.aria-disabled]="reorderingProjects"
+              [class.item-actions__link--disabled]="reorderingProjects"
+              (click)="reorderingProjects && $event.preventDefault()"
+            >
+              Edit
+            </a>
+            <button type="button" (click)="requestDeleteProject(project)" [disabled]="reorderingProjects">Delete</button>
           </div>
         </li>
         }
@@ -72,16 +92,28 @@
       <article class="admin-card">
         <div class="admin-card__title-row">
           <h2>About text</h2>
-          <button type="button" class="primary-btn" (click)="openAboutModal()">
-            Open editor
-          </button>
+          <a class="primary-btn" routerLink="/admin/about">Open editor</a>
         </div>
 
         <p class="about-admin-summary">
-          Manage bilingual About text (EN/DE) in a modal editor.
+          Manage bilingual About text (EN/DE) on a dedicated editor page.
         </p>
         @if (!loadingAboutContent && !canManageAboutContent) {
         <p class="about-admin-error">{{ aboutContentErrorMessage }}</p>
+        }
+      </article>
+
+      <article class="admin-card">
+        <div class="admin-card__title-row">
+          <h2>Contact text</h2>
+          <a class="primary-btn" routerLink="/admin/contact">Open editor</a>
+        </div>
+
+        <p class="about-admin-summary">
+          Manage bilingual Contact intro text and CTA label.
+        </p>
+        @if (!loadingContactContent && !canManageAboutContent) {
+        <p class="about-admin-error">{{ contactContentErrorMessage }}</p>
         }
       </article>
 
@@ -95,170 +127,6 @@
 
   </div>
 
-    @if (showProjectModal) {
-    <div
-      class="modal-backdrop"
-      (click)="closeProjectModal()"
-    ></div>
-    <section class="modal-window" role="dialog" aria-modal="true">
-    <article class="modal-card">
-      <div class="modal-card__header">
-        <h3>{{ editingProjectId ? "Edit project" : "Add project" }}</h3>
-        <button
-          type="button"
-          class="ghost-btn ghost-btn--icon"
-          (click)="closeProjectModal()"
-          aria-label="Close project dialog"
-        >
-          <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-            <path d="M3.5 3.5L12.5 12.5M12.5 3.5L3.5 12.5" />
-          </svg>
-          <span class="admin-sr-only">Close</span>
-        </button>
-      </div>
-      <form
-        #projectNgForm="ngForm"
-        (ngSubmit)="saveProject()"
-        class="modal-form"
-        autocomplete="off"
-      >
-        <div class="form-grid">
-          <div class="form-field">
-            <label for="project-title-en">Project title (EN)</label>
-            <input
-              id="project-title-en"
-              type="text"
-              name="titleEn"
-              [(ngModel)]="projectForm.titleEn"
-              placeholder="Project title in English"
-              required
-            />
-          </div>
-          <div class="form-field">
-            <label for="project-title-de">Project title (DE)</label>
-            <input
-              id="project-title-de"
-              type="text"
-              name="titleDe"
-              [(ngModel)]="projectForm.titleDe"
-              placeholder="Projektname auf Deutsch"
-              required
-            />
-          </div>
-          <div class="form-field">
-            <label for="project-order">Sort order</label>
-            <input
-              id="project-order"
-              type="number"
-              name="sortOrder"
-              [(ngModel)]="projectForm.sortOrder"
-              placeholder="0"
-            />
-          </div>
-        </div>
-
-        <div class="form-grid">
-          <div class="form-field">
-            <label for="project-description-en">Project description (EN)</label>
-            <textarea
-              id="project-description-en"
-              name="descriptionEn"
-              [(ngModel)]="projectForm.descriptionEn"
-              placeholder="Project description in English"
-              required
-            ></textarea>
-          </div>
-          <div class="form-field">
-            <label for="project-description-de">Project description (DE)</label>
-            <textarea
-              id="project-description-de"
-              name="descriptionDe"
-              [(ngModel)]="projectForm.descriptionDe"
-              placeholder="Projektbeschreibung auf Deutsch"
-              required
-            ></textarea>
-          </div>
-        </div>
-
-        <div class="form-grid">
-          <div class="form-field">
-          <label for="project-image">Image URL</label>
-          <input
-            id="project-image"
-            type="text"
-            name="imageUrl"
-            [(ngModel)]="projectForm.imageUrl"
-            placeholder="./assets/images/example.png"
-            required
-          />
-          <div class="image-tools">
-            <input
-              type="file"
-              accept="image/*"
-              (change)="onImageFileSelected($event)"
-            />
-            <button
-              type="button"
-              class="btn-secondary"
-              (click)="uploadSelectedImage()"
-              [disabled]="uploadingImage"
-            >
-              {{ uploadingImage ? "Uploading..." : "Upload image" }}
-            </button>
-            <button type="button" class="btn-secondary" (click)="copyImagePath()">
-              Copy path
-            </button>
-          </div>
-          @if (uploadStatus) {
-          <small>{{ uploadStatus }}</small>
-          }
-          </div>
-          <div class="form-field">
-            <label for="project-tech">Tech stack</label>
-            <input
-              id="project-tech"
-              type="text"
-              name="techStackInput"
-              [(ngModel)]="techStackInput"
-              placeholder="Angular, Spring Boot, MongoDB"
-            />
-          </div>
-        </div>
-
-        <div class="form-grid">
-          <div class="form-field form-field--wide">
-            <label for="project-live">Live URL</label>
-            <input
-              id="project-live"
-              type="text"
-              name="liveUrl"
-              [(ngModel)]="projectForm.liveUrl"
-              placeholder="https://example.com"
-            />
-          </div>
-          <div class="form-field form-field--wide">
-            <label for="project-github">Github URL</label>
-            <input
-              id="project-github"
-              type="text"
-              name="githubUrl"
-              [(ngModel)]="projectForm.githubUrl"
-              placeholder="https://github.com/..."
-            />
-          </div>
-        </div>
-
-        <div class="form-actions">
-          <button type="submit" class="btn-primary" [disabled]="saving || projectNgForm.invalid">
-            {{ saving ? "Saving..." : "Save project" }}
-          </button>
-          <button type="button" class="btn-secondary" (click)="closeProjectModal()">Cancel</button>
-        </div>
-      </form>
-    </article>
-    </section>
-    }
-
     <app-confirm-modal
       [open]="showDeleteProjectModal"
       title="Delete project"
@@ -271,81 +139,6 @@
       (confirm)="confirmDeleteProject()"
       (close)="closeDeleteProjectModal()"
     ></app-confirm-modal>
-
-    @if (showAboutModal) {
-    <div
-      class="modal-backdrop"
-      (click)="closeAboutModal()"
-    ></div>
-    <section class="modal-window" role="dialog" aria-modal="true">
-    <article class="modal-card modal-card--about">
-      <div class="modal-card__header">
-        <h3>About text</h3>
-        <button
-          type="button"
-          class="ghost-btn ghost-btn--icon"
-          (click)="closeAboutModal()"
-          aria-label="Close about dialog"
-        >
-          <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-            <path d="M3.5 3.5L12.5 12.5M12.5 3.5L3.5 12.5" />
-          </svg>
-          <span class="admin-sr-only">Close</span>
-        </button>
-      </div>
-
-      @if (loadingAboutContent) {
-      <p>Loading About text...</p>
-      } @else if (!canManageAboutContent) {
-      <p class="about-admin-error">{{ aboutContentErrorMessage }}</p>
-      } @else {
-        @if (aboutRows[0]; as row) {
-        <section class="about-admin-row">
-          <div class="form-grid">
-            <div class="form-field">
-              <label [for]="'about-en-' + row.index">About text (EN)</label>
-              <textarea
-                [id]="'about-en-' + row.index"
-                [name]="'aboutEn' + row.index"
-                [(ngModel)]="row.enValue"
-                placeholder="English About line"
-              ></textarea>
-            </div>
-            <div class="form-field">
-              <label [for]="'about-de-' + row.index">About text (DE)</label>
-              <textarea
-                [id]="'about-de-' + row.index"
-                [name]="'aboutDe' + row.index"
-                [(ngModel)]="row.deValue"
-                placeholder="Deutsche About-Zeile"
-              ></textarea>
-            </div>
-          </div>
-
-          <div class="form-actions">
-            <button
-              type="button"
-              class="btn-primary"
-              (click)="saveAboutRow(row)"
-              [disabled]="row.saving"
-            >
-              {{ row.saving ? "Saving..." : "Save text" }}
-            </button>
-            <button
-              type="button"
-              class="btn-danger"
-              (click)="requestDeleteAboutRow(row)"
-              [disabled]="row.saving"
-            >
-              Delete text
-            </button>
-          </div>
-        </section>
-        }
-      }
-    </article>
-    </section>
-    }
 
     <app-confirm-modal
       [open]="showDeleteAboutModal"
