@@ -576,11 +576,11 @@
 
 @media (max-width: 640px) {
   .hero {
-    min-height: 100dvh;
+    min-height: 108svh;
   }
 
   .hero-layout {
-    min-height: 100dvh;
+    min-height: 108svh;
   }
 
   .hero::before {
@@ -667,7 +667,7 @@
 
   .hero .container {
     padding-top: 3.8rem;
-    padding-bottom: 5.2rem;
+    padding-bottom: 6.6rem;
   }
 
   .hero h1.hero-title {
@@ -714,13 +714,13 @@
 
 @media (max-width: 420px) {
   .hero-layout {
-    min-height: 100dvh;
+    min-height: 108svh;
   }
 
   .hero .container {
     padding-inline: 0.35rem;
     padding-top: 3.7rem;
-    padding-bottom: 4.75rem;
+    padding-bottom: 6.2rem;
   }
 
   .hero h1.hero-title {
