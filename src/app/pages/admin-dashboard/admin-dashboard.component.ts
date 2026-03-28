@@ -111,7 +111,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
   }
 
   @HostListener('window:keydown.escape', ['$event'])
-  onEscapeKey(event: KeyboardEvent): void {
+  onEscapeKey(event: Event): void {
     event.preventDefault();
 
     if (this.showDeleteAboutModal && !this.deletingAbout) {
