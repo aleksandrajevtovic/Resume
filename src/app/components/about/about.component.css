@@ -40,6 +40,12 @@
 
 .text-container {
   white-space: pre-wrap;
+  opacity: 0;
+  transition: opacity 180ms ease;
+}
+
+.text-container.is-ready {
+  opacity: 1;
 }
 
 .highlight-word {

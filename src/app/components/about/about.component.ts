@@ -21,6 +21,7 @@ export class AboutComponent implements OnInit, OnDestroy {
   private contentMap: Record<string, string> = {};
   private readonly fallbackSpanCount = 7;
   private readonly highlightEase = gsap.parseEase('power3.out');
+  aboutReady = false;
   aboutSpans: string[] = [];
   aboutTokens: Array<{ text: string; isWord: boolean }> = [];
 
@@ -49,10 +50,12 @@ export class AboutComponent implements OnInit, OnDestroy {
     const matches = Array.from(this.document.querySelectorAll<HTMLElement>('.highlight-word'));
 
     if (!textContainer || !matches.length) {
+      this.aboutReady = false;
       return;
     }
 
     this.updateWordHighlight(matches, 0);
+    this.aboutReady = true;
 
     this.aboutTimeline = gsap.timeline({
       scrollTrigger: {
@@ -132,6 +135,7 @@ export class AboutComponent implements OnInit, OnDestroy {
   }
 
   private reinitAboutAnimation(): void {
+    this.aboutReady = false;
     setTimeout(() => this.scrollAboutText());
   }
 

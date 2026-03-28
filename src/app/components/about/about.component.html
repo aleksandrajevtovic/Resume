@@ -3,7 +3,7 @@
   class="about about-page md:container mx-auto px-4 text-center text-4xl md:text-5xl lg:text-6xl leading-normal pt-24 pb-8"
 >
   <div class="about-text">
-    <p class="mb-96 mb-32r lg:mt-20 xl:mt-24 text-container">
+    <p class="mb-96 mb-32r lg:mt-20 xl:mt-24 text-container" [class.is-ready]="aboutReady">
       @for (token of aboutTokens; track $index) {
         @if (token.isWord) {
         <span class="highlight-word">{{ token.text }}</span>
