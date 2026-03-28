@@ -2,6 +2,10 @@
   height: 80vh;
 }
 
+.hero-layout {
+  min-height: 100dvh;
+}
+
 
 .hero h1.hero-title .hero-title-line {
   display: block;
@@ -16,6 +20,10 @@
 @media (min-width: 640px) {
   .hero .container {
     padding-inline: 0;
+  }
+
+  .hero-layout {
+    min-height: 90dvh;
   }
 
   .hero h1.hero-title {
@@ -156,7 +164,7 @@
 
 .hero {
   position: relative;
-  min-height: 100svh;
+  min-height: 100dvh;
   overflow: hidden;
   background:
     radial-gradient(circle at 50% 33%, rgba(94, 94, 122, 0.2) 0, rgba(94, 94, 122, 0) 38%),
@@ -568,7 +576,11 @@
 
 @media (max-width: 640px) {
   .hero {
-    min-height: 92svh;
+    min-height: 100dvh;
+  }
+
+  .hero-layout {
+    min-height: 100dvh;
   }
 
   .hero::before {
@@ -659,11 +671,19 @@
   }
 
   .hero h1.hero-title {
-    font-size: clamp(3.7rem, 16.8vw, 5.6rem);
-    line-height: 0.87;
+    font-size: clamp(4.15rem, 18.2vw, 6.2rem);
+    line-height: 0.94;
     padding-top: 0;
-    gap: 0.05em;
+    gap: 0.08em;
     max-width: calc(100vw - 0.5rem);
+  }
+
+  .hero h1.hero-title .hero-title-line {
+    margin-bottom: 0.15em;
+  }
+
+  .hero h1.hero-title .hero-title-line:last-child {
+    margin-bottom: 0;
   }
 
   .my-switcher {
@@ -693,6 +713,10 @@
 }
 
 @media (max-width: 420px) {
+  .hero-layout {
+    min-height: 100dvh;
+  }
+
   .hero .container {
     padding-inline: 0.35rem;
     padding-top: 3.7rem;
@@ -700,11 +724,19 @@
   }
 
   .hero h1.hero-title {
-    font-size: clamp(3.25rem, 16vw, 4.6rem);
-    line-height: 0.86;
-    gap: 0.045em;
+    font-size: clamp(3.7rem, 17.5vw, 5.05rem);
+    line-height: 0.93;
+    gap: 0.075em;
     max-width: calc(100vw - 0.25rem);
     padding-left: 0.5rem;
+  }
+
+  .hero h1.hero-title .hero-title-line {
+    margin-bottom: 0.18em;
+  }
+
+  .hero h1.hero-title .hero-title-line:last-child {
+    margin-bottom: 0;
   }
 
   .my-switcher {

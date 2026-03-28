@@ -4,8 +4,12 @@
 >
   <div class="about-text">
     <p class="mb-96 mb-32r lg:mt-20 xl:mt-24 text-container">
-      @for (span of aboutSpans; track $index) {
-        <span class="highlight">{{ span }}</span>
+      @for (token of aboutTokens; track $index) {
+        @if (token.isWord) {
+        <span class="highlight-word">{{ token.text }}</span>
+        } @else {
+        <span class="highlight-space">{{ token.text }}</span>
+        }
       }
     </p>
   </div>

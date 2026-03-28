@@ -35,17 +35,23 @@
 .about-text {
   position: relative;
   z-index: 2;
+  isolation: isolate;
 }
 
-.highlight {
-  background: linear-gradient(to right, #ffffff 50%, #454560 50%);
-  background-size: 200% 100%;
-  background-position-x: 100%;
-  color: transparent;
-  background-clip: text;
-  -webkit-background-clip: text;
+.text-container {
+  white-space: pre-wrap;
 }
 
 .highlight-word {
-  color: rgba(69, 69, 96, 0.95);
+  display: inline-block;
+  color: rgba(120, 120, 170, 0.36);
+  opacity: 0.52;
+  filter: blur(3.5px);
+  transform: translate3d(0, 16px, 0) scale(0.985);
+  transform-origin: 50% 65%;
+  will-change: color, opacity, filter, transform, text-shadow;
+}
+
+.highlight-space {
+  white-space: pre-wrap;
 }

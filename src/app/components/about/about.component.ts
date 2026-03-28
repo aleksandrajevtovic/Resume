@@ -19,7 +19,9 @@ export class AboutComponent implements OnInit, OnDestroy {
   private readonly subscriptions = new Subscription();
   private contentMap: Record<string, string> = {};
   private readonly fallbackSpanCount = 7;
+  private readonly highlightEase = gsap.parseEase('power3.out');
   aboutSpans: string[] = [];
+  aboutTokens: Array<{ text: string; isWord: boolean }> = [];
 
   constructor(
     @Inject(DOCUMENT) private document: Document,
@@ -42,24 +44,24 @@ export class AboutComponent implements OnInit, OnDestroy {
     this.aboutTimeline?.scrollTrigger?.kill();
     this.aboutTimeline?.kill();
 
-    const matches = this.document.querySelectorAll('.highlight');
-    if (!matches.length) {
+    const textContainer = this.document.querySelector<HTMLElement>('#about .text-container');
+    const matches = Array.from(this.document.querySelectorAll<HTMLElement>('.highlight-word'));
+
+    if (!textContainer || !matches.length) {
       return;
     }
 
+    this.updateWordHighlight(matches, 0);
+
     this.aboutTimeline = gsap.timeline({
       scrollTrigger: {
-        trigger: '#about',
+        trigger: textContainer,
         scrub: true,
-        start: 'top center',
-        end: 'bottom 40%',
+        start: 'top 82%',
+        end: 'bottom 38%',
+        invalidateOnRefresh: true,
+        onUpdate: (self) => this.updateWordHighlight(matches, self.progress),
       },
-    });
-
-    this.aboutTimeline.to(matches, {
-      backgroundPositionX: '0%',
-      ease: 'none',
-      stagger: 1,
     });
   }
 
@@ -111,6 +113,7 @@ export class AboutComponent implements OnInit, OnDestroy {
 
     if (dynamicSpans.length) {
       this.aboutSpans = dynamicSpans;
+      this.aboutTokens = this.buildAboutTokens(this.aboutSpans);
       this.reinitAboutAnimation();
       return;
     }
@@ -118,6 +121,7 @@ export class AboutComponent implements OnInit, OnDestroy {
     this.aboutSpans = Array.from({ length: this.fallbackSpanCount }, (_, i) =>
       this.translate.instant(`ABOUT.SPAN${i + 1}`)
     ).filter((value) => typeof value === 'string' && value.trim().length > 0);
+    this.aboutTokens = this.buildAboutTokens(this.aboutSpans);
 
     this.reinitAboutAnimation();
   }
@@ -128,5 +132,51 @@ export class AboutComponent implements OnInit, OnDestroy {
 
   private reinitAboutAnimation(): void {
     setTimeout(() => this.scrollAboutText());
+  }
+
+  private updateWordHighlight(words: HTMLElement[], progress: number): void {
+    if (!words.length) {
+      return;
+    }
+
+    const clampedProgress = gsap.utils.clamp(0, 1, progress);
+    words.forEach((word, index) => {
+      const revealWindow = clampedProgress * words.length;
+      const localProgress = gsap.utils.clamp(0, 1, (revealWindow - index + 1.15) / 1.35);
+      const easedProgress = this.highlightEase(localProgress);
+      const brightness = 120 + Math.round(127 * easedProgress);
+      const accent = 170 + Math.round(85 * easedProgress);
+      const opacity = 0.36 + easedProgress * 0.64;
+      const blur = (1 - easedProgress) * 3.5;
+      const translateY = (1 - easedProgress) * 16;
+      const scale = 0.985 + easedProgress * 0.015;
+      const glow = easedProgress * 18;
+
+      word.style.color = `rgba(${brightness}, ${brightness}, ${accent}, ${opacity})`;
+      word.style.opacity = `${0.52 + easedProgress * 0.48}`;
+      word.style.filter = `blur(${blur}px)`;
+      word.style.transform = `translate3d(0, ${translateY}px, 0) scale(${scale})`;
+      word.style.textShadow = `0 0 ${glow}px rgba(247, 245, 255, ${easedProgress * 0.18})`;
+    });
+  }
+
+  private buildAboutTokens(spans: string[]): Array<{ text: string; isWord: boolean }> {
+    const text = spans
+      .map((span) => span.replace(/\s+/g, ' ').trim())
+      .filter((span) => span.length > 0)
+      .join(' ')
+      .trim();
+
+    if (!text) {
+      return [];
+    }
+
+    return text
+      .split(/(\s+)/)
+      .filter((token) => token.length > 0)
+      .map((token) => ({
+        text: token,
+        isWord: !/^\s+$/.test(token),
+      }));
   }
 }

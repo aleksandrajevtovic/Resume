@@ -14,6 +14,8 @@ gsap.registerPlugin(ScrollTrigger);
 })
 export class HeroComponent implements OnInit, OnDestroy {
   private heroTimeline?: gsap.core.Timeline;
+  private viewportRefreshTimeout?: ReturnType<typeof setTimeout>;
+  private readonly handleViewportRefresh = () => this.refreshHeroScroll();
   heroLine1 = 'Software';
   heroLine2 = 'Developer';
   heroLine3 = '';
@@ -38,6 +40,8 @@ export class HeroComponent implements OnInit, OnDestroy {
     this.translate.use(this.lang);
     this.setHeroLines(this.lang);
     this.scrollAnim();
+    this.bindViewportRefresh();
+    this.queueViewportRefresh();
   }
 
   click = true;
@@ -98,8 +102,55 @@ export class HeroComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    const windowRef = this.document.defaultView;
+
+    windowRef?.removeEventListener('load', this.handleViewportRefresh);
+    windowRef?.removeEventListener('resize', this.handleViewportRefresh);
+    windowRef?.removeEventListener('orientationchange', this.handleViewportRefresh);
+    windowRef?.visualViewport?.removeEventListener('resize', this.handleViewportRefresh);
+    windowRef?.visualViewport?.removeEventListener('scroll', this.handleViewportRefresh);
+
+    if (this.viewportRefreshTimeout) {
+      clearTimeout(this.viewportRefreshTimeout);
+    }
+
     this.heroTimeline?.scrollTrigger?.kill();
     this.heroTimeline?.kill();
+  }
+
+  private bindViewportRefresh(): void {
+    const windowRef = this.document.defaultView;
+    if (!windowRef) {
+      return;
+    }
+
+    windowRef.addEventListener('load', this.handleViewportRefresh, { passive: true });
+    windowRef.addEventListener('resize', this.handleViewportRefresh, { passive: true });
+    windowRef.addEventListener('orientationchange', this.handleViewportRefresh, { passive: true });
+    windowRef.visualViewport?.addEventListener('resize', this.handleViewportRefresh, { passive: true });
+    windowRef.visualViewport?.addEventListener('scroll', this.handleViewportRefresh, { passive: true });
+  }
+
+  private queueViewportRefresh(): void {
+    const windowRef = this.document.defaultView;
+    if (!windowRef) {
+      return;
+    }
+
+    windowRef.requestAnimationFrame(() => {
+      this.refreshHeroScroll();
+      this.viewportRefreshTimeout = setTimeout(() => this.refreshHeroScroll(), 250);
+    });
+  }
+
+  private refreshHeroScroll(): void {
+    if (this.viewportRefreshTimeout) {
+      clearTimeout(this.viewportRefreshTimeout);
+    }
+
+    this.viewportRefreshTimeout = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 80);
   }
 
 
