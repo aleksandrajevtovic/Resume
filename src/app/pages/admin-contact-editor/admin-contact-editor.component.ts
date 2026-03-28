@@ -1,5 +1,9 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { forkJoin } from 'rxjs';
+import { AdminSidebarComponent } from '../../components/admin-sidebar/admin-sidebar.component';
 import { ContentBlock } from '../../models/content-block';
 import { AuthService } from '../../services/auth.service';
 import { ContentService } from '../../services/content.service';
@@ -25,7 +29,8 @@ interface ContactContentForm {
   selector: 'app-admin-contact-editor',
   templateUrl: './admin-contact-editor.component.html',
   styleUrls: ['./admin-contact-editor.component.css', '../shared/admin-editor-page.shared.css', '../admin-dashboard/admin-dashboard.component.css'],
-  standalone: false,
+  standalone: true,
+  imports: [CommonModule, FormsModule, RouterModule, AdminSidebarComponent],
 })
 export class AdminContactEditorComponent extends AdminEditorPageBase implements OnInit {
   loading = true;

@@ -1,6 +1,7 @@
 package com.portfolio.backend.controller;
 
 import com.portfolio.backend.dto.ProjectRequest;
+import com.portfolio.backend.dto.ReorderProjectsRequest;
 import com.portfolio.backend.model.Project;
 import com.portfolio.backend.repository.ProjectRepository;
 import jakarta.validation.Valid;
@@ -10,7 +11,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/admin/projects")
@@ -43,6 +49,38 @@ public class AdminProjectController {
 
         copyRequest(project, request);
         return saveWithNormalizedSortOrder(project);
+    }
+
+    @PutMapping("/reorder")
+    public List<Project> reorder(@Valid @RequestBody ReorderProjectsRequest request) {
+        List<Project> existingProjects = projectRepository.findAllByOrderBySortOrderAsc();
+        if (existingProjects.size() != request.projectIds().size()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Reorder request must include all projects");
+        }
+
+        Set<String> uniqueIds = new HashSet<>(request.projectIds());
+        if (uniqueIds.size() != request.projectIds().size()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Project IDs must be unique");
+        }
+
+        Map<String, Project> projectsById = existingProjects.stream()
+                .filter(project -> project.getId() != null)
+                .collect(Collectors.toMap(Project::getId, Function.identity()));
+
+        List<Project> reorderedProjects = new ArrayList<>();
+        for (int index = 0; index < request.projectIds().size(); index++) {
+            String projectId = request.projectIds().get(index);
+            Project project = projectsById.get(projectId);
+            if (project == null) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Unknown project ID in reorder request");
+            }
+            project.setSortOrder(index);
+            reorderedProjects.add(project);
+        }
+
+        return projectRepository.saveAll(reorderedProjects).stream()
+                .sorted((left, right) -> Integer.compare(left.getSortOrder(), right.getSortOrder()))
+                .toList();
     }
 
     @DeleteMapping("/{id}")

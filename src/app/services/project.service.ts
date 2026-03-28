@@ -29,6 +29,10 @@ export class ProjectService {
     return this.http.put<Project>(`${this.baseUrl}/admin/projects/${id}`, project);
   }
 
+  reorderProjects(projectIds: string[]): Observable<Project[]> {
+    return this.http.put<Project[]>(`${this.baseUrl}/admin/projects/reorder`, { projectIds });
+  }
+
   deleteProject(id: string): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/admin/projects/${id}`);
   }

@@ -1,10 +1,12 @@
+import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-confirm-modal',
   templateUrl: './confirm-modal.component.html',
   styleUrls: ['./confirm-modal.component.css'],
-  standalone: false,
+  standalone: true,
+  imports: [CommonModule],
 })
 export class ConfirmModalComponent {
   @Input() open = false;

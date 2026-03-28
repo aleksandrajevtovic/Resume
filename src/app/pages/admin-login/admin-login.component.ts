@@ -1,7 +1,9 @@
-import { DOCUMENT } from '@angular/common';
+import { CommonModule, DOCUMENT } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import gsap from 'gsap';
 import { AuthService } from '../../services/auth.service';
 import { DocumentScrollLock, runSharedPreloaderIntro } from '../../utils/page-preloader';
@@ -10,7 +12,8 @@ import { DocumentScrollLock, runSharedPreloaderIntro } from '../../utils/page-pr
   selector: 'app-admin-login',
   templateUrl: './admin-login.component.html',
   styleUrls: ['./admin-login.component.css'],
-  standalone: false,
+  standalone: true,
+  imports: [CommonModule, FormsModule, RouterModule],
 })
 export class AdminLoginComponent implements OnInit, OnDestroy {
   username = '';
@@ -18,6 +21,8 @@ export class AdminLoginComponent implements OnInit, OnDestroy {
   showPassword = false;
   errorMessage = '';
   isLoading = false;
+  isCheckingRegistrationStatus = true;
+  registrationOpen = false;
   isPageLoading = true;
   private preloaderRafId?: number;
   private tlLoad = gsap.timeline();
@@ -34,6 +39,7 @@ export class AdminLoginComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.preloadScrollLock.lock();
     this.preloaderRafId = requestAnimationFrame(() => this.preloaderAnim());
+    this.loadRegistrationStatus();
   }
 
   ngOnDestroy(): void {
@@ -66,6 +72,19 @@ export class AdminLoginComponent implements OnInit, OnDestroy {
 
   togglePasswordVisibility(): void {
     this.showPassword = !this.showPassword;
+  }
+
+  private loadRegistrationStatus(): void {
+    this.authService.getRegistrationStatus().subscribe({
+      next: (response) => {
+        this.registrationOpen = response.registrationOpen;
+        this.isCheckingRegistrationStatus = false;
+      },
+      error: () => {
+        this.registrationOpen = false;
+        this.isCheckingRegistrationStatus = false;
+      },
+    });
   }
 
   private preloaderAnim(): void {

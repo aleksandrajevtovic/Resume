@@ -1,8 +1,14 @@
 import { DOCUMENT } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Component, HostListener, Inject, OnDestroy, OnInit } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { forkJoin } from 'rxjs';
 import gsap from 'gsap';
+import { AdminCvManagerComponent } from '../../components/admin-cv-manager/admin-cv-manager.component';
+import { AdminSidebarComponent } from '../../components/admin-sidebar/admin-sidebar.component';
+import { ConfirmModalComponent } from '../../components/confirm-modal/confirm-modal.component';
+import { FooterComponent } from '../../components/footer/footer.component';
+import { PreloaderComponent } from '../../components/preloader/preloader.component';
 import { ContentBlock } from '../../models/content-block';
 import { Project } from '../../models/project';
 import { AuthService } from '../../services/auth.service';
@@ -14,7 +20,16 @@ import { DocumentScrollLock, runSharedPreloaderIntro } from '../../utils/page-pr
   selector: 'app-admin-dashboard',
   templateUrl: './admin-dashboard.component.html',
   styleUrls: ['./admin-dashboard.component.css'],
-  standalone: false,
+  standalone: true,
+  imports: [
+    CommonModule,
+    RouterModule,
+    AdminSidebarComponent,
+    AdminCvManagerComponent,
+    ConfirmModalComponent,
+    FooterComponent,
+    PreloaderComponent,
+  ],
 })
 export class AdminDashboardComponent implements OnInit, OnDestroy {
   readonly sidebarBreakpoint = 900;
@@ -298,13 +313,11 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
     this.reorderingProjects = true;
     this.clearMessages();
 
-    const updates = this.projects
-      .filter((project) => !!project.id)
-      .map((project) =>
-        this.projectService.updateProject(project.id!, this.createProjectPayload(project))
-      );
+    const projectIds = this.projects
+      .map((project) => project.id)
+      .filter((id): id is string => !!id);
 
-    forkJoin(updates).subscribe({
+    this.projectService.reorderProjects(projectIds).subscribe({
       next: (projects) => {
         this.projects = [...projects].sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0));
         this.reorderingProjects = false;
@@ -316,25 +329,6 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
         this.errorMessage = 'Failed to update project order.';
       },
     });
-  }
-
-  private createProjectPayload(project: Project): Project {
-    return {
-      id: project.id,
-      name: project.name ?? '',
-      description: project.description ?? '',
-      titleEn: project.titleEn ?? '',
-      titleDe: project.titleDe ?? '',
-      descriptionEn: project.descriptionEn ?? '',
-      descriptionDe: project.descriptionDe ?? '',
-      titleKey: project.titleKey ?? '',
-      descriptionKey: project.descriptionKey ?? '',
-      imageUrl: project.imageUrl,
-      techStack: [...project.techStack],
-      liveUrl: project.liveUrl ?? '',
-      githubUrl: project.githubUrl ?? '',
-      sortOrder: project.sortOrder ?? 0,
-    };
   }
 
   private syncBodyScrollLock(): void {

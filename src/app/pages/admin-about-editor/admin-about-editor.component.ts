@@ -1,5 +1,9 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { forkJoin, Observable } from 'rxjs';
+import { AdminSidebarComponent } from '../../components/admin-sidebar/admin-sidebar.component';
 import { ContentBlock } from '../../models/content-block';
 import { AuthService } from '../../services/auth.service';
 import { ContentService } from '../../services/content.service';
@@ -18,7 +22,8 @@ interface AboutEditorForm {
   selector: 'app-admin-about-editor',
   templateUrl: './admin-about-editor.component.html',
   styleUrls: ['./admin-about-editor.component.css', '../shared/admin-editor-page.shared.css', '../admin-dashboard/admin-dashboard.component.css'],
-  standalone: false,
+  standalone: true,
+  imports: [CommonModule, FormsModule, RouterModule, AdminSidebarComponent],
 })
 export class AdminAboutEditorComponent extends AdminEditorPageBase implements OnInit {
   loading = true;

@@ -1,6 +1,7 @@
-import { DOCUMENT } from '@angular/common';
+import { CommonModule, DOCUMENT } from '@angular/common';
 import { Component, HostListener, Inject, Input, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import { AuthService } from '../../services/auth.service';
@@ -13,7 +14,8 @@ gsap.registerPlugin(ScrollTrigger);
     selector: 'app-navigation',
     templateUrl: './navigation.component.html',
     styleUrls: ['./navigation.component.css'],
-    standalone: false
+    standalone: true,
+    imports: [CommonModule, RouterModule, TranslateModule]
 })
 export class NavigationComponent implements OnInit, OnDestroy {
   @Input() errorMode = false;

@@ -3,6 +3,8 @@ package com.portfolio.backend.controller;
 import com.portfolio.backend.config.UploadPathResolver;
 import com.portfolio.backend.model.ContentBlock;
 import com.portfolio.backend.repository.ContentBlockRepository;
+import com.portfolio.backend.upload.CloudinaryMediaService;
+import com.portfolio.backend.upload.StoredAsset;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
@@ -25,16 +27,23 @@ public class AdminUploadController {
 
     private static final String CV_EN_KEY = "CV.EN.FILE";
     private static final String CV_DE_KEY = "CV.DE.FILE";
+    private static final String CV_EN_PUBLIC_ID_KEY = "CV.EN.FILE.PUBLIC_ID";
+    private static final String CV_DE_PUBLIC_ID_KEY = "CV.DE.FILE.PUBLIC_ID";
+    private static final String CV_EN_RESOURCE_TYPE_KEY = "CV.EN.FILE.RESOURCE_TYPE";
+    private static final String CV_DE_RESOURCE_TYPE_KEY = "CV.DE.FILE.RESOURCE_TYPE";
 
     private final ContentBlockRepository contentBlockRepository;
     private final UploadPathResolver uploadPathResolver;
+    private final CloudinaryMediaService cloudinaryMediaService;
 
     public AdminUploadController(
             ContentBlockRepository contentBlockRepository,
-            UploadPathResolver uploadPathResolver
+            UploadPathResolver uploadPathResolver,
+            CloudinaryMediaService cloudinaryMediaService
     ) {
         this.contentBlockRepository = contentBlockRepository;
         this.uploadPathResolver = uploadPathResolver;
+        this.cloudinaryMediaService = cloudinaryMediaService;
     }
 
     @PostMapping("/image")
@@ -50,6 +59,12 @@ public class AdminUploadController {
         }
 
         try {
+            if (cloudinaryMediaService.isConfigured()) {
+                String safeBaseName = sanitizeBaseName(originalFilename);
+                StoredAsset asset = cloudinaryMediaService.uploadImage(file, safeBaseName);
+                return Map.of("imagePath", asset.publicUrl(), "imageUrl", asset.publicUrl());
+            }
+
             Path uploadPath = uploadPathResolver.resolveUploadPath();
             Files.createDirectories(uploadPath);
 
@@ -85,11 +100,25 @@ public class AdminUploadController {
         }
 
         try {
-            Path uploadPath = uploadPathResolver.resolveUploadPath();
-            Files.createDirectories(uploadPath);
             String previousPath = contentBlockRepository.findByKey(cvKey(normalizedLang))
                     .map(ContentBlock::getValue)
                     .orElse(null);
+            StoredAsset previousAsset = loadStoredCvAsset(normalizedLang, previousPath);
+
+            if (cloudinaryMediaService.isConfigured()) {
+                String publicId = buildCloudinaryCvPublicId(originalFilename, normalizedLang);
+                StoredAsset uploadedAsset = cloudinaryMediaService.uploadRawFile(file, publicId);
+                upsertCvContentBlock(normalizedLang, uploadedAsset.publicUrl());
+                upsertCvMetadata(normalizedLang, uploadedAsset);
+                removeStoredCvIfReplaced(previousAsset, uploadedAsset.publicUrl());
+                return Map.of(
+                        "filePath", uploadedAsset.publicUrl(),
+                        "fileUrl", uploadedAsset.publicUrl()
+                );
+            }
+
+            Path uploadPath = uploadPathResolver.resolveUploadPath();
+            Files.createDirectories(uploadPath);
 
             String generatedName = buildCvFilename(originalFilename, normalizedLang, previousPath);
             Path targetPath = uploadPath.resolve(generatedName).normalize();
@@ -97,7 +126,8 @@ public class AdminUploadController {
 
             String filePath = "/uploads/" + generatedName;
             upsertCvContentBlock(normalizedLang, filePath);
-            removeReplacedFileIfPresent(previousPath, filePath, uploadPath);
+            clearCvMetadata(normalizedLang);
+            removeStoredCvIfReplaced(previousAsset, filePath);
 
             return Map.of(
                     "filePath", filePath,
@@ -116,8 +146,9 @@ public class AdminUploadController {
         ContentBlock existingBlock = contentBlockRepository.findByKey(key)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "CV not found"));
 
-        deleteStoredUploadIfPresent(existingBlock.getValue());
+        deleteStoredUploadIfPresent(loadStoredCvAsset(normalizedLang, existingBlock.getValue()));
         contentBlockRepository.delete(existingBlock);
+        clearCvMetadata(normalizedLang);
     }
 
     private String extractExtension(String filename) {
@@ -184,25 +215,68 @@ public class AdminUploadController {
         return "EN".equals(lang) ? CV_EN_KEY : CV_DE_KEY;
     }
 
+    private String cvPublicIdKey(String lang) {
+        return "EN".equals(lang) ? CV_EN_PUBLIC_ID_KEY : CV_DE_PUBLIC_ID_KEY;
+    }
+
+    private String cvResourceTypeKey(String lang) {
+        return "EN".equals(lang) ? CV_EN_RESOURCE_TYPE_KEY : CV_DE_RESOURCE_TYPE_KEY;
+    }
+
     private void upsertCvContentBlock(String lang, String filePath) {
-        String key = cvKey(lang);
+        upsertContentBlock(cvKey(lang), filePath);
+    }
+
+    private void upsertCvMetadata(String lang, StoredAsset asset) {
+        upsertContentBlock(cvPublicIdKey(lang), asset.publicId());
+        upsertContentBlock(cvResourceTypeKey(lang), asset.resourceType());
+    }
+
+    private void upsertContentBlock(String key, String value) {
         ContentBlock block = contentBlockRepository.findByKey(key).orElseGet(ContentBlock::new);
         block.setKey(key);
-        block.setValue(filePath);
+        block.setValue(value);
         contentBlockRepository.save(block);
     }
 
-    private void removeReplacedFileIfPresent(String previousPath, String nextPath, Path uploadPath) {
-        if (previousPath == null || nextPath.equals(previousPath)) {
+    private void clearCvMetadata(String lang) {
+        deleteContentBlockIfPresent(cvPublicIdKey(lang));
+        deleteContentBlockIfPresent(cvResourceTypeKey(lang));
+    }
+
+    private void deleteContentBlockIfPresent(String key) {
+        contentBlockRepository.findByKey(key).ifPresent(contentBlockRepository::delete);
+    }
+
+    private StoredAsset loadStoredCvAsset(String lang, String currentPath) {
+        String publicId = contentBlockRepository.findByKey(cvPublicIdKey(lang))
+                .map(ContentBlock::getValue)
+                .orElse("");
+        String resourceType = contentBlockRepository.findByKey(cvResourceTypeKey(lang))
+                .map(ContentBlock::getValue)
+                .orElse("");
+        return new StoredAsset(currentPath, publicId, resourceType);
+    }
+
+    private void removeStoredCvIfReplaced(StoredAsset previousAsset, String nextPath) {
+        if (previousAsset == null || previousAsset.publicUrl() == null || nextPath.equals(previousAsset.publicUrl())) {
+            return;
+        }
+        deleteStoredUploadIfPresent(previousAsset);
+    }
+
+    private void deleteStoredUploadIfPresent(StoredAsset storedAsset) {
+        if (storedAsset == null || storedAsset.publicUrl() == null || storedAsset.publicUrl().isBlank()) {
             return;
         }
 
-        deleteFileIfWithinUploadDir(previousPath, uploadPath);
-    }
+        if (storedAsset.publicUrl().startsWith("http://") || storedAsset.publicUrl().startsWith("https://")) {
+            cloudinaryMediaService.delete(storedAsset);
+            return;
+        }
 
-    private void deleteStoredUploadIfPresent(String storedPath) {
         Path uploadPath = uploadPathResolver.resolveUploadPath();
-        deleteFileIfWithinUploadDir(storedPath, uploadPath);
+        deleteFileIfWithinUploadDir(storedAsset.publicUrl(), uploadPath);
     }
 
     private void deleteFileIfWithinUploadDir(String storedPath, Path uploadPath) {
@@ -222,5 +296,25 @@ public class AdminUploadController {
 
     private String buildPublicUrl(HttpServletRequest request, String filePath) {
         return request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + filePath;
+    }
+
+    private String buildCloudinaryCvPublicId(String originalFilename, String lang) {
+        String cleanedFilename = StringUtils.cleanPath(originalFilename == null ? "" : originalFilename).trim();
+        String baseName = cleanedFilename;
+        int dotIndex = baseName.lastIndexOf('.');
+        if (dotIndex > 0) {
+            baseName = baseName.substring(0, dotIndex);
+        }
+
+        String sanitizedBaseName = baseName
+                .toLowerCase()
+                .replaceAll("[^a-z0-9]+", "-")
+                .replaceAll("(^-|-$)", "");
+
+        if (sanitizedBaseName.isBlank()) {
+            sanitizedBaseName = "cv-" + lang.toLowerCase();
+        }
+
+        return lang.toLowerCase() + "/" + sanitizedBaseName;
     }
 }

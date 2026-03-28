@@ -1,7 +1,11 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { AdminSidebarComponent } from '../../components/admin-sidebar/admin-sidebar.component';
 import { Project } from '../../models/project';
 import { AuthService } from '../../services/auth.service';
 import { ProjectService } from '../../services/project.service';
@@ -11,7 +15,8 @@ import { AdminEditorPageBase } from '../shared/admin-editor-page.base';
   selector: 'app-admin-project-editor',
   templateUrl: './admin-project-editor.component.html',
   styleUrls: ['./admin-project-editor.component.css', '../shared/admin-editor-page.shared.css', '../admin-dashboard/admin-dashboard.component.css'],
-  standalone: false,
+  standalone: true,
+  imports: [CommonModule, FormsModule, RouterModule, AdminSidebarComponent],
 })
 export class AdminProjectEditorComponent extends AdminEditorPageBase implements OnInit {
   private static readonly SAVE_MESSAGE_STORAGE_KEY = 'adminProjectEditor.pendingSuccessMessage';

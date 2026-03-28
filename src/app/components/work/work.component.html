@@ -6,51 +6,62 @@
     Selected projects
   </h1>
 
-  <p *ngIf="loading" class="px-4 text-center">Loading projects...</p>
+  @if (loading) {
+    <p class="px-4 text-center">Loading projects...</p>
+  }
 
-  <div
-    *ngFor="let project of projects; let i = index; trackBy: trackByProject"
-    class="mt-12 md:mt-20 lg:mb-40 md:mb-20 flex-section text-image px-4"
-    [ngClass]="'flex-section-' + ((i % 5) + 1)"
-  >
-    <div class="column-left cursor-img">
-      <img [src]="project.imageUrl" [alt]="getProjectTitle(project)" />
-      <a
-        *ngIf="project.liveUrl"
-        class="project-link"
-        [href]="project.liveUrl"
-        target="_blank"
-      ></a>
-    </div>
-    <div class="column-right">
-      <div class="project-content">
-        <div class="project-name ps-rel">
-          <h2>{{ getProjectTitle(project) }}</h2>
+  @for (project of projects; track trackByProject($index, project); let i = $index) {
+    <div
+      class="mt-12 md:mt-20 lg:mb-40 md:mb-20 flex-section text-image px-4"
+      [ngClass]="'flex-section-' + ((i % 5) + 1)"
+    >
+      <div class="column-left cursor-img">
+        <img [src]="project.imageUrl" [alt]="getProjectTitle(project)" />
+        @if (project.liveUrl) {
           <a
-            *ngIf="project.liveUrl"
             class="project-link"
             [href]="project.liveUrl"
             target="_blank"
-            cursor-size="1.5rem"
           ></a>
+        }
+      </div>
+      <div class="column-right">
+        <div class="project-content">
+          <div class="project-name ps-rel">
+            <h2>{{ getProjectTitle(project) }}</h2>
+            @if (project.liveUrl) {
+              <a
+                class="project-link"
+                [href]="project.liveUrl"
+                target="_blank"
+                cursor-size="1.5rem"
+              ></a>
+            }
+          </div>
+          <p>{{ getProjectDescription(project) }}</p>
         </div>
-        <p>{{ getProjectDescription(project) }}</p>
-      </div>
-      <div class="tech">
-        <ul>
-          <li *ngFor="let tech of project.techStack">{{ tech }}</li>
-        </ul>
-      </div>
-      <div class="project-links">
-        <ul>
-          <li *ngIf="project.githubUrl">
-            <a [href]="project.githubUrl" target="_blank">Github</a>
-          </li>
-          <li *ngIf="project.liveUrl">
-            <a [href]="project.liveUrl" target="_blank">Live</a>
-          </li>
-        </ul>
+        <div class="tech">
+          <ul>
+            @for (tech of project.techStack; track tech) {
+              <li>{{ tech }}</li>
+            }
+          </ul>
+        </div>
+        <div class="project-links">
+          <ul>
+            @if (project.githubUrl) {
+              <li>
+                <a [href]="project.githubUrl" target="_blank">Github</a>
+              </li>
+            }
+            @if (project.liveUrl) {
+              <li>
+                <a [href]="project.liveUrl" target="_blank">Live</a>
+              </li>
+            }
+          </ul>
+        </div>
       </div>
     </div>
-  </div>
+  }
 </section>

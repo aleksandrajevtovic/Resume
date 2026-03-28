@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ContentService } from '../../services/content.service';
@@ -6,7 +7,8 @@ import { ContentService } from '../../services/content.service';
     selector: 'app-contact',
     templateUrl: './contact.component.html',
     styleUrls: ['./contact.component.css'],
-    standalone: false
+    standalone: true,
+    imports: [CommonModule]
 })
 export class ContactComponent implements OnInit {
   contentMap: Record<string, string> = {};

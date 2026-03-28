@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ContentBlock } from '../../models/content-block';
@@ -9,7 +10,8 @@ type CvLang = 'EN' | 'DE';
   selector: 'app-admin-cv-manager',
   templateUrl: './admin-cv-manager.component.html',
   styleUrls: ['./admin-cv-manager.component.css'],
-  standalone: false,
+  standalone: true,
+  imports: [CommonModule],
 })
 export class AdminCvManagerComponent {
   @Input() contentBlocks: ContentBlock[] = [];

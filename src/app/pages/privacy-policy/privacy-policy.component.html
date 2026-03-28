@@ -24,13 +24,21 @@
       <p class="legal-updated">{{ content.updatedLabel }} {{ updatedDate }}</p>
       <p class="legal-intro">{{ content.intro }}</p>
 
-      <section class="legal-section" *ngFor="let section of content.sections">
-        <h2>{{ section.title }}</h2>
-        <p *ngFor="let paragraph of section.paragraphs">{{ paragraph }}</p>
-        <ul *ngIf="section.items?.length">
-          <li *ngFor="let item of section.items">{{ item }}</li>
-        </ul>
-      </section>
+      @for (section of content.sections; track section.title) {
+        <section class="legal-section">
+          <h2>{{ section.title }}</h2>
+          @for (paragraph of section.paragraphs ?? []; track paragraph) {
+            <p>{{ paragraph }}</p>
+          }
+          @if (section.items?.length) {
+            <ul>
+              @for (item of section.items ?? []; track item) {
+                <li>{{ item }}</li>
+              }
+            </ul>
+          }
+        </section>
+      }
 
       <div class="legal-actions">
         <a routerLink="/" class="legal-btn">{{ content.homeCta }}</a>

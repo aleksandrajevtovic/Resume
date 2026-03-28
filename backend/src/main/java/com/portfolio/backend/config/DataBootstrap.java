@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Set;
@@ -42,6 +43,10 @@ public class DataBootstrap implements CommandLineRunner {
     }
 
     private void seedAdminUser() {
+        if (!StringUtils.hasText(defaultAdminUsername) || !StringUtils.hasText(defaultAdminPassword)) {
+            return;
+        }
+
         adminUserRepository.findByUsername(defaultAdminUsername).ifPresentOrElse(
                 existing -> {
                     existing.setPasswordHash(passwordEncoder.encode(defaultAdminPassword));
@@ -106,7 +111,9 @@ public class DataBootstrap implements CommandLineRunner {
                     existing.setTechStack(project.getTechStack());
                     existing.setLiveUrl(project.getLiveUrl());
                     existing.setGithubUrl(project.getGithubUrl());
-                    existing.setSortOrder(project.getSortOrder());
+                    if (existing.getSortOrder() == null) {
+                        existing.setSortOrder(project.getSortOrder());
+                    }
                     projectRepository.save(existing);
                 },
                 () -> projectRepository.save(project)

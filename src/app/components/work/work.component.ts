@@ -1,4 +1,6 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import { TranslateService } from '@ngx-translate/core';
@@ -11,7 +13,8 @@ gsap.registerPlugin(ScrollTrigger);
   selector: 'app-work',
   templateUrl: './work.component.html',
   styleUrls: ['./work.component.css'],
-  standalone: false,
+  standalone: true,
+  imports: [CommonModule, TranslateModule],
 })
 export class WorkComponent implements OnInit, OnDestroy {
   projects: Project[] = [];

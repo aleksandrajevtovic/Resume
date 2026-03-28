@@ -4,6 +4,6 @@ import { Component } from '@angular/core';
   selector: 'app-preloader',
   templateUrl: './preloader.component.html',
   styleUrls: ['./preloader.component.css'],
-  standalone: false,
+  standalone: true,
 })
 export class PreloaderComponent {}

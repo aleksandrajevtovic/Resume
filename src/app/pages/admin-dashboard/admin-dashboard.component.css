@@ -479,9 +479,11 @@
   border: 1px solid transparent;
   background: transparent;
   color: var(--pale);
+  font-family: var(--ffSecondary);
   text-decoration: none;
   transition: background-color 160ms ease, color 160ms ease, border-color 160ms ease;
 }
+
 
 .item-actions__link--disabled {
   opacity: 0.65;

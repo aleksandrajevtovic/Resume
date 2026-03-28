@@ -1,12 +1,29 @@
-import { DOCUMENT } from '@angular/common';
+import { CommonModule, DOCUMENT } from '@angular/common';
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import gsap from 'gsap';
+import { AboutComponent } from '../../components/about/about.component';
+import { ContactComponent } from '../../components/contact/contact.component';
+import { FooterComponent } from '../../components/footer/footer.component';
+import { HeroComponent } from '../../components/hero/hero.component';
+import { NavigationComponent } from '../../components/navigation/navigation.component';
+import { PreloaderComponent } from '../../components/preloader/preloader.component';
+import { WorkComponent } from '../../components/work/work.component';
 import { DocumentScrollLock, runSharedPreloaderIntro } from '../../utils/page-preloader';
 
 @Component({
     selector: 'app-home',
     templateUrl: './home.component.html',
-    standalone: false
+    standalone: true,
+    imports: [
+      CommonModule,
+      PreloaderComponent,
+      NavigationComponent,
+      HeroComponent,
+      AboutComponent,
+      WorkComponent,
+      ContactComponent,
+      FooterComponent,
+    ]
 })
 export class HomeComponent implements OnInit, OnDestroy {
   private originalScrollRestoration?: ScrollRestoration;

@@ -8,7 +8,7 @@ describe('AboutComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AboutComponent ]
+      imports: [AboutComponent]
     })
     .compileComponents();
   });
@@ -23,4 +23,3 @@ describe('AboutComponent', () => {
     expect(component).toBeTruthy();
   });
 });
-

@@ -1,16 +1,18 @@
+import { CommonModule, DOCUMENT } from '@angular/common';
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import gsap from 'gsap';
 
 import ScrollTrigger from 'gsap/ScrollTrigger';
-import { DOCUMENT } from '@angular/common';
+import { AmbientShapesComponent } from '../ambient-shapes/ambient-shapes.component';
 
 gsap.registerPlugin(ScrollTrigger);
 @Component({
     selector: 'app-hero',
     templateUrl: './hero.component.html',
     styleUrls: ['./hero.component.css'],
-    standalone: false
+    standalone: true,
+    imports: [CommonModule, TranslateModule, AmbientShapesComponent]
 })
 export class HeroComponent implements OnInit, OnDestroy {
   private heroTimeline?: gsap.core.Timeline;

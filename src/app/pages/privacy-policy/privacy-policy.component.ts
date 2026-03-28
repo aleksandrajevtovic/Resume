@@ -1,6 +1,11 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
+import { AmbientShapesComponent } from '../../components/ambient-shapes/ambient-shapes.component';
+import { FooterComponent } from '../../components/footer/footer.component';
+import { NavigationComponent } from '../../components/navigation/navigation.component';
 
 interface PrivacySection {
   title: string;
@@ -21,7 +26,8 @@ interface PrivacyContent {
   selector: 'app-privacy-policy',
   templateUrl: './privacy-policy.component.html',
   styleUrls: ['./privacy-policy.component.css'],
-  standalone: false,
+  standalone: true,
+  imports: [CommonModule, RouterModule, NavigationComponent, AmbientShapesComponent, FooterComponent],
 })
 export class PrivacyPolicyComponent implements OnInit, OnDestroy {
   private langSubscription?: Subscription;

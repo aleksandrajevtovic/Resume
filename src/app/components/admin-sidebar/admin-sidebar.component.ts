@@ -1,10 +1,13 @@
+import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, HostBinding, Input, Output } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-admin-sidebar',
   templateUrl: './admin-sidebar.component.html',
   styleUrls: ['./admin-sidebar.component.css'],
-  standalone: false,
+  standalone: true,
+  imports: [CommonModule, RouterModule],
 })
 export class AdminSidebarComponent {
   @Input() expanded = true;

@@ -1,13 +1,18 @@
-import { DOCUMENT } from '@angular/common';
+import { CommonModule, DOCUMENT } from '@angular/common';
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import gsap from 'gsap';
+import { AmbientShapesComponent } from '../../components/ambient-shapes/ambient-shapes.component';
+import { NavigationComponent } from '../../components/navigation/navigation.component';
+import { PreloaderComponent } from '../../components/preloader/preloader.component';
 import { DocumentScrollLock, runSharedPreloaderIntro } from '../../utils/page-preloader';
 
 @Component({
     selector: 'app-error',
     templateUrl: './error.component.html',
     styleUrls: ['./error.component.css'],
-    standalone: false
+    standalone: true,
+    imports: [CommonModule, RouterModule, NavigationComponent, AmbientShapesComponent, PreloaderComponent]
 })
 export class ErrorComponent implements OnInit, OnDestroy {
   isLoading = true;

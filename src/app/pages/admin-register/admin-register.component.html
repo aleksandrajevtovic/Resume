@@ -1,0 +1,83 @@
+<section class="admin-login" [class.admin-login--ready]="!isPageLoading">
+  <a class="admin-login__logo" routerLink="/">
+    <span class="admin-login__logo-name">Aleksandra Jevtovic</span>
+  </a>
+
+  <div class="admin-login__card">
+    <a class="admin-login__home-link" routerLink="/">← Back to Homepage</a>
+    <h1>Create Admin Account</h1>
+
+    @if (isCheckingStatus) {
+      <p class="admin-login__status">Checking registration availability...</p>
+    } @else if (!registrationOpen) {
+      <p class="admin-login__status">
+        Admin registration is closed because an admin account already exists.
+      </p>
+      <a class="admin-login__secondary-link admin-login__secondary-link--button" routerLink="/admin/login">
+        Go to Admin Login
+      </a>
+    } @else {
+      <form (ngSubmit)="submit()">
+        <label for="username">Username</label>
+        <input
+          id="username"
+          type="text"
+          name="username"
+          [(ngModel)]="username"
+          required
+          minlength="3"
+        />
+
+        <label for="password">Password</label>
+        <div class="password-field">
+          <input
+            id="password"
+            [type]="showPassword ? 'text' : 'password'"
+            name="password"
+            [(ngModel)]="password"
+            required
+            minlength="8"
+          />
+          <button
+            type="button"
+            class="password-toggle"
+            (click)="togglePasswordVisibility()"
+            [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'"
+          >
+            {{ showPassword ? "Hide" : "Show" }}
+          </button>
+        </div>
+
+        <label for="confirmPassword">Confirm Password</label>
+        <div class="password-field">
+          <input
+            id="confirmPassword"
+            [type]="showConfirmPassword ? 'text' : 'password'"
+            name="confirmPassword"
+            [(ngModel)]="confirmPassword"
+            required
+            minlength="8"
+          />
+          <button
+            type="button"
+            class="password-toggle"
+            (click)="toggleConfirmPasswordVisibility()"
+            [attr.aria-label]="showConfirmPassword ? 'Hide password' : 'Show password'"
+          >
+            {{ showConfirmPassword ? "Hide" : "Show" }}
+          </button>
+        </div>
+
+        <button type="submit" class="admin-login__submit" [disabled]="isLoading">
+          {{ isLoading ? "Creating account..." : "Create admin account" }}
+        </button>
+      </form>
+
+      <a class="admin-login__secondary-link" routerLink="/admin/login">Already have an account? Sign in</a>
+    }
+
+    @if (errorMessage) {
+      <p class="admin-login__error">{{ errorMessage }}</p>
+    }
+  </div>
+</section>

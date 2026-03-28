@@ -1,10 +1,10 @@
+import { CommonModule, DOCUMENT } from '@angular/common';
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import gsap from 'gsap';
 import { Subscription } from 'rxjs';
 
 import ScrollTrigger from 'gsap/ScrollTrigger';
-import { DOCUMENT } from '@angular/common';
 import { ContentService } from '../../services/content.service';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -12,7 +12,8 @@ gsap.registerPlugin(ScrollTrigger);
     selector: 'app-about',
     templateUrl: './about.component.html',
     styleUrls: ['./about.component.css'],
-    standalone: false
+    standalone: true,
+    imports: [CommonModule]
 })
 export class AboutComponent implements OnInit, OnDestroy {
   private aboutTimeline?: gsap.core.Timeline;

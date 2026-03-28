@@ -8,6 +8,10 @@ interface AuthResponse {
   username: string;
 }
 
+interface RegistrationStatusResponse {
+  registrationOpen: boolean;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -21,6 +25,16 @@ export class AuthService {
     return this.http
       .post<AuthResponse>(`${this.baseUrl}/auth/login`, { username, password })
       .pipe(tap((response) => localStorage.setItem(this.tokenKey, response.token)));
+  }
+
+  register(username: string, password: string): Observable<AuthResponse> {
+    return this.http
+      .post<AuthResponse>(`${this.baseUrl}/auth/register`, { username, password })
+      .pipe(tap((response) => localStorage.setItem(this.tokenKey, response.token)));
+  }
+
+  getRegistrationStatus(): Observable<RegistrationStatusResponse> {
+    return this.http.get<RegistrationStatusResponse>(`${this.baseUrl}/auth/registration-status`);
   }
 
   logout(): void {
