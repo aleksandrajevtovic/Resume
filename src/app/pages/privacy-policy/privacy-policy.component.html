@@ -1,0 +1,42 @@
+<div class="legal-shell">
+  <app-navigation></app-navigation>
+  <div class="legal-switcher">
+    <button
+      [ngStyle]="{ opacity: currentLang === 'EN' ? '1' : '0.3' }"
+      (click)="changeLanguage('EN')"
+    >
+      EN |
+    </button>
+    <button
+      [ngStyle]="{ opacity: currentLang === 'DE' ? '1' : '0.3' }"
+      (click)="changeLanguage('DE')"
+    >
+      &nbsp;DE
+    </button>
+  </div>
+
+  <main class="legal-page" aria-labelledby="privacy-title">
+    <app-ambient-shapes></app-ambient-shapes>
+
+    <article class="legal-card">
+      <p class="legal-eyebrow">{{ content.eyebrow }}</p>
+      <h1 id="privacy-title" class="legal-title">{{ content.title }}</h1>
+      <p class="legal-updated">{{ content.updatedLabel }} {{ updatedDate }}</p>
+      <p class="legal-intro">{{ content.intro }}</p>
+
+      <section class="legal-section" *ngFor="let section of content.sections">
+        <h2>{{ section.title }}</h2>
+        <p *ngFor="let paragraph of section.paragraphs">{{ paragraph }}</p>
+        <ul *ngIf="section.items?.length">
+          <li *ngFor="let item of section.items">{{ item }}</li>
+        </ul>
+      </section>
+
+      <div class="legal-actions">
+        <a routerLink="/" class="legal-btn">{{ content.homeCta }}</a>
+      </div>
+    </article>
+  </main>
+
+  <app-footer></app-footer>
+</div>

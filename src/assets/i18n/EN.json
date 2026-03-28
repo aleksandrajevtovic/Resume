@@ -25,5 +25,8 @@
     "P1": "If you’d like to collaborate or discuss a project,",
     "P2": "feel free to reach out.",
     "BTN": "Contact me"
+  },
+  "FOOTER": {
+    "PRIVACY": "Privacy Policy"
   }
 }

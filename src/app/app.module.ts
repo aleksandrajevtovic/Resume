@@ -28,6 +28,7 @@ import { AdminAboutEditorComponent } from './pages/admin-about-editor/admin-abou
 import { AdminDashboardComponent } from './pages/admin-dashboard/admin-dashboard.component';
 import { AdminContactEditorComponent } from './pages/admin-contact-editor/admin-contact-editor.component';
 import { AdminProjectEditorComponent } from './pages/admin-project-editor/admin-project-editor.component';
+import { PrivacyPolicyComponent } from './pages/privacy-policy/privacy-policy.component';
 import { authTokenInterceptor } from './interceptors/auth-token.interceptor';
 
 @NgModule({ declarations: [
@@ -50,6 +51,7 @@ import { authTokenInterceptor } from './interceptors/auth-token.interceptor';
         AdminDashboardComponent,
         AdminContactEditorComponent,
         AdminProjectEditorComponent,
+        PrivacyPolicyComponent,
     ],
     bootstrap: [AppComponent], imports: [BrowserModule,
         AppRoutingModule,

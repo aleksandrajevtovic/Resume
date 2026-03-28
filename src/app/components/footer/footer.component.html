@@ -9,6 +9,11 @@
       >
         {{ currentYear }}©Aleksandra Jevtovic - All rights reserved
       </p>
+      @if (showPrivacyLink) {
+      <a class="footer-link" routerLink="/privacy-policy" cursor-size="1.5rem">
+        {{ 'FOOTER.PRIVACY' | translate }}
+      </a>
+      }
     </div>
     @if (showSocial) {
     <div class="social round to-diamond mb-4 md:mb-0 mt-12 md:mt-0">

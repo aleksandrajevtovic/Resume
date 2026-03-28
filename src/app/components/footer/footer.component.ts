@@ -10,6 +10,7 @@ export class FooterComponent implements OnInit {
   @Input() centered = false;
   @Input() showSocial = true;
   @Input() compact = false;
+  @Input() showPrivacyLink = true;
   currentYear: number;
 
   constructor() {

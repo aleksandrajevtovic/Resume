@@ -1,5 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, HostListener, Inject, Input, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import { AuthService } from '../../services/auth.service';
@@ -23,6 +24,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
 
   constructor(
     @Inject(DOCUMENT) private document: Document,
+    private readonly router: Router,
     private readonly authService: AuthService,
     private readonly contentService: ContentService,
     private readonly projectService: ProjectService
@@ -84,7 +86,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
   }
 
   handleSectionLinkClick(event: Event, section: 'about' | 'projects' | 'contact'): void {
-    if (this.errorMode) {
+    if (this.errorMode || !this.isHomeRoute()) {
       return;
     }
 
@@ -92,11 +94,11 @@ export class NavigationComponent implements OnInit, OnDestroy {
   }
 
   getSectionHref(section: 'about' | 'projects' | 'contact'): string {
-    return this.errorMode ? `/#${section}` : `#${section}`;
+    return this.isHomeRoute() && !this.errorMode ? `#${section}` : `/#${section}`;
   }
 
   getLogoHref(): string {
-    return this.errorMode ? '/' : '#';
+    return this.isHomeRoute() && !this.errorMode ? '#' : '/';
   }
 
   getResumeHref(): string {
@@ -194,6 +196,10 @@ export class NavigationComponent implements OnInit, OnDestroy {
       return './assets/files/CV_Aleksandra_Jevtovic_de.pdf';
     }
     return './assets/files/CV_Aleksandra_Jevtovic_en.pdf';
+  }
+
+  private isHomeRoute(): boolean {
+    return this.router.url === '/' || this.router.url.startsWith('/#');
   }
   // closeMenu() {
   //   this.tl.timeScale(2.5);

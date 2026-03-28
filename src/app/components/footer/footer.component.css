@@ -56,6 +56,43 @@
   color: var(--tint);
 }
 
+.footer-link {
+  display: inline-block;
+  margin-top: 0.6rem;
+  font-family: var(--ffSecondary);
+  font-size: 0.95rem;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  color: var(--tint);
+  font-weight: 100;
+  transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+.footer-link:hover,
+.footer-link:focus-visible {
+  color: var(--white);
+  opacity: 1;
+  outline: none;
+}
+
+@media (max-width: 767px) {
+  .copyright {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .copyright p {
+    text-align: center !important;
+  }
+
+  .footer-link {
+    margin-top: 0.75rem;
+    padding-bottom: 1.3rem;
+    text-align: center;
+  }
+}
+
 .footer .border-top {
   border-top: 1px solid var(--accent);
 }

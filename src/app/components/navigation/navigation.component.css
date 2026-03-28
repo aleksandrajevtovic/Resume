@@ -103,8 +103,7 @@
 }
 
 .navbar.navbar--error .navbar-content .logo-link {
-  transform: rotate(180deg);
-  transform-origin: center;
+  transform: none;
   display: inline-flex;
 }
 
@@ -117,8 +116,7 @@
   top: 1.2rem;
   right: 1.05rem;
   gap: 0.16rem;
-  transform: rotate(180deg);
-  transform-origin: center;
+  transform: none;
   text-align: left;
 }
 
