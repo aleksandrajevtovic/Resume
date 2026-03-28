@@ -1,10 +1,10 @@
-import { Component, HostListener, Inject, OnInit } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import { forkJoin } from 'rxjs';
 import { ContentBlock } from '../../models/content-block';
 import { AuthService } from '../../services/auth.service';
 import { ContentService } from '../../services/content.service';
 import { TranslateService } from '@ngx-translate/core';
+import { AdminEditorPageBase } from '../shared/admin-editor-page.base';
 
 interface ContactContentForm {
   enP1Id?: string;
@@ -24,44 +24,26 @@ interface ContactContentForm {
 @Component({
   selector: 'app-admin-contact-editor',
   templateUrl: './admin-contact-editor.component.html',
-  styleUrls: ['./admin-contact-editor.component.css', '../admin-dashboard/admin-dashboard.component.css'],
+  styleUrls: ['./admin-contact-editor.component.css', '../shared/admin-editor-page.shared.css', '../admin-dashboard/admin-dashboard.component.css'],
   standalone: false,
 })
-export class AdminContactEditorComponent implements OnInit {
-  readonly sidebarBreakpoint = 900;
-  sidebarExpanded = true;
-  isMobileSidebar = false;
+export class AdminContactEditorComponent extends AdminEditorPageBase implements OnInit {
   loading = true;
   saving = false;
   deleting = false;
-  errorMessage = '';
-  successMessage = '';
   contactContent: ContactContentForm = this.emptyContactContent();
 
   constructor(
-    @Inject(DOCUMENT) private readonly document: Document,
-    private readonly authService: AuthService,
+    authService: AuthService,
     private readonly contentService: ContentService,
     private readonly translate: TranslateService
-  ) {}
+  ) {
+    super(authService);
+  }
 
   ngOnInit(): void {
-    this.syncSidebarLayout(true);
+    this.initEditorPage();
     this.loadContactContent();
-  }
-
-  @HostListener('window:resize')
-  onWindowResize(): void {
-    this.syncSidebarLayout();
-  }
-
-  toggleSidebar(): void {
-    this.sidebarExpanded = !this.sidebarExpanded;
-  }
-
-  logout(): void {
-    this.authService.logout();
-    window.location.href = '/admin/login';
   }
 
   saveContactContent(): void {
@@ -149,14 +131,6 @@ export class AdminContactEditorComponent implements OnInit {
     });
   }
 
-  dismissSuccessMessage(): void {
-    this.successMessage = '';
-  }
-
-  dismissErrorMessage(): void {
-    this.errorMessage = '';
-  }
-
   private loadContactContent(): void {
     this.loading = true;
     this.clearMessages();
@@ -222,28 +196,5 @@ export class AdminContactEditorComponent implements OnInit {
       deP2: '',
       deBtn: '',
     };
-  }
-
-  private clearMessages(): void {
-    this.errorMessage = '';
-    this.successMessage = '';
-  }
-
-  private syncSidebarLayout(initial = false): void {
-    const nextIsMobile = window.innerWidth < this.sidebarBreakpoint;
-
-    if (initial) {
-      this.isMobileSidebar = nextIsMobile;
-      this.sidebarExpanded = !nextIsMobile;
-      return;
-    }
-
-    if (nextIsMobile !== this.isMobileSidebar) {
-      this.isMobileSidebar = nextIsMobile;
-      this.sidebarExpanded = !nextIsMobile;
-      return;
-    }
-
-    this.isMobileSidebar = nextIsMobile;
   }
 }

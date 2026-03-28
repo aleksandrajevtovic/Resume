@@ -1,9 +1,10 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { forkJoin, Observable } from 'rxjs';
 import { ContentBlock } from '../../models/content-block';
 import { AuthService } from '../../services/auth.service';
 import { ContentService } from '../../services/content.service';
 import { TranslateService } from '@ngx-translate/core';
+import { AdminEditorPageBase } from '../shared/admin-editor-page.base';
 
 interface AboutEditorForm {
   index: number;
@@ -16,43 +17,26 @@ interface AboutEditorForm {
 @Component({
   selector: 'app-admin-about-editor',
   templateUrl: './admin-about-editor.component.html',
-  styleUrls: ['./admin-about-editor.component.css', '../admin-dashboard/admin-dashboard.component.css'],
+  styleUrls: ['./admin-about-editor.component.css', '../shared/admin-editor-page.shared.css', '../admin-dashboard/admin-dashboard.component.css'],
   standalone: false,
 })
-export class AdminAboutEditorComponent implements OnInit {
-  readonly sidebarBreakpoint = 900;
-  sidebarExpanded = true;
-  isMobileSidebar = false;
+export class AdminAboutEditorComponent extends AdminEditorPageBase implements OnInit {
   loading = true;
   saving = false;
   deleting = false;
-  errorMessage = '';
-  successMessage = '';
   aboutForm: AboutEditorForm = this.emptyAboutForm();
 
   constructor(
-    private readonly authService: AuthService,
+    authService: AuthService,
     private readonly contentService: ContentService,
     private readonly translate: TranslateService
-  ) {}
+  ) {
+    super(authService);
+  }
 
   ngOnInit(): void {
-    this.syncSidebarLayout(true);
+    this.initEditorPage();
     this.loadAboutContent();
-  }
-
-  @HostListener('window:resize')
-  onWindowResize(): void {
-    this.syncSidebarLayout();
-  }
-
-  toggleSidebar(): void {
-    this.sidebarExpanded = !this.sidebarExpanded;
-  }
-
-  logout(): void {
-    this.authService.logout();
-    window.location.href = '/admin/login';
   }
 
   saveAboutContent(): void {
@@ -122,14 +106,6 @@ export class AdminAboutEditorComponent implements OnInit {
     });
   }
 
-  dismissSuccessMessage(): void {
-    this.successMessage = '';
-  }
-
-  dismissErrorMessage(): void {
-    this.errorMessage = '';
-  }
-
   private loadAboutContent(): void {
     this.loading = true;
     this.clearMessages();
@@ -184,28 +160,5 @@ export class AdminAboutEditorComponent implements OnInit {
       enValue: '',
       deValue: '',
     };
-  }
-
-  private clearMessages(): void {
-    this.errorMessage = '';
-    this.successMessage = '';
-  }
-
-  private syncSidebarLayout(initial = false): void {
-    const nextIsMobile = window.innerWidth < this.sidebarBreakpoint;
-
-    if (initial) {
-      this.isMobileSidebar = nextIsMobile;
-      this.sidebarExpanded = !nextIsMobile;
-      return;
-    }
-
-    if (nextIsMobile !== this.isMobileSidebar) {
-      this.isMobileSidebar = nextIsMobile;
-      this.sidebarExpanded = !nextIsMobile;
-      return;
-    }
-
-    this.isMobileSidebar = nextIsMobile;
   }
 }

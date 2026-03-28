@@ -18,12 +18,12 @@
     ></app-admin-sidebar>
 
     <section class="admin-dashboard">
-      <header class="admin-dashboard__header admin-project-editor__header">
+      <header class="admin-dashboard__header admin-editor__header">
         <div>
           <h1>{{ isEditMode ? 'Edit Project' : 'Add Project' }}</h1>
           <p class="about-admin-summary">Manage project content, image, links, and order.</p>
         </div>
-        <a class="ghost-btn admin-project-editor__back" routerLink="/admin">← Back to dashboard</a>
+        <a class="ghost-btn admin-editor__back" routerLink="/admin">← Back to dashboard</a>
       </header>
 
       @if (successMessage) {
@@ -44,7 +44,7 @@
       </div>
       }
 
-      <article class="admin-card admin-project-editor__card">
+      <article class="admin-card admin-editor__card admin-project-editor__card">
         @if (loading) {
         <p class="about-admin-summary">Loading project editor...</p>
         } @else {
@@ -181,7 +181,7 @@
             <button type="submit" class="btn-primary" [disabled]="saving || projectNgForm.invalid">
               {{ saving ? "Saving..." : "Save project" }}
             </button>
-            <a class="btn-secondary admin-project-editor__back-link" routerLink="/admin">Cancel</a>
+            <a class="btn-secondary admin-editor__back-link" routerLink="/admin">Cancel</a>
           </div>
         </form>
         }

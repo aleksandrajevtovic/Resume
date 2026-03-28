@@ -139,19 +139,6 @@
       (confirm)="confirmDeleteProject()"
       (close)="closeDeleteProjectModal()"
     ></app-confirm-modal>
-
-    <app-confirm-modal
-      [open]="showDeleteAboutModal"
-      title="Delete About text"
-      warningTitle="Warning:"
-      message="The About text (EN and DE) will be removed."
-      [confirmLabel]="deletingAbout ? 'Deleting...' : 'Delete'"
-      cancelLabel="Cancel"
-      [busy]="deletingAbout"
-      [closeDisabled]="deletingAbout"
-      (confirm)="confirmDeleteAboutRow()"
-      (close)="closeDeleteAboutModal()"
-    ></app-confirm-modal>
   </section>
   </div>
 </section>

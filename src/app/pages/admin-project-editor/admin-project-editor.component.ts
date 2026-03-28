@@ -1,44 +1,42 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Project } from '../../models/project';
 import { AuthService } from '../../services/auth.service';
 import { ProjectService } from '../../services/project.service';
+import { AdminEditorPageBase } from '../shared/admin-editor-page.base';
 
 @Component({
   selector: 'app-admin-project-editor',
   templateUrl: './admin-project-editor.component.html',
-  styleUrls: ['./admin-project-editor.component.css', '../admin-dashboard/admin-dashboard.component.css'],
+  styleUrls: ['./admin-project-editor.component.css', '../shared/admin-editor-page.shared.css', '../admin-dashboard/admin-dashboard.component.css'],
   standalone: false,
 })
-export class AdminProjectEditorComponent implements OnInit {
-  readonly sidebarBreakpoint = 900;
-  sidebarExpanded = true;
-  isMobileSidebar = false;
+export class AdminProjectEditorComponent extends AdminEditorPageBase implements OnInit {
+  private static readonly SAVE_MESSAGE_STORAGE_KEY = 'adminProjectEditor.pendingSuccessMessage';
   loading = true;
   saving = false;
   uploadingImage = false;
   uploadStatus = '';
-  errorMessage = '';
-  successMessage = '';
   selectedImageFile: File | null = null;
   projects: Project[] = [];
   projectForm: Project = this.emptyProject();
   techStackInput = '';
   editingProjectId: string | null = null;
-  private pendingSuccessMessage = '';
 
   constructor(
-    private readonly authService: AuthService,
+    authService: AuthService,
     private readonly projectService: ProjectService,
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly translate: TranslateService
-  ) {}
+  ) {
+    super(authService);
+  }
 
   ngOnInit(): void {
-    this.syncSidebarLayout(true);
+    this.initEditorPage();
     this.route.paramMap.subscribe((params) => {
       this.loadProjectEditor(params);
     });
@@ -46,20 +44,6 @@ export class AdminProjectEditorComponent implements OnInit {
 
   get isEditMode(): boolean {
     return !!this.editingProjectId;
-  }
-
-  @HostListener('window:resize')
-  onWindowResize(): void {
-    this.syncSidebarLayout();
-  }
-
-  toggleSidebar(): void {
-    this.sidebarExpanded = !this.sidebarExpanded;
-  }
-
-  logout(): void {
-    this.authService.logout();
-    window.location.href = '/admin/login';
   }
 
   saveProject(): void {
@@ -90,7 +74,7 @@ export class AdminProjectEditorComponent implements OnInit {
         this.successMessage = successMessage;
 
         if (project.id && this.route.snapshot.paramMap.get('id') !== project.id) {
-          this.pendingSuccessMessage = successMessage;
+          sessionStorage.setItem(AdminProjectEditorComponent.SAVE_MESSAGE_STORAGE_KEY, successMessage);
           this.router.navigate(['/admin/projects', project.id], { replaceUrl: true });
           return;
         }
@@ -158,14 +142,6 @@ export class AdminProjectEditorComponent implements OnInit {
       () => (this.uploadStatus = 'Image URL copied.'),
       () => (this.uploadStatus = 'Copy failed.')
     );
-  }
-
-  dismissSuccessMessage(): void {
-    this.successMessage = '';
-  }
-
-  dismissErrorMessage(): void {
-    this.errorMessage = '';
   }
 
   private loadProjectEditor(params: ParamMap): void {
@@ -303,36 +279,16 @@ export class AdminProjectEditorComponent implements OnInit {
     const clampedOrder = Math.max(1, Math.min(Math.trunc(requestedOrder || 1), maxOrder));
     return clampedOrder - 1;
   }
-
-  private clearMessages(): void {
-    this.errorMessage = '';
-    this.successMessage = '';
-  }
-
   private applyPendingSuccessMessage(): void {
-    if (!this.pendingSuccessMessage) {
+    const pendingSuccessMessage = sessionStorage.getItem(
+      AdminProjectEditorComponent.SAVE_MESSAGE_STORAGE_KEY
+    );
+
+    if (!pendingSuccessMessage) {
       return;
     }
 
-    this.successMessage = this.pendingSuccessMessage;
-    this.pendingSuccessMessage = '';
-  }
-
-  private syncSidebarLayout(initial = false): void {
-    const nextIsMobile = window.innerWidth < this.sidebarBreakpoint;
-
-    if (initial) {
-      this.isMobileSidebar = nextIsMobile;
-      this.sidebarExpanded = !nextIsMobile;
-      return;
-    }
-
-    if (nextIsMobile !== this.isMobileSidebar) {
-      this.isMobileSidebar = nextIsMobile;
-      this.sidebarExpanded = !nextIsMobile;
-      return;
-    }
-
-    this.isMobileSidebar = nextIsMobile;
+    this.successMessage = pendingSuccessMessage;
+    sessionStorage.removeItem(AdminProjectEditorComponent.SAVE_MESSAGE_STORAGE_KEY);
   }
 }

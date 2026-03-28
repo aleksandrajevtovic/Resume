@@ -18,12 +18,12 @@
     ></app-admin-sidebar>
 
     <section class="admin-dashboard">
-      <header class="admin-dashboard__header admin-contact-editor__header">
+      <header class="admin-dashboard__header admin-editor__header">
         <div>
           <h1>Contact Text</h1>
           <p class="about-admin-summary">Edit the public EN/DE contact intro and button label.</p>
         </div>
-        <a class="ghost-btn admin-contact-editor__back" routerLink="/admin">← Back to dashboard</a>
+        <a class="ghost-btn admin-editor__back" routerLink="/admin">← Back to dashboard</a>
       </header>
 
       @if (successMessage) {
@@ -44,7 +44,7 @@
       </div>
       }
 
-      <article class="admin-card admin-contact-editor__card">
+      <article class="admin-card admin-editor__card admin-contact-editor__card">
         @if (loading) {
         <p class="about-admin-summary">Loading Contact text...</p>
         } @else {
@@ -129,7 +129,7 @@
             >
               {{ deleting ? "Deleting..." : "Delete text" }}
             </button>
-            <a class="btn-secondary admin-contact-editor__back-link" routerLink="/admin">Cancel</a>
+            <a class="btn-secondary admin-editor__back-link" routerLink="/admin">Cancel</a>
           </div>
         </form>
         }
