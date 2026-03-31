@@ -11,14 +11,15 @@ Personal portfolio built with Angular on the frontend and Spring Boot + MongoDB 
 - Backend: Spring Boot
 - Database: MongoDB
 - Admin auth: JWT
+- Languages: English / German
 - Deploy target: Netlify + Render + MongoDB Atlas
 
-## Project structure
+## Features
 
-- `src/` Angular app
-- `backend/` Spring Boot API
-- `netlify.toml` Netlify config and redirects
-- `server.js` frontend server entry used by `npm start`
+- Responsive layout for desktop and mobile
+- Scroll-based animations and page transitions with GSAP
+- Admin area for managing projects and public content
+- Image and CV uploads
 
 ## Requirements
 
@@ -61,8 +62,6 @@ Backend runs on `http://localhost:8081`.
 
 ## Backend environment variables
 
-Main backend config:
-
 - `MONGODB_URI`
 - `JWT_SECRET`
 - `JWT_EXPIRATION_MS`
@@ -75,16 +74,12 @@ Main backend config:
 - `CLOUDINARY_FOLDER`
 - `UPLOAD_DIR`
 
-Notes:
-
 - Admin seeding only happens when both `ADMIN_USERNAME` and `ADMIN_PASSWORD` are set.
 - If no admin is seeded, create the first one from `/admin/register`.
 - Cloudinary is used for uploads when its env vars are present.
 - `UPLOAD_DIR` is only a local fallback and should not be relied on in production.
 
 ## Admin
-
-Routes:
 
 - `/admin/register` create the first admin account if none exists yet
 - `/admin/login` log in
@@ -117,34 +112,7 @@ Render should point at:
 
 Set the health check path to `/api/public/health`.
 
-### Production notes
-
 - Frontend requests use relative `/api` and `/uploads` paths in production.
 - Netlify is expected to proxy those requests to Render.
 - Render free instances sleep when idle, so cold starts are normal.
 - Local filesystem uploads are ephemeral on hosted platforms.
-
-## API overview
-
-Public endpoints:
-
-- `/api/public/projects`
-- `/api/public/health`
-
-Admin/auth endpoints:
-
-- `/api/auth/login`
-- `/api/admin/projects`
-
-## Quick check before deploy
-
-```bash
-npm run build
-```
-
-Then verify:
-
-1. Frontend loads
-2. Public projects load
-3. Admin login works
-4. Uploads work if Cloudinary is configured
