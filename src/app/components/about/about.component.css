@@ -52,7 +52,7 @@
   display: inline-block;
   color: rgba(120, 120, 170, 0.36);
   opacity: 0.52;
-  filter: blur(3.5px);
+  filter: blur(1.2px);
   transform: translate3d(0, 16px, 0) scale(0.985);
   transform-origin: 50% 65%;
   will-change: color, opacity, filter, transform, text-shadow;

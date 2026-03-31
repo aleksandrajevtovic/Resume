@@ -152,7 +152,7 @@ export class AboutComponent implements OnInit, OnDestroy {
       const brightness = 120 + Math.round(127 * easedProgress);
       const accent = 170 + Math.round(85 * easedProgress);
       const opacity = 0.36 + easedProgress * 0.64;
-      const blur = (1 - easedProgress) * 3.5;
+      const blur = (1 - easedProgress) * 1.2;
       const translateY = (1 - easedProgress) * 16;
       const scale = 0.985 + easedProgress * 0.015;
       const glow = easedProgress * 18;

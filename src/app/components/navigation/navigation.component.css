@@ -103,11 +103,14 @@
 }
 
 .navbar.navbar--error .navbar-content .logo-link {
-  transform: none;
+  transform: rotate(180deg);
+  transform-origin: center;
   display: inline-flex;
 }
 
 .navbar.navbar--error .navbar-content .logo-name {
+  transform: rotate(180deg);
+  transform-origin: center;
   font-size: clamp(1rem, 1.45vw, 1.2rem);
   opacity: 0.95;
 }
@@ -121,6 +124,8 @@
 }
 
 .navbar.navbar--error .nav-list .nav-link {
+  transform: rotate(180deg);
+  transform-origin: center;
   font-size: 0.76rem;
   letter-spacing: 0.06em;
   padding: 0.2rem 0.42rem;

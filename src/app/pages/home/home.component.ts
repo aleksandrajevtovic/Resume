@@ -1,6 +1,7 @@
 import { CommonModule, DOCUMENT } from '@angular/common';
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, NgZone, OnDestroy, OnInit } from '@angular/core';
 import gsap from 'gsap';
+import ScrollTrigger from 'gsap/ScrollTrigger';
 import { AboutComponent } from '../../components/about/about.component';
 import { ContactComponent } from '../../components/contact/contact.component';
 import { FooterComponent } from '../../components/footer/footer.component';
@@ -8,7 +9,9 @@ import { HeroComponent } from '../../components/hero/hero.component';
 import { NavigationComponent } from '../../components/navigation/navigation.component';
 import { PreloaderComponent } from '../../components/preloader/preloader.component';
 import { WorkComponent } from '../../components/work/work.component';
-import { DocumentScrollLock, runSharedPreloaderIntro } from '../../utils/page-preloader';
+import { runSharedPreloaderIntro } from '../../utils/page-preloader';
+
+gsap.registerPlugin(ScrollTrigger);
 
 @Component({
     selector: 'app-home',
@@ -26,25 +29,27 @@ import { DocumentScrollLock, runSharedPreloaderIntro } from '../../utils/page-pr
     ]
 })
 export class HomeComponent implements OnInit, OnDestroy {
+  contentReady = false;
   private originalScrollRestoration?: ScrollRestoration;
   private finalTopResetTimer?: number;
   private heroLoadedRafIds: number[] = [];
-  private readonly preloadScrollLock: DocumentScrollLock;
 
-  constructor(@Inject(DOCUMENT) private readonly document: Document) {
-    this.preloadScrollLock = new DocumentScrollLock(document);
-  }
+  constructor(
+    @Inject(DOCUMENT) private readonly document: Document,
+    private readonly zone: NgZone
+  ) {}
   tlLoad = gsap.timeline();
 
   ngOnInit(): void {
+    this.contentReady = false;
     this.disableScrollRestoration();
     this.resetToTop();
-    this.preloadScrollLock.lock();
     requestAnimationFrame(() => this.preloaderAnim());
   }
 
   ngOnDestroy(): void {
     this.tlLoad.kill();
+    this.contentReady = false;
     this.setHeroLoaded(false);
     this.heroLoadedRafIds.forEach((id) => cancelAnimationFrame(id));
     this.heroLoadedRafIds = [];
@@ -52,7 +57,6 @@ export class HomeComponent implements OnInit, OnDestroy {
       window.clearTimeout(this.finalTopResetTimer);
     }
     this.restoreScrollRestoration();
-    this.preloadScrollLock.unlock();
   }
 
   preloaderAnim(): void {
@@ -78,16 +82,24 @@ export class HomeComponent implements OnInit, OnDestroy {
     });
 
     this.tlLoad.eventCallback('onComplete', () => {
-      this.ensureHeroLoaded();
-      this.resetToTop();
-      this.preloadScrollLock.unlock();
-      this.finalTopResetTimer = window.setTimeout(() => this.resetToTop(), 60);
+      this.zone.run(() => {
+        this.contentReady = true;
+      });
+
+      requestAnimationFrame(() => {
+        ScrollTrigger.refresh();
+        this.ensureHeroLoaded();
+        this.resetToTop();
+        this.finalTopResetTimer = window.setTimeout(() => this.resetToTop(), 60);
+      });
     });
 
     runSharedPreloaderIntro(this.tlLoad, reduceMotion);
     this.tlLoad.to('.preloader', {
       zIndex: -1,
       pointerEvents: 'none',
+      display: 'none',
+      visibility: 'hidden',
     });
     this.tlLoad.to(
       '.home-shell',
